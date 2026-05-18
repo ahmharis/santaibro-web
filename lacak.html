@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lacak Pesanan | SantaiBro</title>
+  <style>
+    :root { --navy-dark: #050a30; --blue-vivid: #0f2fd8; --bg-color: #f0f4fc; }
+    body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+    .track-card { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(5, 10, 48, 0.08); width: 100%; max-width: 420px; border-top: 6px solid var(--blue-vivid); }
+    h2 { text-align: center; color: var(--navy-dark); margin-top: 0; }
+    p.subtitle { text-align: center; color: #666; font-size: 14px; margin-bottom: 25px; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--navy-dark); font-size: 14px; }
+    input { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
+    button { width: 100%; padding: 14px; background-color: var(--navy-dark); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 10px; }
+    button:hover { background-color: var(--blue-vivid); }
+    .result-box { display: none; margin-top: 25px; padding: 20px; border-radius: 12px; background-color: #eef2ff; border: 1px solid #c7d2fe; font-size: 14px; line-height: 1.6; }
+    .badge { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; background: var(--blue-vivid); color: white; margin-top: 10px; }
+    .nav-link { display: block; text-align: center; margin-top: 20px; font-size: 14px; color: var(--blue-vivid); text-decoration: none; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <div class="track-card">
+    <h2>Lacak Tugasmu</h2>
+    <p class="subtitle">Pantau progres pesananmu secara real-time.</p>
+
+    <form id="trackForm">
+      <div class="form-group"><label>Order ID (Resi)</label><input type="text" id="orderId" required></div>
+      <div class="form-group"><label>Nomor WhatsApp</label><input type="tel" id="whatsapp" required></div>
+      <button type="submit" id="btnTrack">Cek Status Sekarang</button>
+    </form>
+
+    <div id="resultBox" class="result-box"></div>
+    <a href="/" class="nav-link">← Kembali ke Halaman Order</a>
+  </div>
+
+  <script>
+    // ⚠️ MASUKKAN URL WEB APP GOOGLE DI SINI
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwiGjQz0q5gPIZdyxhNLs9P7OAy-MnpFLtUNqk7Hk1eMH0PY4Z6vySsPk31MdnEbBf3/exec';
+    const NOMOR_WA_ADMIN = "6281352585475"; 
+
+    document.getElementById('trackForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btnTrack'); const resultBox = document.getElementById('resultBox');
+      btn.textContent = 'Melacak...'; btn.disabled = true; resultBox.style.display = 'none';
+
+      const payload = {
+        action: "track",
+        orderId: document.getElementById('orderId').value.trim(),
+        whatsapp: document.getElementById('whatsapp').value.trim()
+      };
+
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+        });
+
+        const result = await response.json();
+        if(result.status === 'found') {
+          const linkWA = `https://wa.me/${NOMOR_WA_ADMIN}?text=Halo%20Admin!%20Tanya%20soal%20Order%20ID:%20${payload.orderId}`;
+          resultBox.innerHTML = `
+            <div style="font-size:16px; margin-bottom:10px;"><strong>Halo, ${result.data.nama}!</strong></div>
+            <div><strong>Layanan:</strong> ${result.data.layanan}</div>
+            <div><strong>PIC:</strong> ${result.data.pic}</div>
+            <div><span class="badge">Status: ${result.data.progres}</span></div>
+            <hr style="border:0; border-top:1px dashed #c7d2fe; margin:15px 0;">
+            <a href="${linkWA}" target="_blank" style="display:block; text-align:center; background-color:#25D366; color:white; padding:12px; border-radius:8px; text-decoration:none; font-weight:bold;">💬 Chat Admin</a>
+          `;
+          resultBox.style.display = 'block'; resultBox.style.borderColor = '#c7d2fe'; resultBox.style.backgroundColor = '#eef2ff';
+        } else {
+          resultBox.innerHTML = `<div style="color:red; text-align:center; font-weight:bold;">${result.message}</div>`;
+          resultBox.style.display = 'block'; resultBox.style.borderColor = '#fecaca'; resultBox.style.backgroundColor = '#fef2f2';
+        }
+      } catch (error) {
+        alert("Koneksi gagal.");
+      } finally {
+        btn.textContent = 'Cek Status Sekarang'; btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
