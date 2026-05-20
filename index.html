@@ -3,259 +3,361 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Checkout Layanan | Santai, Bro</title>
+  <title>Santai, Bro | Portal App</title>
   <style>
     :root {
-      /* PALET WARNA BARU SANTAIBRO */
-      --navy: #002166;       /* Sekunder 1: Biru Gelap Premium */
-      --yellow: #FFD622;     /* Main: Kuning Cerah */
-      --yellow-hover: #FBB900; /* Sekunder 2: Kuning Agak Gelap/Oranye */
-      
-      --bg-body: #f1f5f9;
+      /* PALET WARNA RESMI SANTAIBRO */
+      --navy: #002166;       
+      --yellow: #FFD622;     
+      --yellow-hover: #FBB900; 
+      --bg-app: #FAFAFA;     
       --surface: #ffffff;
       --border: #e2e8f0;
       --text-main: #334155;
       --text-muted: #64748b;
-      --focus-ring: rgba(0, 33, 102, 0.15); /* Disesuaikan dengan warna --navy baru */
     }
-    
-    body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background-color: var(--bg-body); color: var(--text-main); margin: 0; padding: 40px 15px; display: flex; justify-content: center; min-height: 100vh; }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      background-color: #e2e8f0; /* Latar desktop abu-abu */
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
     * { box-sizing: border-box; }
-    .app-container { background: var(--surface); width: 100%; max-width: 560px; border-radius: 24px; padding: 40px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04); border: 1px solid rgba(255, 255, 255, 0.5); }
-    
-    /* PENGATURAN AREA LOGO SVG */
-    .brand-header { text-align: center; margin-bottom: 35px; }
-    .logo-utama-wrapper { margin-bottom: 15px; display: flex; justify-content: center; align-items: center; }
-    .logo-utama-wrapper svg { max-width: 150px; height: auto; } /* Memastikan SVG menyesuaikan ukuran secara proporsional */
-    .logo-pelengkap-wrapper { margin-top: 15px; display: flex; justify-content: center; align-items: center; }
-    .logo-pelengkap-wrapper svg { max-width: 80px; height: auto; opacity: 0.8; }
-    
-    .brand-header h1 { color: var(--navy); font-size: 26px; font-weight: 800; letter-spacing: -0.5px; margin: 0 0 8px 0; }
-    .brand-header p { color: var(--text-muted); font-size: 14px; margin: 0; }
-    
-    .card-section { background: #f8fafc; border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 24px; transition: all 0.3s ease; }
-    .section-title { font-size: 14px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
-    .section-title span { background: var(--navy); color: white; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 12px; }
-    .form-group { margin-bottom: 16px; }
-    .form-row { display: flex; gap: 16px; margin-bottom: 16px; }
+
+    /* FRAME NAVIGASI SELULER (MOCKUP HP) */
+    .mobile-app {
+      background-color: var(--bg-app);
+      width: 100%;
+      max-width: 420px;
+      height: 100vh;
+      max-height: 900px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+    }
+
+    @media (min-width: 480px) {
+      .mobile-app {
+        height: 90vh;
+        border-radius: 40px;
+        border: 8px solid #cbd5e1;
+      }
+    }
+
+    /* KONTEN UTAMA BISA DI-SCROLL */
+    .app-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 25px 20px 100px 20px;
+      scroll-behavior: smooth;
+    }
+
+    /* SISTEM SEMBUNYI/MUNCUL TAB SCREEN */
+    .app-screen {
+      display: none;
+      animation: fadeIn 0.4s ease forwards;
+    }
+    .app-screen.active {
+      display: block;
+    }
+
+    /* HEADER UTAMA */
+    .brand-header { text-align: center; margin-bottom: 25px; }
+    .brand-header img { width: 130px; height: auto; margin-bottom: 5px; }
+    .brand-header h1 { color: var(--navy); font-size: 22px; font-weight: 800; margin: 0 0 4px 0; letter-spacing: -0.5px; }
+    .brand-header p { color: var(--text-muted); font-size: 12px; margin: 0; }
+
+    /* HERO CIRCLE (GAMBAR AMAN) */
+    .hero-circle { display: flex; justify-content: center; margin-bottom: 25px; }
+    .hero-circle img { width: 180px; height: 180px; border-radius: 50%; object-fit: contain; box-shadow: 0 10px 25px rgba(0, 33, 102, 0.12); background-color: white; border: 3px solid var(--navy); }
+
+    /* CARD DESIGN */
+    .card-section { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01); }
+    .card-section.yellow-variant { background-color: var(--yellow); box-shadow: 0 8px 20px rgba(255, 214, 34, 0.25); border: none; }
+    .card-section.yellow-variant h3 { color: var(--navy); margin: 0 0 15px 0; font-size: 17px; font-weight: 800; }
+
+    .section-title { font-size: 13px; font-weight: 800; color: var(--navy); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 15px; display: flex; align-items: center; gap: 6px; }
+    .section-title span { background: var(--navy); color: var(--yellow); width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 11px; }
+
+    /* INPUT ELEMENT */
+    .form-group { margin-bottom: 14px; }
+    .form-row { display: flex; gap: 12px; margin-bottom: 14px; }
     .form-row .form-group { flex: 1; margin-bottom: 0; }
-    label { display: block; font-size: 13px; font-weight: 600; color: var(--text-main); margin-bottom: 8px; }
-    input[type="text"], input[type="tel"], input[type="email"], input[type="number"], input[type="date"], select, textarea { width: 100%; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 14px; color: var(--navy); background-color: var(--surface); outline: none; transition: all 0.2s; }
-    input:focus, select:focus, textarea:focus { border-color: var(--navy); box-shadow: 0 0 0 4px var(--focus-ring); }
+    label { display: block; font-size: 12px; font-weight: 600; color: var(--text-main); margin-bottom: 6px; }
     
-    /* S&K DINAMIS */
-    .service-snk-box { display: none; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 16px; margin-bottom: 16px; font-size: 13px; color: #166534; animation: fadeIn 0.3s ease forwards; }
-    .service-snk-box h5 { margin: 0 0 6px 0; font-size: 13px; font-weight: 700; color: #14532d; }
-    .service-snk-box ul { margin: 0; padding-left: 18px; }
-    .service-snk-box li { margin-bottom: 4px; line-height: 1.4; }
-    .price-badge { display: inline-block; background: var(--navy); color: var(--yellow); font-weight: 700; padding: 4px 10px; border-radius: 6px; margin-bottom: 10px; font-size: 12px; }
+    input[type="text"], input[type="tel"], input[type="email"], input[type="number"], input[type="date"], select, textarea {
+      width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 13px; color: var(--navy); background-color: var(--bg-app); outline: none; transition: all 0.2s;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--navy); background-color: var(--surface); box-shadow: 0 0 0 3px rgba(0, 33, 102, 0.08); }
     
-    /* AREA PEMBAYARAN KRONOLOGIS */
+    .input-radar { border: none; background-color: var(--surface); font-weight: 600; box-shadow: 0 2px 6px rgba(0,0,0,0.03); margin-bottom: 12px; padding: 14px 20px; border-radius: 99px; }
+
+    /* S&K CONTAINER */
+    .service-snk-box { display: none; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 14px; margin-bottom: 14px; font-size: 12px; color: #166534; }
+    .service-snk-box h5 { margin: 0 0 6px 0; font-size: 12px; font-weight: 700; color: #14532d; }
+    .service-snk-box ul { margin: 0; padding-left: 16px; }
+    .price-badge { display: inline-block; background: var(--navy); color: var(--yellow); font-weight: 700; padding: 4px 8px; border-radius: 6px; margin-bottom: 8px; font-size: 11px; }
+
+    /* ARTIFAK DAN PEMBAYARAN KRONOLOGIS */
     .payment-area { display: none; animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    
-    .qris-card { background: var(--yellow); border-radius: 16px; padding: 30px 20px; text-align: center; margin-bottom: 24px; }
-    .qris-card h3 { color: var(--navy); margin: 0 0 8px 0; font-size: 18px; }
-    .qris-card p { color: var(--navy); font-size: 13px; margin: 0 0 20px 0; opacity: 0.9; }
-    .qris-card img { width: 200px; height: 200px; background: white; padding: 12px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); margin-bottom: 20px; }
-    .btn-contact { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); color: var(--navy); padding: 10px 24px; border-radius: 99px; font-size: 13px; font-weight: 700; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-    
-    /* UPLOAD FILE */
-    .file-drop-area { position: relative; display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 24px; border: 2px dashed var(--border); border-radius: 12px; background: var(--surface); cursor: pointer; transition: all 0.2s; }
-    .file-drop-area:hover { border-color: var(--navy); background: #f8fafc; }
+    .qris-card { background-color: var(--yellow); border-radius: 20px; padding: 20px 15px; text-align: center; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(255, 214, 34, 0.2); }
+    .qris-card h3 { color: var(--navy); margin: 0 0 4px 0; font-size: 16px; font-weight: 800; }
+    .qris-card p { color: var(--navy); font-size: 12px; margin: 0 0 15px 0; opacity: 0.9; }
+    .qris-card .qris-img { width: 160px; height: 160px; background: white; padding: 10px; border-radius: 14px; margin-bottom: 15px; }
+    .deco-image-wrapper { display: flex; justify-content: center; margin-bottom: 12px; }
+    .deco-image-wrapper img { width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--navy); background: white; }
+    .btn-contact { display: inline-flex; align-items: center; gap: 6px; background: var(--surface); color: var(--navy); padding: 8px 18px; border-radius: 99px; font-size: 12px; font-weight: 700; text-decoration: none; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+
+    /* UPLOAD & POLICY */
+    .file-drop-area { position: relative; display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 20px; border: 2px dashed var(--border); border-radius: 12px; background: var(--bg-app); cursor: pointer; }
     .file-drop-area input[type="file"] { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; }
-    .file-msg { font-size: 13px; color: var(--text-muted); font-weight: 500; margin-top: 8px; }
-    
-    /* KEBIJAKAN REFUND & CHECKBOX */
-    .policy-box { background: #fff5f5; border: 1px solid #fed7d7; border-radius: 16px; padding: 20px; margin-bottom: 24px; }
-    .policy-box h4 { margin: 0 0 8px 0; color: #c53030; font-size: 14px; display: flex; align-items: center; gap: 6px; }
-    .policy-box p { margin: 0 0 15px 0; font-size: 13px; color: #9b2c2c; line-height: 1.5; text-align: justify; }
-    .checkbox-wrapper { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; background: #ffffff; padding: 14px; border-radius: 10px; border: 1px solid #f5c6cb; transition: all 0.2s; }
-    .checkbox-wrapper:hover { border-color: var(--yellow-hover); }
-    .checkbox-wrapper input[type="checkbox"] { width: 20px; height: 20px; margin-top: 1px; cursor: pointer; accent-color: var(--navy); }
-    .checkbox-wrapper span { font-weight: 700; color: var(--navy); line-height: 1.4; font-size: 13px; }
-    
-    /* TOMBOL SUBMIT INTERLOCK */
-    .btn-submit { width: 100%; background-color: var(--navy); color: var(--yellow); padding: 16px; border: none; border-radius: 99px; font-size: 16px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: all 0.3s; }
-    .btn-submit:hover:not(:disabled) { background-color: #00123d; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 33, 102, 0.2); }
-    .btn-submit:disabled { background-color: #cbd5e1; color: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none; }
-    .btn-secondary { background-color: #e2e8f0; color: var(--navy); border: 2px solid var(--navy); }
-    
-    .footer-nav { text-align: center; margin-top: 35px; border-top: 1px solid var(--border); padding-top: 20px; }
-    .footer-nav a { color: var(--navy); text-decoration: none; font-size: 14px; font-weight: 700; margin: 0 15px; padding: 8px 16px; border-radius: 99px; transition: background 0.2s; }
-    .footer-nav a:hover { background: #e2e8f0; }
-    .status-msg { text-align: center; margin-top: 20px; font-weight: 600; font-size: 14px; display: none; padding: 16px; border-radius: 12px; }
+    .file-msg { font-size: 12px; color: var(--text-muted); font-weight: 500; text-align: center; margin-top: 6px; }
+    .policy-box { background: #fff5f5; border: 1px solid #fed7d7; border-radius: 14px; padding: 16px; margin-bottom: 20px; }
+    .policy-box h4 { margin: 0 0 6px 0; color: #c53030; font-size: 13px; }
+    .policy-box p { margin: 0 0 12px 0; font-size: 12px; color: #9b2c2c; line-height: 1.4; }
+    .checkbox-wrapper { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; background: var(--surface); padding: 12px; border-radius: 10px; border: 1px solid #f5c6cb; }
+    .checkbox-wrapper input[type="checkbox"] { width: 18px; height: 18px; margin-top: 1px; accent-color: var(--navy); }
+    .checkbox-wrapper span { font-weight: 700; color: var(--navy); line-height: 1.4; font-size: 11.5px; }
 
-    /* KOTAK RINGKASAN PESANAN (SUCCESS SCREEN) */
+    /* BUTTONS */
+    .btn-submit { width: 100%; background-color: var(--navy); color: var(--yellow); padding: 15px; border: none; border-radius: 99px; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.2s; }
+    .btn-submit:disabled { background-color: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
+    .btn-secondary { background-color: #e2e8f0; color: var(--navy); border: 2px solid var(--navy); margin-top: 10px; }
+
+    /* SUCCESS BOX DESIGN */
     .success-box { display: none; animation: fadeIn 0.5s ease; }
-    .success-header { background: var(--yellow); padding: 30px 20px; border-radius: 20px 20px 0 0; text-align: center; border: 2px solid var(--navy); border-bottom: none; }
-    .success-header svg { color: var(--navy); width: 48px; height: 48px; margin-bottom: 10px; }
-    .success-header h2 { color: var(--navy); margin: 0 0 5px 0; font-size: 22px; }
-    .success-body { background: white; padding: 30px; border: 2px solid var(--navy); border-top: none; border-radius: 0 0 20px 20px; }
-    .summary-item { margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--border); display: flex; justify-content: space-between; align-items: center;}
-    .summary-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .summary-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
-    .summary-value { font-size: 14px; color: var(--navy); font-weight: 700; text-align: right; }
-    .order-id-highlight { background: #eff6ff; color: var(--navy); padding: 10px; text-align: center; font-size: 22px; font-weight: 900; border-radius: 10px; margin-top: 10px; letter-spacing: 1px; border: 1px dashed var(--navy); }
-    .watermark { display: none; text-align: center; margin-top: 20px; font-size: 10px; color: #94a3b8; }
+    .success-header { background: var(--yellow); padding: 25px 15px; border-radius: 20px 20px 0 0; text-align: center; border: 2px solid var(--navy); border-bottom: none; }
+    .success-header h2 { color: var(--navy); margin: 0 0 4px 0; font-size: 20px; font-weight: 800; }
+    .success-body { background: white; padding: 20px; border: 2px solid var(--navy); border-top: none; border-radius: 0 0 20px 20px; }
+    .summary-item { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+    .summary-label { color: var(--text-muted); font-weight: 700; font-size: 11px; text-transform: uppercase; }
+    .summary-value { color: var(--navy); font-weight: 700; }
+    .order-id-highlight { background: #eff6ff; color: var(--navy); padding: 10px; text-align: center; font-size: 20px; font-weight: 900; border-radius: 10px; margin-top: 8px; border: 1px dashed var(--navy); }
+    .watermark { display: none; text-align: center; margin-top: 15px; font-size: 9px; color: #94a3b8; }
 
+    /* SUPPORT PAGE SCREEN CONFIG */
+    .support-card { background: white; border-radius: 20px; padding: 20px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.02); margin-top: 10px; }
+    .support-info h3 { color: var(--navy); margin: 0 0 8px 0; font-size: 16px; font-weight: 800; }
+    .support-info p { color: var(--text-muted); margin: 0 0 15px 0; font-size: 12px; }
+
+    /* RADAR SCREEN CONFIG */
+    .result-radar-box { display: none; background: white; border-radius: 16px; padding: 20px; border: 2px solid var(--yellow); animation: fadeIn 0.4s ease; margin-top: 15px; }
+    .status-badge-radar { block-size: auto; text-align: center; background: var(--navy); color: white; padding: 10px; border-radius: 10px; font-weight: 800; margin-top: 15px; font-size: 13px; }
+    .error-radar-msg { display: none; color: #dc2626; background: #fee2e2; padding: 12px; border-radius: 12px; font-size: 13px; text-align: center; font-weight: 600; margin-top: 15px; }
+
+    /* BOTTOM NAV BAR CONFIG */
+    .bottom-nav { position: absolute; bottom: 0; left: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 10px 18px 10px; border-radius: 24px 24px 0 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.04); z-index: 10; }
+    @media (min-width: 480px) { .bottom-nav { border-radius: 24px 24px 32px 32px; padding-bottom: 12px; } }
+    .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #94a3b8; text-decoration: none; font-size: 11px; font-weight: 600; cursor: pointer; }
+    .nav-item svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2; fill: none; }
+    .nav-item.active { color: var(--navy); }
+    .nav-item.active svg { fill: var(--yellow); stroke: var(--navy); }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    
     @media print {
-      body { background-color: white; padding: 0; margin: 0; }
-      .app-container { box-shadow: none; border: none; padding: 0; max-width: 100%; }
-      #mainFormWrapper, .footer-nav, .print-hide { display: none !important; }
-      .success-box { display: block !important; border: none; margin: 0; }
-      .success-header { border: 1px solid #ccc; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .success-body { border: 1px solid #ccc; }
+      body { background-color: white; }
+      .mobile-app { box-shadow: none; border: none; padding: 0; max-width: 100%; height: auto; }
+      #mainFormWrapper, #lacakScreen, #supportScreen, .bottom-nav, .print-hide { display: none !important; }
+      .success-box { display: block !important; }
+      .success-header { border: 1px solid #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .success-body { border: 1px solid #000; }
       .watermark { display: block; }
     }
   </style>
 </head>
 <body>
 
-  <div class="app-container">
-    
-    <div id="successBox" class="success-box">
-      <div class="success-header">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-        <h2>Antrean Dicatat!</h2>
-        <p style="margin:0; font-size:14px; color:var(--navy); font-weight: 600;">Status: MENUNGGU KONFIRMASI ADMIN</p>
-      </div>
-      <div class="success-body">
-        
-        <div class="summary-item">
-          <div class="summary-label">Nama Klien</div>
-          <div class="summary-value" id="sumNama"></div>
-        </div>
-        <div class="summary-item">
-          <div class="summary-label">Layanan Dipilih</div>
-          <div class="summary-value" id="sumLayanan"></div>
-        </div>
-        <div class="summary-item">
-          <div class="summary-label">Harga Kesepakatan</div>
-          <div class="summary-value" id="sumHarga"></div>
-        </div>
-        
-        <div style="margin-top: 20px;">
-          <div class="summary-label" style="text-align: center;">ID Pelacakan Resmi</div>
-          <div class="order-id-highlight" id="sumOrderId"></div>
-        </div>
-        
-        <div class="watermark">Dicetak otomatis oleh Sistem SantaiBro OS</div>
+  <div class="mobile-app">
+    <div class="app-content">
 
-        <div class="print-hide">
-          <p style="text-align: center; font-size: 13px; color: #64748b; margin-top: 25px; line-height: 1.5;">Simpan PDF Bukti Antrean ini. Admin akan segera memverifikasi bukti bayar dirimu. Silakan cek radar pesanan secara berkala.</p>
-          <button onclick="window.print()" class="btn-submit" style="margin-top: 15px;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            Unduh Bukti Pesanan (PDF)
-          </button>
-          <button onclick="window.location.reload()" class="btn-submit btn-secondary" style="margin-top: 10px;">Kembali ke Halaman Awal</button>
+      <div id="successBox" class="success-box">
+        <div class="success-header">
+          <h2>Antrean Dicatat!</h2>
+          <p style="margin:0; font-size:12px; color:var(--navy); font-weight: 700;">STATUS: MENUNGGU KONFIRMASI ADMIN</p>
         </div>
+        <div class="success-body">
+          <div class="summary-item"><span class="summary-label">Nama Klien</span><span class="summary-value" id="sumNama"></span></div>
+          <div class="summary-item"><span class="summary-label">Layanan</span><span class="summary-value" id="sumLayanan"></span></div>
+          <div class="summary-item"><span class="summary-label">Harga Deal</span><span class="summary-value" id="sumHarga"></span></div>
+          <div style="margin-top: 15px;">
+            <div class="summary-label" style="text-align: center;">ID Pelacakan Radar</div>
+            <div class="order-id-highlight" id="sumOrderId"></div>
+          </div>
+          <div class="watermark">Sistem Manajemen Otomatis SantaiBro OS</div>
+          <div class="print-hide">
+            <p style="text-align: center; font-size: 12px; color: #64748b; margin-top: 20px; line-height: 1.4;">Simpan nota antrean digital ini. Admin akan segera memverifikasi mutasi bank dirimu secara berkala.</p>
+            <button onclick="window.print()" class="btn-submit">📥 Unduh Bukti Pesanan (PDF)</button>
+            <button onclick="window.location.reload()" class="btn-submit btn-secondary">Kembali ke Beranda</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="mainFormWrapper">
+        
+        <div id="pemesananScreen" class="app-screen active">
+          <div class="brand-header">
+            <img src="Santai, Bo.png" alt="Logo Santai Bro">
+            <h1>Portal Checkout</h1>
+            <p>Sistem administrasi satset, bebas ribet.</p>
+          </div>
+
+          <form id="orderForm">
+            <div class="card-section">
+              <div class="section-title"><span>1</span> Identitas Klien</div>
+              <div class="form-group"><label>Nama Lengkap / Panggilan</label><input type="text" id="nama" placeholder="Ketik nama panggilan Anda" required></div>
+              <div class="form-row">
+                <div class="form-group"><label>WhatsApp</label><input type="tel" id="whatsapp" placeholder="08..." required></div>
+                <div class="form-group"><label>Email Aktif</label><input type="email" id="email" placeholder="bro@email.com" required></div>
+              </div>
+            </div>
+
+            <div class="card-section">
+              <div class="section-title"><span>2</span> Detail Proyek</div>
+              <div class="form-group">
+                <label>Kategori Layanan</label>
+                <select id="kategori" required>
+                  <option value="" disabled selected>Pilih jenis layanan...</option>
+                  <option value="Akademik: Artikel / Resume">Akademik: Artikel / Resume</option>
+                  <option value="Akademik: Makalah">Akademik: Makalah</option>
+                  <option value="Desain Grafis">Desain Grafis</option>
+                  <option value="Data Entry UMKM">Data Entry UMKM</option>
+                  <option value="Data Entry Umum">Data Entry Umum</option>
+                  <option value="Lainnya (Kustom)">Lainnya (Kustom)</option>
+                </select>
+              </div>
+              <div id="serviceSnkBox" class="service-snk-box">
+                <h5>Syarat & Ketentuan Jasa:</h5>
+                <div id="snkContent"></div>
+              </div>
+              <div class="form-group"><label>Detail Permintaan Tugas</label><textarea id="detailText" rows="3" placeholder="Format penulisan, instruksi khusus, dll..." required></textarea></div>
+              <div class="form-group"><label>Perkiraan Tanggal Deadline</label><input type="date" id="deadline" required></div>
+              <div class="form-group" style="margin-bottom: 0;"><label>Harga Kesepakatan (Rp)</label><input type="number" id="hargaSepakat" placeholder="Nomor hasil kesepakatan di WA" required></div>
+            </div>
+
+            <div id="paymentArea" class="payment-area">
+              <div class="qris-card">
+                <div class="deco-image-wrapper"><img src="WhatsApp Image 2026-05-20 at 15.00.00.jpeg" alt="Aksen Santai"></div>
+                <h3>Selesaikan Pembayaran</h3>
+                <p>Scan kode di bawah menggunakan E-Wallet/M-Banking</p>
+                <img src="https://via.placeholder.com/200?text=QRIS+ASLI" class="qris-img" alt="QRIS">
+                <div><a href="https://wa.me/6281234567890" target="_blank" class="btn-contact">💬 Chat Admin Jika Berkendala</a></div>
+              </div>
+
+              <div class="card-section">
+                <div class="section-title"><span>3</span> Unggah Bukti Transfer</div>
+                <label>Bukti Pembayaran (Wajib, Maks 3MB)</label>
+                <div class="file-drop-area" style="margin-bottom: 20px;">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                  <div class="file-msg" id="fileMsg">Ketuk untuk pilih berkas screenshot / nota</div>
+                  <input type="file" id="buktiBayar" accept="image/*,application/pdf">
+                </div>
+
+                <div class="section-title"><span>4</span> Kebijakan & Persetujuan</div>
+                <div class="policy-box">
+                  <h4>⚠️ Kebijakan Pembatalan & Refund</h4>
+                  <p>Uang Muka (DP) dapat dikembalikan secara penuh apabila pembatalan dilakukan <strong>maksimal dalam kurun waktu 3 jam</strong> setelah pesanan diterima oleh sistem. Apabila pembatalan diajukan <strong>lebih dari 3 jam</strong>, maka DP dianggap hangus jika dilakukan pembatalan secara sepihak.</p>
+                  <label class="checkbox-wrapper">
+                    <input type="checkbox" id="snkCheckbox">
+                    <span>Saya telah membaca, memahami, dan menyetujui seluruh Syarat & Ketentuan Layanan, Tarif Dasar, serta Kebijakan Pembatalan di atas.</span>
+                  </label>
+                </div>
+
+                <button type="submit" id="btnSubmit" class="btn-submit" disabled>Konfirmasi & Proses Pesanan</button>
+                <div id="statusMsg" class="status-msg"></div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div id="lacakScreen" class="app-screen">
+          <div class="brand-header">
+            <img src="Santai, Bo.png" alt="Logo Santai Bro">
+            <h1>Radar Pesanan</h1>
+            <p>Pindai status pengerjaan tugas secara real-time.</p>
+          </div>
+          
+          <div class="hero-circle"><img src="WhatsApp Image 2026-05-20 at 15.00.00.jpeg" alt="Ilustrasi Radar"></div>
+
+          <form id="trackForm" class="card-section yellow-variant">
+            <h3>Lacak Status Pesanan</h3>
+            <input type="text" id="orderIdRadar" class="input-field input-radar" placeholder="ID Order Pesanan (Cth: SB-...)" required>
+            <input type="tel" id="whatsappRadar" class="input-field input-radar" placeholder="Nomor WA Saat Checkout" required>
+            <button type="submit" id="btnTrackRadar" class="btn-submit">Pindai Radar Database</button>
+          </form>
+
+          <div id="errorRadarMsg" class="error-radar-msg"></div>
+
+          <div id="resultRadarBox" class="result-radar-box">
+            <div class="summary-item"><span class="summary-label">Klien</span><span class="summary-value" id="resNama"></span></div>
+            <div class="summary-item"><span class="summary-label">Layanan</span><span class="summary-value" id="resLayanan"></span></div>
+            <div class="summary-item"><span class="summary-label">Tanggal Antrean</span><span class="summary-value" id="resWaktu" style="font-size: 11px;"></span></div>
+            <div class="status-badge-radar" id="resProgres"></div>
+          </div>
+        </div>
+
+        <div id="supportScreen" class="app-screen">
+          <div class="brand-header">
+            <img src="Santai, Bo.png" alt="Logo Santai Bro">
+            <h1>Customer Support</h1>
+            <p>Butuh bantuan? Tim admin kami siap melayani dirimu.</p>
+          </div>
+          
+          <div class="hero-circle"><img src="WhatsApp Image 2026-05-20 at 15.00.00.jpeg" alt="Ilustrasi Support"></div>
+
+          <div class="support-card">
+            <div class="support-info">
+              <h3>Hubungi WhatsApp Admin</h3>
+              <p>Ajukan pertanyaan, revisi darurat, atau negosiasi ulang layanan kustom.</p>
+              <a href="https://wa.me/6281234567890" target="_blank" class="btn-contact" style="background-color: var(--navy); color: white;">
+                💬 Hubungi Admin Via WA
+              </a>
+            </div>
+            <img src="https://via.placeholder.com/80?text=CS" alt="Karakter CS" style="border-radius: 14px;">
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <div id="mainFormWrapper">
-      
-      <div class="brand-header">
-        
-        <div class="logo-utama-wrapper">
-          <svg width="150" height="60" viewBox="0 0 150 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="150" height="60" fill="#FFD622" rx="8"/>
-            <text x="75" y="35" font-family="sans-serif" font-weight="bold" font-size="14" fill="#002166" text-anchor="middle">TEMPAT LOGO SVG</text>
-          </svg>
-        </div>
-        
-        <h1>Portal Checkout</h1>
-        <p>Sistem administrasi satset, bebas ribet.</p>
-
-        <div class="logo-pelengkap-wrapper">
-          <svg width="80" height="20" viewBox="0 0 80 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="80" height="20" fill="#002166" rx="4"/>
-            <text x="40" y="14" font-family="sans-serif" font-size="10" fill="#FFD622" text-anchor="middle">Pelengkap</text>
-          </svg>
-        </div>
-
+    <div class="bottom-nav print-hide">
+      <div class="nav-item active" onclick="switchTab('pemesananScreen', this)">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        Pesan
       </div>
-
-      <form id="orderForm">
-        <div class="card-section">
-          <div class="section-title"><span>1</span> Identitas Klien</div>
-          <div class="form-group"><label>Nama Lengkap / Panggilan</label><input type="text" id="nama" required></div>
-          <div class="form-row">
-            <div class="form-group"><label>Nomor WhatsApp</label><input type="tel" id="whatsapp" required></div>
-            <div class="form-group"><label>Email Aktif</label><input type="email" id="email" required></div>
-          </div>
-        </div>
-
-        <div class="card-section">
-          <div class="section-title"><span>2</span> Detail Proyek</div>
-          <div class="form-group">
-            <label>Kategori Layanan</label>
-            <select id="kategori" required>
-              <option value="" disabled selected>Pilih jenis layanan...</option>
-              <option value="Akademik: Artikel / Resume">Akademik: Artikel / Resume</option>
-              <option value="Akademik: Makalah">Akademik: Makalah</option>
-              <option value="Desain Grafis">Desain Grafis</option>
-              <option value="Data Entry UMKM">Data Entry UMKM</option>
-              <option value="Data Entry Umum">Data Entry Umum</option>
-              <option value="Lainnya (Kustom)">Lainnya (Kustom)</option>
-            </select>
-          </div>
-          <div id="serviceSnkBox" class="service-snk-box">
-            <h5>Syarat & Ketentuan Khusus Jasa:</h5>
-            <div id="snkContent"></div>
-          </div>
-          <div class="form-group"><label>Detail Permintaan Tugas</label><textarea id="detailText" rows="3" required></textarea></div>
-          <div class="form-group"><label>Perkiraan Tanggal Deadline</label><input type="date" id="deadline" required></div>
-          <div class="form-group" style="margin-bottom: 0;"><label>Harga Kesepakatan (Rp)</label><input type="number" id="hargaSepakat" required></div>
-        </div>
-
-        <div id="paymentArea" class="payment-area">
-          <div class="qris-card">
-            <h3>Selesaikan Pembayaran</h3>
-            <p>Scan kode di bawah ini menggunakan E-Wallet/M-Banking</p>
-            <img src="https://via.placeholder.com/200?text=QRIS+ASLI" alt="QRIS">
-            <div><a href="https://wa.me/6281234567890" target="_blank" class="btn-contact">Chat Admin Jika Berkendala</a></div>
-          </div>
-
-          <div class="card-section">
-            <div class="section-title"><span>3</span> Unggah Bukti Transfer</div>
-            <label>Unggah Bukti Pembayaran (Wajib, Maks 3MB)</label>
-            <div class="file-drop-area" style="margin-bottom: 25px;">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-              <div class="file-msg" id="fileMsg">Ketuk untuk unggah bukti transfer / screenshot</div>
-              <input type="file" id="buktiBayar" accept="image/*,application/pdf">
-            </div>
-
-            <div class="section-title"><span>4</span> Kebijakan & Persetujuan Akhir</div>
-            <div class="policy-box">
-              <h4>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                Kebijakan Pembatalan & Kebijakan Refund
-              </h4>
-              <p>Uang Muka (DP) dapat dikembalikan secara penuh apabila pembatalan dilakukan <strong>maksimal dalam kurun waktu 3 jam</strong> setelah pesanan diterima oleh sistem. Apabila pembatalan diajukan <strong>lebih dari 3 jam</strong>, maka DP dianggap hangus apabila dilakukan pembatalan secara sepihak.</p>
-              <label class="checkbox-wrapper">
-                <input type="checkbox" id="snkCheckbox">
-                <span>Saya telah membaca, memahami, dan menyetujui seluruh Syarat & Ketentuan Layanan, Tarif Dasar, serta Kebijakan Pembatalan di atas.</span>
-              </label>
-            </div>
-
-            <button type="submit" id="btnSubmit" class="btn-submit" disabled>Konfirmasi & Proses Pesanan</button>
-            <div id="statusMsg" class="status-msg"></div>
-          </div>
-        </div>
-      </form>
-
-      <div class="footer-nav">
-        <a href="/lacak">🔍 Cek Status Pesanan</a>
-        <a href="https://wa.me/6281234567890" target="_blank">💬 Hubungi Admin</a>
+      <div class="nav-item" onclick="switchTab('supportScreen', this)">
+        <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+        Support
+      </div>
+      <div class="nav-item" onclick="switchTab('lacakScreen', this)">
+        <svg viewBox="0 0 24 24"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg>
+        Radar
       </div>
     </div>
+
   </div>
 
   <script>
-    // ⚠️ GANTI DENGAN URL APPS SCRIPT DIRIMU
+    // ⚠️ MASUKKAN URL GOOGLE APPS SCRIPT-MU DI SINI
     const SCRIPT_URL = 'https://script.google.com/macros/s/GANTI_DENGAN_URL_WEB_APP_KAMU/exec';
+
+    // LOGIKA PERALIHAN TAB SECARA INSTAN (MOCKUP SELULER)
+    function switchTab(screenId, element) {
+      document.querySelectorAll('.app-screen').forEach(screen => screen.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      
+      document.getElementById(screenId).classList.add('active');
+      element.classList.add('active');
+      document.querySelector('.app-content').scrollTop = 0;
+    }
 
     const hargaInput = document.getElementById('hargaSepakat');
     const kategoriSelect = document.getElementById('kategori');
@@ -268,12 +370,12 @@
     const btnSubmit = document.getElementById('btnSubmit');
 
     const databaseSNK = {
-      "Akademik: Artikel / Resume": `<div class="price-badge">Patokan: Rp 35.000 / 500 kata</div><ul><li>Batas maksimal pengerjaan adalah 500 kata per tugas. Kelebihan kata akan dikenakan biaya tambahan.</li><li>Estimasi pengerjaan normal 2-3 hari kerja. Pengerjaan di bawah estimasi waktu dikenakan biaya tambahan layanan kilat.</li><li>Format penulisan khusus akan disesuaikan harganya berdasarkan kesepakatan.</li></ul>`,
-      "Akademik: Makalah": `<div class="price-badge">Patokan: Rp 50.000 / Tugas (Maks 8 Lembar)</div><ul><li>Batas maksimal adalah 8 halaman termasuk kover. Kelebihan lembar pengerjaan dikenakan penyesuaian tarif.</li><li>Estimasi pengerjaan normal 2-3 hari kerja. Pengerjaan darurat/kilat dikenakan biaya tambahan kesepakatan.</li><li>Format penulisan rumit akan disesuaikan harganya.</li></ul>`,
-      "Desain Grafis": `<div class="price-badge">Patokan: Mulai dari Rp 20.000</div><ul><li>Tarif dasar awal menyesuaikan kerumitan visual serta total elemen desain.</li><li>Revisi total yang mengubah konsep utama akan dikenakan biaya tambahan.</li></ul>`,
-      "Data Entry UMKM": `<div class="price-badge">Patokan: Rp 30.000 / 100 Data</div><ul><li>Tarif berlaku untuk rekap data dasar maksimal 4-5 kolom tanpa formula kompleks.</li><li>Penambahan fitur spreadsheet rumit akan disesuaikan tarifnya.</li></ul>`,
-      "Data Entry Umum": `<div class="price-badge">Patokan: Rp 1.000 / Data</div><ul><li>Kelebihan kuantitas data dengan tingkat kesulitan entri yang tinggi akan dikenakan biaya tambahan.</li><li>Waktu pengerjaan yang lebih singkat dari standar normal akan dikenakan biaya tambahan.</li></ul>`,
-      "Lainnya (Kustom)": `<div class="price-badge">Patokan: Menyesuaikan Kesepakatan</div><ul><li>Seluruh ketentuan pengerjaan murni mengikuti keputusan akhir bersama Admin via WhatsApp.</li></ul>`
+      "Akademik: Artikel / Resume": `<div class="price-badge">Patokan: Rp 35.000 / 500 kata</div><ul><li>Maksimal 500 kata per tugas. Kelebihan kata dikenakan tarif tambahan.</li><li>Estimasi normal 2-3 hari kerja. Layanan kilat di bawah estimasi ada biaya tambahan.</li></ul>`,
+      "Akademik: Makalah": `<div class="price-badge">Patokan: Rp 50.000 / Tugas (Maks 8 Lembar)</div><ul><li>Maksimal 8 halaman termasuk kover. Kelebihan halaman ada biaya tambahan.</li><li>Estimasi normal 2-3 hari kerja. Tugas darurat/kilat menyesuaikan tarif tambahan.</li></ul>`,
+      "Desain Grafis": `<div class="price-badge">Patokan: Mulai dari Rp 20.000</div><ul><li>Tarif dasar awal menyesuaikan tingkat kesulitan visual elemen desain yang dirimu minta.</li><li>Revisi konsep utama secara total setelah deal awal dikenakan biaya tambahan.</li></ul>`,
+      "Data Entry UMKM": `<div class="price-badge">Patokan: Rp 30.000 / 100 Data</div><ul><li>Berlaku untuk olah data dasar maksimal 4-5 kolom tanpa formula kompleks/makro.</li></ul>`,
+      "Data Entry Umum": `<div class="price-badge">Patokan: Rp 1.000 / Data</div><ul><li>Kuantitas data dengan kerumitan tinggi atau deadline ekstra cepat akan disesuaikan tarifnya.</li></ul>`,
+      "Lainnya (Kustom)": `<div class="price-badge">Patokan: Menyesuaikan Kesepakatan</div><ul><li>Seluruh kriteria pengerjaan dan harga mengikuti keputusan akhir via WhatsApp admin.</li></ul>`
     };
 
     kategoriSelect.addEventListener('change', (e) => {
@@ -304,6 +406,7 @@
       btnSubmit.disabled = !this.checked;
     });
 
+    // SISTEM SUBMIT PEMESANAN
     async function prosesKirimData(base64Data, fileName, fileType) {
       const statusMsg = document.getElementById('statusMsg');
       const nama = document.getElementById('nama').value.trim();
@@ -326,12 +429,7 @@
       try {
         const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
         const responseText = await response.text();
-        let result;
-        try {
-          result = JSON.parse(responseText);
-        } catch (parseErr) {
-          throw new Error("Sistem Server menolak akses. Pastikan Apps Script di-deploy ke 'Anyone'.");
-        }
+        let result = JSON.parse(responseText);
 
         if (result.status === 'success') {
           document.getElementById('mainFormWrapper').style.display = 'none';
@@ -340,7 +438,7 @@
           document.getElementById('sumHarga').innerText = harga;
           document.getElementById('sumOrderId').innerText = result.orderId;
           document.getElementById('successBox').style.display = 'block';
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          document.querySelector('.app-content').scrollTop = 0;
         } else {
           throw new Error(result.message);
         }
@@ -356,14 +454,10 @@
 
     document.getElementById('orderForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      
       const file = buktiBayarInput.files[0];
       if (!file) { alert("Harap unggah bukti pembayaran terlebih dahulu!"); return; }
-      if (file.size > 3 * 1024 * 1024) { alert("Ukuran berkas melebihi batas aman 3 MB, Bro!"); return; }
-
-      btnSubmit.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> Memproses Transaksi...`; 
+      btnSubmit.innerHTML = `Memproses Transaksi...`; 
       btnSubmit.disabled = true; 
-      document.getElementById('statusMsg').style.display = 'none';
 
       const reader = new FileReader();
       reader.onload = () => {
@@ -371,6 +465,51 @@
         prosesKirimData(base64Data, file.name, file.type);
       };
       reader.readAsDataURL(file);
+    });
+
+    // SISTEM PELACAKAN DI DALAM RADAR SCREEN
+    document.getElementById('trackForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btnTrackRadar');
+      const resultBox = document.getElementById('resultRadarBox');
+      const errorMsg = document.getElementById('errorRadarMsg');
+      const orderIdVal = document.getElementById('orderIdRadar').value.trim();
+      
+      btn.innerHTML = 'Memindai...'; btn.disabled = true;
+      resultBox.style.display = 'none'; errorMsg.style.display = 'none';
+
+      const payload = { action: "track", orderId: orderIdVal, whatsapp: document.getElementById('whatsappRadar').value.trim() };
+
+      try {
+        const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
+        const result = JSON.parse(await response.text());
+        
+        if (result.status === 'found') {
+          document.getElementById('resNama').innerText = result.data.nama;
+          document.getElementById('resLayanan').innerText = result.data.layanan;
+          document.getElementById('resWaktu').innerText = result.data.waktu;
+          
+          const statusBadge = document.getElementById('resProgres');
+          statusBadge.innerText = result.data.progres;
+          
+          if (result.data.progres === "BUKTI TIDAK VALID") {
+            statusBadge.style.background = "#fee2e2"; statusBadge.style.color = "#dc2626";
+            errorMsg.innerText = "Sistem menolak bukti transfer dirimu. Harap hubungi WhatsApp Admin, Bro!";
+            errorMsg.style.display = 'block';
+          } else if (result.data.progres === "SEDANG DIPROSES") {
+            statusBadge.style.background = "#dcfce7"; statusBadge.style.color = "#166534";
+          } else {
+            statusBadge.style.background = "var(--navy)"; statusBadge.style.color = "var(--yellow)";
+          }
+          resultBox.style.display = 'block';
+        } else {
+          errorMsg.innerText = result.message; errorMsg.style.display = 'block';
+        }
+      } catch (error) {
+        errorMsg.innerText = 'Radar gagal memindai database cloud.'; errorMsg.style.display = 'block';
+      } finally {
+        btn.innerHTML = 'Pindai Radar Database'; btn.disabled = false;
+      }
     });
   </script>
 </body>
