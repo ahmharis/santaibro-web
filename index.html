@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Santai, Bro | Portal App</title>
   <style>
     :root {
@@ -16,14 +16,15 @@
       --text-muted: #64748b;
     }
 
-    body {
+    /* KUNCI UTAMA UNTUK HP: Body tidak boleh scroll, 100% penuh */
+    html, body {
       font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-      background-color: #e2e8f0;
       margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden; 
+      background-color: var(--bg-app); /* Latar HP putih/soft */
     }
 
     * { box-sizing: border-box; }
@@ -32,24 +33,23 @@
        STRUKTUR DASAR (MOBILE FIRST)
        ========================================= */
     .app-wrapper {
-      background-color: var(--bg-app);
       width: 100%;
-      height: 100vh;
+      height: 100%;
       display: flex;
       flex-direction: column;
       position: relative;
-      overflow: hidden;
     }
 
+    /* KONTEN UTAMA BISA DI-SCROLL */
     .app-content {
       flex: 1;
       overflow-y: auto;
-      padding: 25px 20px 100px 20px; /* Padding bawah untuk Bottom Nav */
+      padding: 25px 20px 20px 20px;
       scroll-behavior: smooth;
     }
 
     /* SISTEM LAYAR (SPA) */
-    .app-screen { display: none; animation: fadeIn 0.4s ease forwards; max-width: 600px; margin: 0 auto; }
+    .app-screen { display: none; animation: fadeIn 0.4s ease forwards; max-width: 600px; margin: 0 auto; padding-bottom: 20px; }
     .app-screen.active { display: block; }
 
     /* HEADER KONTEN */
@@ -135,18 +135,25 @@
     .status-badge-radar { block-size: auto; text-align: center; background: var(--navy); color: white; padding: 10px; border-radius: 10px; font-weight: 800; margin-top: 15px; font-size: 13px; }
     .error-radar-msg { display: none; color: #dc2626; background: #fee2e2; padding: 12px; border-radius: 12px; font-size: 13px; text-align: center; font-weight: 600; margin-top: 15px; }
 
-    /* NAVIGASI (DEFAULT: BAWAH UNTUK MOBILE) */
+    /* NAVIGASI TERKUNCI (FIXED BOTTOM) UNTUK MOBILE */
     .app-nav {
-      position: absolute; bottom: 0; left: 0; width: 100%; background: white;
-      display: flex; justify-content: space-around; padding: 12px 10px 18px 10px;
-      border-radius: 24px 24px 0 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.04); z-index: 10;
+      flex-shrink: 0; /* Mencegah nav menyusut */
+      width: 100%; 
+      background: white;
+      display: flex; 
+      justify-content: space-around; 
+      padding: 12px 10px; 
+      padding-bottom: calc(12px + env(safe-area-inset-bottom)); /* Dukungan area aman iOS/Android */
+      border-radius: 24px 24px 0 0; 
+      box-shadow: 0 -5px 20px rgba(0,0,0,0.05); 
+      z-index: 10;
     }
     .nav-links { display: flex; width: 100%; justify-content: space-around; }
     .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #94a3b8; text-decoration: none; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
     .nav-item svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2; fill: none; }
     .nav-item.active { color: var(--navy); }
     .nav-item.active svg { fill: var(--yellow); stroke: var(--navy); }
-    .nav-text-desktop { display: none; } /* Hanya muncul di desktop */
+    .nav-text-desktop { display: none; } 
 
     @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
@@ -155,12 +162,17 @@
        MODE TABLET & DESKTOP (RWD)
        ========================================= */
     @media (min-width: 768px) {
-      body { padding: 20px; }
+      html, body {
+        background-color: #e2e8f0; /* Kembali abu-abu di luar app */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
       
       .app-wrapper {
-        flex-direction: row; /* Berubah menjadi menyamping */
+        flex-direction: row; 
         max-width: 1000px;
-        height: 90vh;
+        height: 90%;
         max-height: 850px;
         border-radius: 24px;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -169,10 +181,9 @@
 
       /* Navigasi berubah menjadi Sidebar di Kiri */
       .app-nav {
-        position: relative;
         width: 250px;
         height: 100%;
-        border-radius: 0;
+        border-radius: 24px 0 0 24px;
         border-right: 1px solid var(--border);
         flex-direction: column;
         justify-content: flex-start;
@@ -180,35 +191,25 @@
         box-shadow: none;
       }
       
-      .sidebar-logo { display: block; } /* Munculkan logo di sidebar */
-      .brand-header img { display: none; } /* Sembunyikan logo di konten tengah */
+      .sidebar-logo { display: block; } 
+      .brand-header img { display: none; } 
 
       .nav-links { flex-direction: column; gap: 10px; margin-top: 20px; }
       
-      .nav-item { 
-        flex-direction: row; 
-        justify-content: flex-start; 
-        padding: 14px 20px; 
-        border-radius: 14px; 
-        font-size: 14px; 
-        gap: 15px; 
-      }
+      .nav-item { flex-direction: row; justify-content: flex-start; padding: 14px 20px; border-radius: 14px; font-size: 14px; gap: 15px; }
       .nav-item:hover { background: var(--bg-app); }
       .nav-item.active { background: var(--navy); color: var(--yellow); }
       .nav-item.active svg { fill: var(--yellow); stroke: var(--yellow); }
       .nav-text-desktop { display: inline-block; }
 
-      /* Konten Utama di Kanan */
-      .app-content { 
-        padding: 40px 50px; 
-        padding-bottom: 40px; /* Hapus padding bawah nav mobile */
-      }
+      .app-content { padding: 40px 50px; }
     }
 
     /* PRINT MASKING */
     @media print {
-      body { background-color: white; padding: 0; margin: 0; }
-      .app-wrapper { box-shadow: none; border: none; padding: 0; max-width: 100%; height: auto; flex-direction: column; }
+      body { background-color: white; padding: 0; margin: 0; overflow: visible; }
+      .app-wrapper { box-shadow: none; border: none; padding: 0; max-width: 100%; height: auto; flex-direction: column; overflow: visible; }
+      .app-content { overflow: visible; }
       #mainFormWrapper, #lacakScreen, #supportScreen, .app-nav, .print-hide { display: none !important; }
       .success-box { display: block !important; border: none; margin: 0; }
       .success-header { border: 1px solid #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -222,7 +223,6 @@
   <div class="app-wrapper">
     
     <nav class="app-nav print-hide">
-      
       <div class="sidebar-logo">
         <img src="Santai, Bo.png" alt="Logo Santai Bro">
       </div>
@@ -274,7 +274,8 @@
         
         <div id="pemesananScreen" class="app-screen active">
           <div class="brand-header">
-            <img src="Santai, Bo.png" alt="Logo Santai Bro"> <h1>Portal Checkout</h1>
+            <img src="Santai, Bo.png" alt="Logo Santai Bro"> 
+            <h1>Portal Checkout</h1>
             <p>Sistem administrasi satset, bebas ribet.</p>
           </div>
 
@@ -409,7 +410,6 @@
       document.getElementById(screenId).classList.add('active');
       element.classList.add('active');
       
-      // Khusus mobile, hilangkan teks pada nav item lain agar ikon lebih presisi
       if (window.innerWidth < 768) {
         document.querySelectorAll('.nav-text-mobile').forEach(text => text.style.display = 'none');
         element.querySelector('.nav-text-mobile').style.display = 'block';
@@ -418,7 +418,6 @@
       document.querySelector('.app-content').scrollTop = 0;
     }
 
-    // Set tampilan awal teks nav mobile
     if (window.innerWidth < 768) {
       document.querySelectorAll('.nav-text-mobile').forEach(text => text.style.display = 'none');
       document.querySelector('.nav-item.active .nav-text-mobile').style.display = 'block';
