@@ -4,7 +4,141 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SantaiBro | Sini, Biar Kami Saja.</title>
+  <style><!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout | SantaiBro</title>
   <style>
+    :root { --navy-dark: #050a30; --blue-vivid: #0f2fd8; --bg-color: #f0f4fc; }
+    body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+    .checkout-card { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(5,10,48,0.08); width: 100%; max-width: 500px; border-top: 6px solid var(--blue-vivid); }
+    h2 { margin-top: 0; color: var(--navy-dark); text-align: center; }
+    p.subtitle { text-align: center; color: #666; margin-bottom: 20px; font-size: 14px; }
+    
+    .qris-box { background: #eef2ff; border: 2px dashed #0f2fd8; padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 25px; }
+    .qris-box img { max-width: 150px; border-radius: 8px; margin: 10px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    .qris-box p { margin: 5px 0; font-size: 13px; color: var(--navy-dark); font-weight: bold; }
+    .highlight-text { color: #ef4444; font-weight: bold; }
+
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--navy-dark); font-size: 14px; }
+    input, select, textarea { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
+    input[type="file"] { padding: 8px; background: #f8fafc; }
+    
+    button { width: 100%; padding: 14px; background-color: var(--navy-dark); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    button:hover { background-color: var(--blue-vivid); }
+    .status-msg { text-align: center; margin-top: 15px; font-weight: bold; font-size: 14px; display: none; padding: 12px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+
+  <div class="checkout-card">
+    <h2>Konfirmasi & Pembayaran</h2>
+    <p class="subtitle">Isi data sesuai kesepakatan di WhatsApp Admin.</p>
+
+    <div class="qris-box">
+      <p>Scan QRIS di bawah ini untuk pembayaran</p>
+      <img src="https://via.placeholder.com/150?text=QRIS+SantaiBro" alt="QRIS SantaiBro">
+      <p>Atau Transfer Bank: <br>BCA 1234567890 a.n Ahmad Haris</p>
+      <p class="highlight-text">Minimal Pembayaran DP 50%</p>
+    </div>
+
+    <form id="orderForm">
+      <div class="form-group"><label>Nama Lengkap / Panggilan</label><input type="text" id="nama" placeholder="Cth: Ahmad Haris" required></div>
+      <div class="form-group"><label>Nomor WhatsApp Klien</label><input type="tel" id="whatsapp" placeholder="Cth: 0812XXXXXXXX" required></div>
+      <div class="form-group"><label>Email Aktif Klien</label><input type="email" id="email" placeholder="Cth: klien@gmail.com" required></div>
+      
+      <div class="form-group">
+        <label>Jenis Layanan Pemesan</label>
+        <select id="kategori" required>
+          <option value="" disabled selected>-- Pilih Layanan --</option>
+          <option value="Copywriting">Copywriting</option>
+          <option value="Tugas Academic">Tugas Akademik</option>
+          <option value="Data Entry">Data Entry</option>
+          <option value="Desain Grafis">Desain Grafis</option>
+          <option value="Serba Suruh">Serba Suruh</option>
+        </select>
+      </div>
+
+      <div class="form-group"><label>Detail Singkat (Judul Tugas / Catatan Project)</label><input type="text" id="detail" placeholder="Cth: Makalah Bab 1-3 S1 Matematika" required></div>
+      <div class="form-group"><label>Total Harga Disepakati di WA (Rp)</label><input type="number" id="hargaSepakat" placeholder="Cth: 150000" required></div>
+      <div class="form-group"><label>Upload Bukti Pembayaran (Maks 3MB)</label><input type="file" id="buktiBayar" accept="image/*,application/pdf" required></div>
+
+      <button type="submit" id="btnSubmit">Kirim Bukti & Pesan Sekarang!</button>
+      <div id="statusMsg" class="status-msg"></div>
+    </form>
+  </div>
+
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/GANTI_DENGAN_URL_WEB_APP_KAMU/exec';
+
+    document.getElementById('orderForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const fileInput = document.getElementById('buktiBayar');
+      const file = fileInput.files[0];
+      
+      if(file && file.size > 3 * 1024 * 1024) {
+        alert("Ukuran bukti bayar terlalu besar, Bro! Maksimal 3 MB ya.");
+        return;
+      }
+
+      const btnSubmit = document.getElementById('btnSubmit');
+      const statusMsg = document.getElementById('statusMsg');
+      
+      btnSubmit.textContent = 'Mengunggah & Memproses...'; 
+      btnSubmit.disabled = true; 
+      statusMsg.style.display = 'none';
+
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = async () => {
+        const base64Data = reader.result.split(',')[1];
+
+        const payload = {
+          action: "order",
+          nama: document.getElementById('nama').value.trim(),
+          whatsapp: document.getElementById('whatsapp').value.trim(),
+          email: document.getElementById('email').value.trim(), // Data email berhasil diikat
+          kategori: document.getElementById('kategori').value, // Data jenis layanan berhasil diikat
+          detail: document.getElementById('detail').value.trim(),
+          hargaSepakat: "Rp " + parseInt(document.getElementById('hargaSepakat').value).toLocaleString('id-ID'),
+          fileName: file.name,
+          fileMimeType: file.type,
+          fileData: base64Data
+        };
+
+        try {
+          const response = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(payload),
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+          });
+
+          const result = await response.json();
+          if(result.status === 'success') {
+            statusMsg.style.display = 'block';
+            statusMsg.style.backgroundColor = '#eef2ff';
+            statusMsg.style.color = 'var(--blue-vivid)';
+            statusMsg.innerHTML = `<strong>Transaksi Berhasil!</strong><br>Simpan ID Resi kamu:<br><span style="font-size:16px;color:#333;">${result.orderId}</span><br>Admin akan segera melakukan konfirmasi via WhatsApp.`;
+            document.getElementById('orderForm').reset();
+          } else throw new Error(result.message);
+        } catch (error) {
+          statusMsg.style.display = 'block';
+          statusMsg.style.backgroundColor = '#fef2f2';
+          statusMsg.style.color = 'red';
+          statusMsg.innerText = 'Koneksi gagal. Coba lagi, Bro.';
+        } finally {
+          btnSubmit.textContent = 'Kirim Bukti & Pesan Sekarang!'; 
+          btnSubmit.disabled = false;
+        }
+      };
+    });
+  </script>
+</body>
+</html>
     :root { --navy-dark: #050a30; --blue-vivid: #0f2fd8; --bg-color: #f0f4fc; }
     body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
     .order-card { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(5, 10, 48, 0.08); width: 100%; max-width: 450px; border-top: 6px solid var(--blue-vivid); }
