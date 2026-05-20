@@ -3,12 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SantaiBro | Sini, Biar Kami Saja.</title>
-  <style><!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkout | SantaiBro</title>
   <style>
     :root { --navy-dark: #050a30; --blue-vivid: #0f2fd8; --bg-color: #f0f4fc; }
@@ -135,95 +129,6 @@
           btnSubmit.disabled = false;
         }
       };
-    });
-  </script>
-</body>
-</html>
-    :root { --navy-dark: #050a30; --blue-vivid: #0f2fd8; --bg-color: #f0f4fc; }
-    body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
-    .order-card { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(5, 10, 48, 0.08); width: 100%; max-width: 450px; border-top: 6px solid var(--blue-vivid); }
-    h2 { margin-top: 0; color: var(--navy-dark); text-align: center; }
-    p.subtitle { text-align: center; color: #666; margin-bottom: 25px; font-size: 14px; }
-    .form-group { margin-bottom: 18px; }
-    label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--navy-dark); font-size: 14px; }
-    input, select, textarea { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
-    button { width: 100%; padding: 14px; background-color: var(--navy-dark); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-    button:hover { background-color: var(--blue-vivid); }
-    .status-msg { text-align: center; margin-top: 15px; font-weight: bold; font-size: 14px; display: none; padding: 12px; border-radius: 8px; }
-    .nav-link { display: block; text-align: center; margin-top: 20px; font-size: 14px; color: var(--blue-vivid); text-decoration: none; font-weight: 600; }
-  </style>
-</head>
-<body>
-
-  <div class="order-card">
-    <h2>SANTAI, BRO.</h2>
-    <p class="subtitle">Fokus ke hidupmu, serahkan urusan ribet ke kami!</p>
-
-    <form id="orderForm">
-      <div class="form-group"><label>Nama Panggilan</label><input type="text" id="nama" required></div>
-      <div class="form-group"><label>Nomor WhatsApp Aktif</label><input type="tel" id="whatsapp" required></div>
-      <div class="form-group">
-        <label>Kategori Layanan</label>
-        <select id="kategori" required>
-          <option value="" disabled selected>-- Pilih Layanan --</option>
-          <option value="Copywriting">Copywriting</option>
-          <option value="Tugas Akademik">Tugas Akademik</option>
-          <option value="Data Entry">Data Entry</option>
-          <option value="Desain Grafis">Desain Grafis</option>
-          <option value="Serba Suruh">Serba Suruh</option>
-        </select>
-      </div>
-      <div class="form-group"><label>Detail Permintaan</label><textarea id="detail" rows="4" required></textarea></div>
-      <button type="submit" id="btnSubmit">Kirim Pesanan Sekarang!</button>
-      <div id="statusMsg" class="status-msg"></div>
-    </form>
-
-    <a href="/lacak" class="nav-link">Sudah pesan? Lacak progres tugas di sini →</a>
-  </div>
-
-  <script>
-    // ⚠️ MASUKKAN URL WEB APP GOOGLE DI SINI
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwiGjQz0q5gPIZdyxhNLs9P7OAy-MnpFLtUNqk7Hk1eMH0PY4Z6vySsPk31MdnEbBf3/exec';
-
-    const form = document.getElementById('orderForm');
-    const btnSubmit = document.getElementById('btnSubmit');
-    const statusMsg = document.getElementById('statusMsg');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      btnSubmit.textContent = 'Memproses...'; btnSubmit.disabled = true; statusMsg.style.display = 'none';
-
-      const payload = {
-        action: "order",
-        nama: document.getElementById('nama').value.trim(),
-        whatsapp: document.getElementById('whatsapp').value.trim(),
-        kategori: document.getElementById('kategori').value,
-        detail: document.getElementById('detail').value.trim()
-      };
-
-      try {
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          body: JSON.stringify(payload),
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' } // text/plain menghindari blokir CORS
-        });
-
-        const result = await response.json();
-        if(result.status === 'success') {
-          statusMsg.style.display = 'block';
-          statusMsg.style.backgroundColor = '#eef2ff';
-          statusMsg.style.color = 'var(--blue-vivid)';
-          statusMsg.innerHTML = `<strong>Pesanan Masuk Radar!</strong><br>Simpan ID Resi kamu:<br><span style="font-size:16px;color:#333;">${result.orderId}</span>`;
-          form.reset();
-        } else throw new Error(result.message);
-      } catch (error) {
-        statusMsg.style.display = 'block';
-        statusMsg.style.backgroundColor = '#fef2f2';
-        statusMsg.style.color = 'red';
-        statusMsg.innerText = 'Koneksi gagal. Coba lagi, Bro.';
-      } finally {
-        btnSubmit.textContent = 'Kirim Pesanan Sekarang!'; btnSubmit.disabled = false;
-      }
     });
   </script>
 </body>
