@@ -8,7 +8,6 @@
     :root {
       --navy: #002166;       
       --yellow: #FFD622;     
-      --yellow-hover: #FBB900; 
       --bg-app: #FAFAFA;     
       --surface: #ffffff;
       --border: #e2e8f0;
@@ -16,56 +15,71 @@
       --text-muted: #64748b;
     }
 
-    /* KUNCI UTAMA UNTUK HP: Body tidak boleh scroll, 100% penuh */
     html, body {
       font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
       margin: 0;
       padding: 0;
       width: 100%;
       height: 100%;
-      overflow: hidden; 
-      background-color: var(--bg-app); /* Latar HP putih/soft */
+      background-color: #e2e8f0; /* Latar luar layar HP */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden; /* Mengunci body agar tidak scroll ganda */
     }
 
     * { box-sizing: border-box; }
 
     /* =========================================
-       STRUKTUR DASAR (MOBILE FIRST)
+       KANVAS APLIKASI (BENTUK HP PERMANEN)
        ========================================= */
-    .app-wrapper {
+    .mobile-app {
+      background-color: var(--bg-app);
       width: 100%;
       height: 100%;
+      max-width: 420px; /* Lebar maksimal ukuran HP standar */
       display: flex;
       flex-direction: column;
       position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     }
 
-    /* KONTEN UTAMA BISA DI-SCROLL */
+    /* Efek Simulator HP saat dibuka di Laptop/Tablet */
+    @media (min-width: 480px) {
+      .mobile-app {
+        height: 90vh;
+        max-height: 850px;
+        border-radius: 40px;
+        border: 8px solid #cbd5e1;
+      }
+    }
+
+    /* AREA KONTEN (YANG BISA DI-SCROLL) */
     .app-content {
       flex: 1;
       overflow-y: auto;
-      padding: 25px 20px 20px 20px;
+      overflow-x: hidden;
+      padding: 25px 20px 100px 20px; /* Padding bawah ekstra besar agar tidak tertutup Bottom Nav */
       scroll-behavior: smooth;
     }
 
-    /* SISTEM LAYAR (SPA) */
-    .app-screen { display: none; animation: fadeIn 0.4s ease forwards; max-width: 600px; margin: 0 auto; padding-bottom: 20px; }
+    /* SISTEM PERGANTIAN LAYAR */
+    .app-screen { display: none; animation: fadeIn 0.3s ease; }
     .app-screen.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* HEADER KONTEN */
+    /* =========================================
+       KOMPONEN VISUAL UI
+       ========================================= */
     .brand-header { text-align: center; margin-bottom: 25px; }
     .brand-header img { width: 130px; height: auto; margin-bottom: 5px; }
     .brand-header h1 { color: var(--navy); font-size: 22px; font-weight: 800; margin: 0 0 4px 0; letter-spacing: -0.5px; }
     .brand-header p { color: var(--text-muted); font-size: 13px; margin: 0; }
-    
-    .sidebar-logo { display: none; text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-    .sidebar-logo img { width: 100%; max-width: 140px; }
 
-    /* HERO CIRCLE */
     .hero-circle { display: flex; justify-content: center; margin-bottom: 25px; }
     .hero-circle img { width: 180px; height: 180px; border-radius: 50%; object-fit: contain; box-shadow: 0 10px 25px rgba(0, 33, 102, 0.12); background-color: white; border: 3px solid var(--navy); }
 
-    /* KARTU & INPUT */
     .card-section { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02); }
     .card-section.yellow-variant { background-color: var(--yellow); box-shadow: 0 8px 20px rgba(255, 214, 34, 0.25); border: none; }
     .card-section.yellow-variant h3 { color: var(--navy); margin: 0 0 15px 0; font-size: 17px; font-weight: 800; }
@@ -75,7 +89,7 @@
 
     .form-group { margin-bottom: 14px; }
     .form-row { display: flex; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
-    .form-row .form-group { flex: 1; min-width: 150px; margin-bottom: 0; }
+    .form-row .form-group { flex: 1; min-width: 140px; margin-bottom: 0; }
     label { display: block; font-size: 12px; font-weight: 600; color: var(--text-main); margin-bottom: 6px; }
     
     input[type="text"], input[type="tel"], input[type="email"], input[type="number"], input[type="date"], select, textarea {
@@ -91,7 +105,7 @@
     .price-badge { display: inline-block; background: var(--navy); color: var(--yellow); font-weight: 700; padding: 4px 8px; border-radius: 6px; margin-bottom: 8px; font-size: 11px; }
 
     /* PEMBAYARAN KRONOLOGIS */
-    .payment-area { display: none; animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .payment-area { display: none; animation: fadeIn 0.4s ease forwards; }
     .qris-card { background-color: var(--yellow); border-radius: 20px; padding: 20px 15px; text-align: center; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(255, 214, 34, 0.2); }
     .qris-card h3 { color: var(--navy); margin: 0 0 4px 0; font-size: 16px; font-weight: 800; }
     .qris-card p { color: var(--navy); font-size: 12px; margin: 0 0 15px 0; opacity: 0.9; }
@@ -111,13 +125,56 @@
     .checkbox-wrapper input[type="checkbox"] { width: 18px; height: 18px; margin-top: 1px; accent-color: var(--navy); }
     .checkbox-wrapper span { font-weight: 700; color: var(--navy); line-height: 1.4; font-size: 11.5px; }
 
-    /* BUTTONS */
-    .btn-submit { width: 100%; background-color: var(--navy); color: var(--yellow); padding: 15px; border: none; border-radius: 99px; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.2s; }
-    .btn-submit:disabled { background-color: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
+    /* TOMBOL */
+    .btn-submit { width: 100%; background-color: var(--navy); color: var(--yellow); padding: 15px; border: none; border-radius: 99px; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: transform 0.2s; }
+    .btn-submit:active { transform: scale(0.98); }
+    .btn-submit:disabled { background-color: #cbd5e1; color: #94a3b8; cursor: not-allowed; transform: none; }
     .btn-secondary { background-color: #e2e8f0; color: var(--navy); border: 2px solid var(--navy); margin-top: 10px; }
 
-    /* SUCCESS BOX */
-    .success-box { display: none; animation: fadeIn 0.5s ease; max-width: 600px; margin: 0 auto; }
+    /* =========================================
+       BOTTOM NAVIGATION BAR (PERMANEN DI BAWAH)
+       ========================================= */
+    .app-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 10px calc(12px + env(safe-area-inset-bottom)); /* Support Notch iPhone */
+      box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+      border-radius: 24px 24px 0 0;
+      z-index: 999;
+    }
+    
+    @media (min-width: 480px) {
+      .app-nav { border-radius: 24px 24px 32px 32px; }
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: #94a3b8;
+      cursor: pointer;
+      width: 33%; /* Membagi rata 3 tombol */
+    }
+    .nav-item svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; fill: none; transition: all 0.2s; }
+    
+    /* Teks Menu Tampil Permanen */
+    .nav-text {
+      font-size: 11px;
+      font-weight: 700;
+      transition: color 0.2s;
+    }
+
+    .nav-item.active { color: var(--navy); }
+    .nav-item.active svg { fill: var(--yellow); stroke: var(--navy); transform: translateY(-2px); }
+
+    /* LAYAR LAINNYA */
+    .success-box { display: none; animation: fadeIn 0.5s ease; }
     .success-header { background: var(--yellow); padding: 25px 15px; border-radius: 20px 20px 0 0; text-align: center; border: 2px solid var(--navy); border-bottom: none; }
     .success-header h2 { color: var(--navy); margin: 0 0 4px 0; font-size: 20px; font-weight: 800; }
     .success-body { background: white; padding: 20px; border: 2px solid var(--navy); border-top: none; border-radius: 0 0 20px 20px; }
@@ -125,9 +182,7 @@
     .summary-label { color: var(--text-muted); font-weight: 700; font-size: 11px; text-transform: uppercase; }
     .summary-value { color: var(--navy); font-weight: 700; text-align: right; }
     .order-id-highlight { background: #eff6ff; color: var(--navy); padding: 10px; text-align: center; font-size: 20px; font-weight: 900; border-radius: 10px; margin-top: 8px; border: 1px dashed var(--navy); }
-    .watermark { display: none; text-align: center; margin-top: 15px; font-size: 9px; color: #94a3b8; }
 
-    /* SUPPORT & RADAR SCREEN */
     .support-card { background: white; border-radius: 20px; padding: 20px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.02); margin-top: 10px; }
     .support-info h3 { color: var(--navy); margin: 0 0 8px 0; font-size: 16px; font-weight: 800; }
     .support-info p { color: var(--text-muted); margin: 0 0 15px 0; font-size: 12px; }
@@ -135,137 +190,41 @@
     .status-badge-radar { block-size: auto; text-align: center; background: var(--navy); color: white; padding: 10px; border-radius: 10px; font-weight: 800; margin-top: 15px; font-size: 13px; }
     .error-radar-msg { display: none; color: #dc2626; background: #fee2e2; padding: 12px; border-radius: 12px; font-size: 13px; text-align: center; font-weight: 600; margin-top: 15px; }
 
-    /* NAVIGASI TERKUNCI (FIXED BOTTOM) UNTUK MOBILE */
-    .app-nav {
-      flex-shrink: 0; /* Mencegah nav menyusut */
-      width: 100%; 
-      background: white;
-      display: flex; 
-      justify-content: space-around; 
-      padding: 12px 10px; 
-      padding-bottom: calc(12px + env(safe-area-inset-bottom)); /* Dukungan area aman iOS/Android */
-      border-radius: 24px 24px 0 0; 
-      box-shadow: 0 -5px 20px rgba(0,0,0,0.05); 
-      z-index: 10;
-    }
-    .nav-links { display: flex; width: 100%; justify-content: space-around; }
-    .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #94a3b8; text-decoration: none; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-    .nav-item svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 2; fill: none; }
-    .nav-item.active { color: var(--navy); }
-    .nav-item.active svg { fill: var(--yellow); stroke: var(--navy); }
-    .nav-text-desktop { display: none; } 
-
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* =========================================
-       MODE TABLET & DESKTOP (RWD)
-       ========================================= */
-    @media (min-width: 768px) {
-      html, body {
-        background-color: #e2e8f0; /* Kembali abu-abu di luar app */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      
-      .app-wrapper {
-        flex-direction: row; 
-        max-width: 1000px;
-        height: 90%;
-        max-height: 850px;
-        border-radius: 24px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        border: 1px solid var(--border);
-      }
-
-      /* Navigasi berubah menjadi Sidebar di Kiri */
-      .app-nav {
-        width: 250px;
-        height: 100%;
-        border-radius: 24px 0 0 24px;
-        border-right: 1px solid var(--border);
-        flex-direction: column;
-        justify-content: flex-start;
-        padding: 40px 20px;
-        box-shadow: none;
-      }
-      
-      .sidebar-logo { display: block; } 
-      .brand-header img { display: none; } 
-
-      .nav-links { flex-direction: column; gap: 10px; margin-top: 20px; }
-      
-      .nav-item { flex-direction: row; justify-content: flex-start; padding: 14px 20px; border-radius: 14px; font-size: 14px; gap: 15px; }
-      .nav-item:hover { background: var(--bg-app); }
-      .nav-item.active { background: var(--navy); color: var(--yellow); }
-      .nav-item.active svg { fill: var(--yellow); stroke: var(--yellow); }
-      .nav-text-desktop { display: inline-block; }
-
-      .app-content { padding: 40px 50px; }
-    }
-
     /* PRINT MASKING */
     @media print {
       body { background-color: white; padding: 0; margin: 0; overflow: visible; }
-      .app-wrapper { box-shadow: none; border: none; padding: 0; max-width: 100%; height: auto; flex-direction: column; overflow: visible; }
-      .app-content { overflow: visible; }
+      .mobile-app { box-shadow: none; border: none; padding: 0; max-width: 100%; height: auto; overflow: visible; }
+      .app-content { overflow: visible; padding: 0; }
       #mainFormWrapper, #lacakScreen, #supportScreen, .app-nav, .print-hide { display: none !important; }
       .success-box { display: block !important; border: none; margin: 0; }
       .success-header { border: 1px solid #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .success-body { border: 1px solid #000; }
-      .watermark { display: block; }
     }
   </style>
 </head>
 <body>
 
-  <div class="app-wrapper">
+  <div class="mobile-app">
     
-    <nav class="app-nav print-hide">
-      <div class="sidebar-logo">
-        <img src="Santai, Bo.png" alt="Logo Santai Bro">
-      </div>
-
-      <div class="nav-links">
-        <div class="nav-item active" onclick="switchTab('pemesananScreen', this)">
-          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-          <span class="nav-text-desktop">Pesan Layanan</span>
-          <span class="nav-text-mobile" style="display: var(--nav-text-mobile-display, block);">Pesan</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('supportScreen', this)">
-          <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-          <span class="nav-text-desktop">Pusat Bantuan</span>
-          <span class="nav-text-mobile">Support</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('lacakScreen', this)">
-          <svg viewBox="0 0 24 24"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg>
-          <span class="nav-text-desktop">Radar Antrean</span>
-          <span class="nav-text-mobile">Radar</span>
-        </div>
-      </div>
-    </nav>
-
     <main class="app-content">
 
       <div id="successBox" class="success-box">
         <div class="success-header">
           <h2>Antrean Dicatat!</h2>
-          <p style="margin:0; font-size:12px; color:var(--navy); font-weight: 700;">STATUS: MENUNGGU KONFIRMASI ADMIN</p>
+          <p style="margin:0; font-size:12px; color:var(--navy); font-weight: 700;">STATUS: MENUNGGU KONFIRMASI</p>
         </div>
         <div class="success-body">
-          <div class="summary-item"><span class="summary-label">Nama Klien</span><span class="summary-value" id="sumNama"></span></div>
+          <div class="summary-item"><span class="summary-label">Nama</span><span class="summary-value" id="sumNama"></span></div>
           <div class="summary-item"><span class="summary-label">Layanan</span><span class="summary-value" id="sumLayanan"></span></div>
           <div class="summary-item"><span class="summary-label">Harga Deal</span><span class="summary-value" id="sumHarga"></span></div>
           <div style="margin-top: 15px;">
             <div class="summary-label" style="text-align: center;">ID Pelacakan Radar</div>
             <div class="order-id-highlight" id="sumOrderId"></div>
           </div>
-          <div class="watermark">Sistem Manajemen Otomatis SantaiBro OS</div>
           <div class="print-hide">
-            <p style="text-align: center; font-size: 12px; color: #64748b; margin-top: 20px; line-height: 1.4;">Simpan nota antrean digital ini. Admin akan segera memverifikasi mutasi bank dirimu secara berkala.</p>
-            <button onclick="window.print()" class="btn-submit">📥 Unduh Bukti Pesanan (PDF)</button>
-            <button onclick="window.location.reload()" class="btn-submit btn-secondary">Kembali ke Beranda</button>
+            <p style="text-align: center; font-size: 12px; color: #64748b; margin-top: 20px; line-height: 1.4;">Simpan nota antrean digital ini. Admin akan memverifikasi mutasi bank dirimu.</p>
+            <button onclick="window.print()" class="btn-submit">📥 Unduh Bukti (PDF)</button>
+            <button onclick="window.location.reload()" class="btn-submit btn-secondary">Buat Pesanan Baru</button>
           </div>
         </div>
       </div>
@@ -309,7 +268,7 @@
               </div>
               <div class="form-group"><label>Detail Permintaan Tugas</label><textarea id="detailText" rows="3" placeholder="Format penulisan, instruksi khusus, dll..." required></textarea></div>
               <div class="form-group"><label>Perkiraan Tanggal Deadline</label><input type="date" id="deadline" required></div>
-              <div class="form-group" style="margin-bottom: 0;"><label>Harga Kesepakatan (Rp)</label><input type="number" id="hargaSepakat" placeholder="Nomor hasil kesepakatan di WA" required></div>
+              <div class="form-group" style="margin-bottom: 0;"><label>Harga Kesepakatan (Rp)</label><input type="number" id="hargaSepakat" placeholder="Nominal hasil deal di WA" required></div>
             </div>
 
             <div id="paymentArea" class="payment-area">
@@ -326,22 +285,22 @@
                 <label>Bukti Pembayaran (Wajib, Maks 3MB)</label>
                 <div class="file-drop-area" style="margin-bottom: 20px;">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                  <div class="file-msg" id="fileMsg">Ketuk untuk pilih berkas screenshot / nota</div>
+                  <div class="file-msg" id="fileMsg">Ketuk untuk pilih berkas gambar/PDF</div>
                   <input type="file" id="buktiBayar" accept="image/*,application/pdf">
                 </div>
 
                 <div class="section-title"><span>4</span> Kebijakan & Persetujuan</div>
                 <div class="policy-box">
-                  <h4>⚠️ Kebijakan Pembatalan & Refund</h4>
-                  <p>Uang Muka (DP) dapat dikembalikan secara penuh apabila pembatalan dilakukan <strong>maksimal dalam kurun waktu 3 jam</strong> setelah pesanan diterima oleh sistem. Apabila pembatalan diajukan <strong>lebih dari 3 jam</strong>, maka DP dianggap hangus jika dilakukan pembatalan secara sepihak.</p>
+                  <h4>⚠️ Kebijakan Pembatalan</h4>
+                  <p>DP dapat dikembalikan penuh bila pembatalan dilakukan <strong>maksimal 3 jam</strong> setelah sistem menerima pesanan. Lebih dari 3 jam, DP hangus.</p>
                   <label class="checkbox-wrapper">
                     <input type="checkbox" id="snkCheckbox">
-                    <span>Saya telah membaca, memahami, dan menyetujui seluruh Syarat & Ketentuan Layanan, Tarif Dasar, serta Kebijakan Pembatalan di atas.</span>
+                    <span>Saya menyetujui Syarat, Ketentuan, Tarif, serta Kebijakan di atas.</span>
                   </label>
                 </div>
 
-                <button type="submit" id="btnSubmit" class="btn-submit" disabled>Konfirmasi & Proses Pesanan</button>
-                <div id="statusMsg" class="status-msg" style="text-align: center; margin-top: 15px; font-weight: 600; font-size: 13px; display: none; padding: 12px; border-radius: 10px;"></div>
+                <button type="submit" id="btnSubmit" class="btn-submit" disabled>Konfirmasi & Proses</button>
+                <div id="statusMsg" style="text-align:center; margin-top:15px; font-weight:600; font-size:13px; display:none; padding:12px; border-radius:10px;"></div>
               </div>
             </div>
           </form>
@@ -351,16 +310,16 @@
           <div class="brand-header">
             <img src="Santai, Bo.png" alt="Logo Santai Bro">
             <h1>Radar Pesanan</h1>
-            <p>Pindai status pengerjaan tugas secara real-time.</p>
+            <p>Pindai status tugasmu secara real-time.</p>
           </div>
           
           <div class="hero-circle"><img src="WhatsApp Image 2026-05-20 at 15.00.00.jpeg" alt="Ilustrasi Radar"></div>
 
           <form id="trackForm" class="card-section yellow-variant">
-            <h3>Lacak Status Pesanan</h3>
-            <input type="text" id="orderIdRadar" class="input-field input-radar" placeholder="ID Order Pesanan (Cth: SB-...)" required>
+            <h3>Lacak Status</h3>
+            <input type="text" id="orderIdRadar" class="input-field input-radar" placeholder="ID Order (Cth: SB-...)" required>
             <input type="tel" id="whatsappRadar" class="input-field input-radar" placeholder="Nomor WA Saat Checkout" required>
-            <button type="submit" id="btnTrackRadar" class="btn-submit">Pindai Radar Database</button>
+            <button type="submit" id="btnTrackRadar" class="btn-submit" style="background-color: var(--navy); color: white;">Pindai Database</button>
           </form>
 
           <div id="errorRadarMsg" class="error-radar-msg"></div>
@@ -368,7 +327,7 @@
           <div id="resultRadarBox" class="result-radar-box">
             <div class="summary-item"><span class="summary-label">Klien</span><span class="summary-value" id="resNama"></span></div>
             <div class="summary-item"><span class="summary-label">Layanan</span><span class="summary-value" id="resLayanan"></span></div>
-            <div class="summary-item"><span class="summary-label">Tanggal Antrean</span><span class="summary-value" id="resWaktu" style="font-size: 11px;"></span></div>
+            <div class="summary-item"><span class="summary-label">Tanggal</span><span class="summary-value" id="resWaktu" style="font-size: 11px;"></span></div>
             <div class="status-badge-radar" id="resProgres"></div>
           </div>
         </div>
@@ -377,50 +336,63 @@
           <div class="brand-header">
             <img src="Santai, Bo.png" alt="Logo Santai Bro">
             <h1>Customer Support</h1>
-            <p>Butuh bantuan? Tim admin kami siap melayani dirimu.</p>
+            <p>Butuh bantuan? Kami siap melayani.</p>
           </div>
           
           <div class="hero-circle"><img src="WhatsApp Image 2026-05-20 at 15.00.00.jpeg" alt="Ilustrasi Support"></div>
 
           <div class="support-card">
             <div class="support-info">
-              <h3>Hubungi WhatsApp Admin</h3>
-              <p>Ajukan pertanyaan, revisi darurat, atau negosiasi ulang layanan kustom.</p>
+              <h3>Chat WhatsApp Admin</h3>
+              <p>Tanya status, revisi, atau nego layanan kustom.</p>
               <a href="https://wa.me/6281234567890" target="_blank" class="btn-contact" style="background-color: var(--navy); color: white;">
-                💬 Hubungi Admin Via WA
+                💬 Hubungi Admin
               </a>
             </div>
-            <img src="https://via.placeholder.com/80?text=CS" alt="Karakter CS" style="border-radius: 14px;">
+            <img src="https://via.placeholder.com/80?text=CS" alt="CS" style="border-radius: 14px;">
           </div>
         </div>
 
       </div>
     </main>
+
+    <nav class="app-nav print-hide">
+      <div class="nav-item active" onclick="switchTab('pemesananScreen', this)">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        <span class="nav-text">Pesan</span>
+      </div>
+      
+      <div class="nav-item" onclick="switchTab('supportScreen', this)">
+        <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+        <span class="nav-text">Support</span>
+      </div>
+      
+      <div class="nav-item" onclick="switchTab('lacakScreen', this)">
+        <svg viewBox="0 0 24 24"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg>
+        <span class="nav-text">Radar</span>
+      </div>
+    </nav>
+
   </div>
 
   <script>
     // ⚠️ MASUKKAN URL GOOGLE APPS SCRIPT-MU DI SINI
     const SCRIPT_URL = 'https://script.google.com/macros/s/GANTI_DENGAN_URL_WEB_APP_KAMU/exec';
 
-    // LOGIKA PERALIHAN TAB
+    // LOGIKA PERALIHAN TAB YANG SANGAT HALUS
     function switchTab(screenId, element) {
+      // Sembunyikan semua layar
       document.querySelectorAll('.app-screen').forEach(screen => screen.classList.remove('active'));
+      // Hapus status aktif dari semua menu navigasi
       document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
       
+      // Tampilkan layar yang dituju
       document.getElementById(screenId).classList.add('active');
+      // Berikan warna kuning ke menu yang diklik
       element.classList.add('active');
       
-      if (window.innerWidth < 768) {
-        document.querySelectorAll('.nav-text-mobile').forEach(text => text.style.display = 'none');
-        element.querySelector('.nav-text-mobile').style.display = 'block';
-      }
-      
+      // Kembalikan scroll ke paling atas layar
       document.querySelector('.app-content').scrollTop = 0;
-    }
-
-    if (window.innerWidth < 768) {
-      document.querySelectorAll('.nav-text-mobile').forEach(text => text.style.display = 'none');
-      document.querySelector('.nav-item.active .nav-text-mobile').style.display = 'block';
     }
 
     const hargaInput = document.getElementById('hargaSepakat');
