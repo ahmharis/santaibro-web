@@ -8,7 +8,6 @@
     :root {
       --navy: #1e2b58; 
       --yellow: #fbe122; 
-      --yellow-hover: #e5cb15;
       --bg-body: #f1f5f9;
       --surface: #ffffff;
       --border: #e2e8f0;
@@ -40,21 +39,9 @@
       border: 1px solid rgba(255, 255, 255, 0.5);
     }
 
-    .brand-header {
-      text-align: center;
-      margin-bottom: 35px;
-    }
-    
-    /* GANTI DENGAN LINK LOGO ASLI */
+    .brand-header { text-align: center; margin-bottom: 35px; }
     .brand-header img { height: 60px; margin-bottom: 15px; }
-    
-    .brand-header h1 {
-      color: var(--navy);
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      margin: 0 0 8px 0;
-    }
+    .brand-header h1 { color: var(--navy); font-size: 26px; font-weight: 800; letter-spacing: -0.5px; margin: 0 0 8px 0; }
     .brand-header p { color: var(--text-muted); font-size: 14px; margin: 0; }
 
     .card-section {
@@ -65,7 +52,6 @@
       margin-bottom: 24px;
       transition: all 0.3s ease;
     }
-    .card-section:hover { border-color: #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
 
     .section-title {
       font-size: 14px;
@@ -94,144 +80,74 @@
     .form-row { display: flex; gap: 16px; margin-bottom: 16px; }
     .form-row .form-group { flex: 1; margin-bottom: 0; }
 
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-main);
-      margin-bottom: 8px;
-    }
+    label { display: block; font-size: 13px; font-weight: 600; color: var(--text-main); margin-bottom: 8px; }
 
     input[type="text"], input[type="tel"], input[type="email"], input[type="number"], input[type="date"], select, textarea {
-      width: 100%;
-      padding: 14px 16px;
-      border: 1.5px solid var(--border);
-      border-radius: 12px;
-      font-size: 14px;
-      color: var(--navy);
-      background-color: var(--surface);
-      outline: none;
-      transition: all 0.2s;
+      width: 100%; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: 12px;
+      font-size: 14px; color: var(--navy); background-color: var(--surface); outline: none; transition: all 0.2s;
     }
-    
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--navy);
-      box-shadow: 0 0 0 4px var(--focus-ring);
-    }
+    input:focus, select:focus, textarea:focus { border-color: var(--navy); box-shadow: 0 0 0 4px var(--focus-ring); }
 
-    /* PAYMENT AREA (Dinamis) */
-    .payment-area {
-      display: none;
-      animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    /* KOTAK SYARAT & KETENTUAN DINAMIS */
+    .snk-box {
+      background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px;
+      padding: 20px; margin-bottom: 20px; font-size: 13px; color: #475569;
     }
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .snk-box h4 { margin: 0 0 10px 0; color: var(--navy); font-size: 13.5px; display: flex; align-items: center; gap: 6px; }
+    .snk-box ul { margin: 0 0 15px 0; padding-left: 20px; transition: all 0.3s; }
+    .snk-box li { margin-bottom: 6px; line-height: 1.5; }
 
-    .qris-card {
+    .price-badge {
+      display: inline-block;
       background: var(--yellow);
-      border-radius: 16px;
-      padding: 30px 20px;
-      text-align: center;
-      margin-bottom: 20px;
+      color: var(--navy);
+      font-weight: 800;
+      padding: 8px 14px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 13px;
+      box-shadow: 0 2px 8px rgba(251, 225, 34, 0.4);
     }
+
+    .policy-divider { border: 0; border-top: 1px dashed #bfdbfe; margin: 15px 0; }
+
+    .checkbox-wrapper {
+      display: flex; align-items: flex-start; gap: 12px; cursor: pointer;
+      background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #bfdbfe; margin-top: 15px;
+    }
+    .checkbox-wrapper input[type="checkbox"] { width: 20px; height: 20px; margin-top: 2px; cursor: pointer; accent-color: var(--navy); }
+    .checkbox-wrapper span { font-weight: 700; color: var(--navy); line-height: 1.4; font-size: 13px; }
+
+    .payment-area { display: none; animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .qris-card { background: var(--yellow); border-radius: 16px; padding: 30px 20px; text-align: center; margin-bottom: 20px; }
     .qris-card h3 { color: var(--navy); margin: 0 0 8px 0; font-size: 18px; }
     .qris-card p { color: var(--navy); font-size: 13px; margin: 0 0 20px 0; opacity: 0.9; }
-    .qris-card img {
-      width: 200px;
-      height: 200px;
-      background: white;
-      padding: 12px;
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-    }
+    .qris-card img { width: 200px; height: 200px; background: white; padding: 12px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); margin-bottom: 20px; }
 
-    .btn-contact {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--surface);
-      color: var(--navy);
-      padding: 10px 24px;
-      border-radius: 99px;
-      font-size: 13px;
-      font-weight: 700;
-      text-decoration: none;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      transition: transform 0.2s;
-    }
-    .btn-contact:hover { transform: translateY(-2px); }
+    .btn-contact { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); color: var(--navy); padding: 10px 24px; border-radius: 99px; font-size: 13px; font-weight: 700; text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 
-    /* CUSTOM FILE UPLOAD */
     .file-drop-area {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      padding: 24px;
-      border: 2px dashed var(--border);
-      border-radius: 12px;
-      background: var(--surface);
-      transition: all 0.2s;
-      cursor: pointer;
+      position: relative; display: flex; align-items: center; justify-content: center; flex-direction: column;
+      padding: 24px; border: 2px dashed var(--border); border-radius: 12px; background: var(--surface); cursor: pointer;
     }
-    .file-drop-area:hover { border-color: var(--navy); background: #f8fafc; }
-    .file-drop-area input[type="file"] {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      cursor: pointer;
-    }
+    .file-drop-area input[type="file"] { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; }
     .file-msg { font-size: 13px; color: var(--text-muted); font-weight: 500; margin-top: 8px; }
 
-    .btn-submit {
-      width: 100%;
-      background-color: var(--navy);
-      color: white;
-      padding: 16px;
-      border: none;
-      border-radius: 99px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: all 0.3s;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-    }
+    .btn-submit { width: 100%; background-color: var(--navy); color: white; padding: 16px; border: none; border-radius: 99px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: all 0.3s; }
     .btn-submit:hover { background-color: #121a36; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(30, 43, 88, 0.2); }
     .btn-submit:disabled { background-color: #cbd5e1; cursor: not-allowed; transform: none; box-shadow: none; }
-
-    .footer-nav {
-      text-align: center;
-      margin-top: 30px;
-    }
-    .footer-nav a {
-      color: var(--navy);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 8px 16px;
-      border-radius: 99px;
-      transition: background 0.2s;
-    }
+    
+    .footer-nav { text-align: center; margin-top: 30px; }
+    .footer-nav a { color: var(--navy); text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; border-radius: 99px; transition: background 0.2s; }
     .footer-nav a:hover { background: #e2e8f0; }
-
     .status-msg { text-align: center; margin-top: 20px; font-weight: 600; font-size: 14px; display: none; padding: 16px; border-radius: 12px; }
   </style>
 </head>
 <body>
 
   <div class="app-container">
-    
     <div class="brand-header">
       <img src="https://via.placeholder.com/150x80?text=LOGO+SANTAI+BRO" alt="Santai Bro">
       <h1>Portal Checkout</h1>
@@ -242,19 +158,10 @@
       
       <div class="card-section">
         <div class="section-title"><span>1</span> Identitas Klien</div>
-        <div class="form-group">
-          <label>Nama Lengkap / Panggilan</label>
-          <input type="text" id="nama" placeholder="Masukkan nama dirimu" required>
-        </div>
+        <div class="form-group"><label>Nama Lengkap / Panggilan</label><input type="text" id="nama" placeholder="Masukkan nama dirimu" required></div>
         <div class="form-row">
-          <div class="form-group">
-            <label>Nomor WhatsApp</label>
-            <input type="tel" id="whatsapp" placeholder="Cth: 0812..." required>
-          </div>
-          <div class="form-group">
-            <label>Email Aktif</label>
-            <input type="email" id="email" placeholder="Cth: bro@email.com" required>
-          </div>
+          <div class="form-group"><label>Nomor WhatsApp</label><input type="tel" id="whatsapp" placeholder="Cth: 0812..." required></div>
+          <div class="form-group"><label>Email Aktif</label><input type="email" id="email" placeholder="Cth: bro@email.com" required></div>
         </div>
       </div>
 
@@ -272,32 +179,51 @@
             <option value="Lainnya (Kustom)">Lainnya (Kustom)</option>
           </select>
         </div>
-        <div class="form-group">
-          <label>Catatan & Deadline</label>
-          <input type="text" id="detailText" placeholder="Cth: Revisi Bab 1, Deadline Besok Sore" required>
-        </div>
-        <div class="form-group" style="margin-bottom: 0;">
-          <label>Harga Kesepakatan (Rp)</label>
-          <input type="number" id="hargaSepakat" placeholder="Ketik angka tanpa titik (Cth: 150000)" required>
-        </div>
+        
+        <div class="form-group"><label>Detail Permintaan Tugas</label><textarea id="detailText" rows="3" placeholder="Ceritakan spesifikasi tugas, format yang diinginkan, dll..." required></textarea></div>
+        <div class="form-group"><label>Perkiraan Tanggal Deadline</label><input type="date" id="deadline" required></div>
+        <div class="form-group" style="margin-bottom: 0;"><label>Harga Kesepakatan (Rp)</label><input type="number" id="hargaSepakat" placeholder="Ketik angka tanpa titik (Cth: 150000)" required></div>
       </div>
 
       <div id="paymentArea" class="payment-area">
-        
         <div class="qris-card">
           <h3>Selesaikan Pembayaran</h3>
           <p>Scan kode di bawah ini menggunakan E-Wallet/M-Banking</p>
           <img src="https://via.placeholder.com/200?text=QRIS+ASLI" alt="QRIS">
-          <div>
-            <a href="https://wa.me/6281234567890" target="_blank" class="btn-contact">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-              Chat Admin Jika Berkendala
-            </a>
-          </div>
+          <div><a href="https://wa.me/6281234567890" target="_blank" class="btn-contact">Chat Admin Jika Berkendala</a></div>
         </div>
 
         <div class="card-section">
-          <div class="section-title"><span>3</span> Validasi</div>
+          <div class="section-title"><span>3</span> Validasi & S&K</div>
+          
+          <div class="snk-box">
+            <h4>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              Syarat & Ketentuan Layanan
+            </h4>
+            
+            <div id="snkContainer">
+              <ul><li>Silakan pilih Kategori Layanan di atas terlebih dahulu untuk melihat patokan harga dan Syarat Ketentuan pengerjaan.</li></ul>
+            </div>
+
+            <hr class="policy-divider">
+
+            <h4 style="color: #dc2626;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+              Kebijakan Pembatalan & Refund
+            </h4>
+            <ul>
+              <li>Uang Muka (DP) dapat dikembalikan secara penuh apabila pembatalan dilakukan <strong>maksimal 3 jam</strong> setelah pesanan diterima oleh sistem.</li>
+              <li>Apabila pembatalan diajukan <strong>lebih dari 3 jam</strong> setelah pesanan diterima, maka DP dianggap hangus.</li>
+            </ul>
+
+            <label class="checkbox-wrapper">
+              <input type="checkbox" id="snkCheckbox" required>
+              <span>Saya telah membaca dan menyetujui seluruh Syarat & Ketentuan Layanan, Patokan Tarif Dasar, serta Kebijakan Pembatalan di atas.</span>
+            </label>
+          </div>
+
+          <label>Unggah Bukti Transfer (Wajib)</label>
           <div class="file-drop-area">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
             <div class="file-msg" id="fileMsg">Ketuk untuk unggah bukti transfer (Maks 3MB)</div>
@@ -305,19 +231,12 @@
           </div>
         </div>
 
-        <button type="submit" id="btnSubmit" class="btn-submit">
-          Konfirmasi & Proses Pesanan
-        </button>
+        <button type="submit" id="btnSubmit" class="btn-submit">Konfirmasi & Proses Pesanan</button>
         <div id="statusMsg" class="status-msg"></div>
-
       </div>
-
     </form>
 
-    <div class="footer-nav">
-      <a href="/lacak">Cek Status Pesanan →</a>
-    </div>
-
+    <div class="footer-nav"><a href="/lacak">Cek Status Pesanan →</a></div>
   </div>
 
   <script>
@@ -325,11 +244,66 @@
     const SCRIPT_URL = 'https://script.google.com/macros/s/GANTI_DENGAN_URL_WEB_APP_KAMU/exec';
 
     const hargaInput = document.getElementById('hargaSepakat');
+    const kategoriSelect = document.getElementById('kategori');
     const paymentArea = document.getElementById('paymentArea');
     const buktiBayarInput = document.getElementById('buktiBayar');
     const fileMsg = document.getElementById('fileMsg');
+    const snkContainer = document.getElementById('snkContainer');
 
-    // Animasi Text Upload
+    // 💡 DATABASE S&K + HARGA PATOKAN DINAMIS
+    const dataSNK = {
+      "Akademik: Artikel / Resume": `
+        <div class="price-badge">Tarif Dasar: Rp 35.000 / 500 kata</div>
+        <ul>
+          <li>Batas maksimal pengerjaan adalah <strong>500 kata</strong> per tugas. Kelebihan kuantitas kata akan dikenakan penyesuaian tarif.</li>
+          <li>Estimasi pengerjaan normal adalah <strong>2 hingga 3 hari kerja</strong>. Permintaan layanan kilat di bawah estimasi waktu akan dikenakan biaya tambahan.</li>
+          <li>Pengerjaan dengan format khusus (contoh: tabel rumit atau persamaan matematika) akan disesuaikan tarifnya.</li>
+        </ul>
+      `,
+      "Akademik: Makalah": `
+        <div class="price-badge">Tarif Dasar: Rp 50.000 / Tugas (Maks 8 Lembar)</div>
+        <ul>
+          <li>Batas maksimal pengerjaan adalah <strong>8 halaman</strong> (termasuk kover). Kelebihan halaman akan dikenakan penyesuaian tarif.</li>
+          <li>Estimasi pengerjaan normal adalah <strong>2 hingga 3 hari kerja</strong>. Permintaan layanan kilat di bawah estimasi waktu akan dikenakan biaya tambahan.</li>
+          <li>Pengerjaan dengan format khusus (contoh: persamaan matematika atau sitasi tingkat lanjut) akan disesuaikan tarifnya.</li>
+        </ul>
+      `,
+      "Desain Grafis": `
+        <div class="price-badge">Tarif Dasar: Mulai dari Rp 20.000</div>
+        <ul>
+          <li>Tarif dasar <i>(start from)</i> menyesuaikan dengan tingkat kesulitan visual dan jumlah elemen desain yang dibutuhkan.</li>
+          <li>Revisi mayor yang mengharuskan perombakan konsep awal secara total akan dikenakan biaya tambahan.</li>
+        </ul>
+      `,
+      "Data Entry UMKM": `
+        <div class="price-badge">Tarif Dasar: Rp 30.000 / 100 Data</div>
+        <ul>
+          <li>Tarif berlaku untuk pengolahan data dasar maksimal <strong>4 hingga 5 kolom</strong> tanpa penyertaan fitur tambahan (seperti formula kompleks atau makro).</li>
+          <li>Apabila terdapat penambahan fitur atau tingkat kesulitan olah data yang tinggi, tarif akan disesuaikan berdasarkan kesepakatan awal.</li>
+        </ul>
+      `,
+      "Data Entry Umum": `
+        <div class="price-badge">Tarif Dasar: Rp 1.000 / Data</div>
+        <ul>
+          <li>Penambahan kuantitas data dengan tingkat kesulitan yang lebih tinggi akan dikenakan biaya tambahan.</li>
+          <li>Masa pengerjaan yang lebih singkat dari standar normal operasional kami akan dikenakan biaya layanan kilat.</li>
+        </ul>
+      `,
+      "Lainnya (Kustom)": `
+        <div class="price-badge">Tarif Dasar: Menyesuaikan Kesepakatan</div>
+        <ul>
+          <li>Syarat, ketentuan pengerjaan, batas revisi, dan estimasi waktu penyelesaian sepenuhnya mengacu pada kesepakatan akhir yang telah disetujui bersama Admin melalui WhatsApp.</li>
+        </ul>
+      `
+    };
+
+    kategoriSelect.addEventListener('change', (e) => {
+      const pilihan = e.target.value;
+      if (dataSNK[pilihan]) {
+        snkContainer.innerHTML = dataSNK[pilihan];
+      }
+    });
+
     buktiBayarInput.addEventListener('change', function(e) {
       if(e.target.files.length > 0) {
         fileMsg.innerHTML = `<span style="color:var(--navy);font-weight:700;">File siap: ${e.target.files[0].name}</span>`;
@@ -367,13 +341,15 @@
       reader.onload = async () => {
         const base64Data = reader.result.split(',')[1];
         
+        const detailDigabung = document.getElementById('detailText').value.trim() + " | Deadline: " + document.getElementById('deadline').value;
+        
         const payload = {
           action: "order",
           nama: document.getElementById('nama').value.trim(),
           whatsapp: document.getElementById('whatsapp').value.trim(),
           email: document.getElementById('email').value.trim(),
           kategori: document.getElementById('kategori').value,
-          detail: document.getElementById('detailText').value.trim(), 
+          detail: detailDigabung, 
           hargaSepakat: "Rp " + parseInt(hargaInput.value).toLocaleString('id-ID'),
           fileName: file.name,
           fileMimeType: file.type,
