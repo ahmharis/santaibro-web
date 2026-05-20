@@ -114,7 +114,9 @@
     .checkbox-wrapper {
       display: flex; align-items: flex-start; gap: 12px; cursor: pointer;
       background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #bfdbfe; margin-top: 15px;
+      transition: all 0.2s ease;
     }
+    .checkbox-wrapper:hover { border-color: var(--navy); }
     .checkbox-wrapper input[type="checkbox"] { width: 20px; height: 20px; margin-top: 2px; cursor: pointer; accent-color: var(--navy); }
     .checkbox-wrapper span { font-weight: 700; color: var(--navy); line-height: 1.4; font-size: 13px; }
 
@@ -135,9 +137,21 @@
     .file-drop-area input[type="file"] { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; }
     .file-msg { font-size: 13px; color: var(--text-muted); font-weight: 500; margin-top: 8px; }
 
-    .btn-submit { width: 100%; background-color: var(--navy); color: white; padding: 16px; border: none; border-radius: 99px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 10px; transition: all 0.3s; }
-    .btn-submit:hover { background-color: #121a36; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(30, 43, 88, 0.2); }
-    .btn-submit:disabled { background-color: #cbd5e1; cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-submit { 
+      width: 100%; background-color: var(--navy); color: white; padding: 16px; border: none; 
+      border-radius: 99px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px; 
+      display: flex; justify-content: center; align-items: center; gap: 10px; transition: all 0.3s; 
+    }
+    .btn-submit:hover:not(:disabled) { background-color: #121a36; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(30, 43, 88, 0.2); }
+    
+    /* STYLE UNTUK TOMBOL SAAT MATI (DISABLED) KARENA BELUM CEKLIS */
+    .btn-submit:disabled { 
+      background-color: #cbd5e1; 
+      color: #94a3b8;
+      cursor: not-allowed; 
+      transform: none; 
+      box-shadow: none; 
+    }
     
     .footer-nav { text-align: center; margin-top: 30px; }
     .footer-nav a { color: var(--navy); text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; border-radius: 99px; transition: background 0.2s; }
@@ -203,7 +217,9 @@
             </h4>
             
             <div id="snkContainer">
-              <ul><li>Silakan pilih Kategori Layanan di atas terlebih dahulu untuk melihat patokan harga dan Syarat Ketentuan pengerjaan.</li></ul>
+              <ul style="color: #64748b; font-style: italic;">
+                <li>Silakan pilih Kategori Layanan di atas terlebih dahulu untuk memunculkan patokan harga dan Syarat Ketentuan pengerjaan khusus untuk Anda.</li>
+              </ul>
             </div>
 
             <hr class="policy-divider">
@@ -218,7 +234,7 @@
             </ul>
 
             <label class="checkbox-wrapper">
-              <input type="checkbox" id="snkCheckbox" required>
+              <input type="checkbox" id="snkCheckbox">
               <span>Saya telah membaca dan menyetujui seluruh Syarat & Ketentuan Layanan, Patokan Tarif Dasar, serta Kebijakan Pembatalan di atas.</span>
             </label>
           </div>
@@ -227,11 +243,13 @@
           <div class="file-drop-area">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
             <div class="file-msg" id="fileMsg">Ketuk untuk unggah bukti transfer (Maks 3MB)</div>
-            <input type="file" id="buktiBayar" accept="image/*,application/pdf">
+            <input type="file" id="buktiBayar" accept="image/*,application/pdf" required>
           </div>
         </div>
 
-        <button type="submit" id="btnSubmit" class="btn-submit">Konfirmasi & Proses Pesanan</button>
+        <button type="submit" id="btnSubmit" class="btn-submit" disabled>
+          Konfirmasi & Proses Pesanan
+        </button>
         <div id="statusMsg" class="status-msg"></div>
       </div>
     </form>
@@ -249,8 +267,10 @@
     const buktiBayarInput = document.getElementById('buktiBayar');
     const fileMsg = document.getElementById('fileMsg');
     const snkContainer = document.getElementById('snkContainer');
+    const snkCheckbox = document.getElementById('snkCheckbox');
+    const btnSubmit = document.getElementById('btnSubmit');
 
-    // 💡 DATABASE S&K + HARGA PATOKAN DINAMIS
+    // 💡 DATABASE S&K DINAMIS
     const dataSNK = {
       "Akademik: Artikel / Resume": `
         <div class="price-badge">Tarif Dasar: Rp 35.000 / 500 kata</div>
@@ -297,6 +317,7 @@
       `
     };
 
+    // MERUBAH TEKS S&K SECARA OTOMATIS SAAT KATEGORI DIPILIH
     kategoriSelect.addEventListener('change', (e) => {
       const pilihan = e.target.value;
       if (dataSNK[pilihan]) {
@@ -304,23 +325,33 @@
       }
     });
 
+    // LOGIKA PENGUNCI TOMBOL SUBMIT BERDASARKAN CHECKBOX S&K
+    snkCheckbox.addEventListener('change', function() {
+      if(this.checked) {
+        btnSubmit.disabled = false; // Tombol menyala
+      } else {
+        btnSubmit.disabled = true;  // Tombol mati
+      }
+    });
+
+    // MENGGANTI TEKS SAAT FILE DIUNGGAH
     buktiBayarInput.addEventListener('change', function(e) {
       if(e.target.files.length > 0) {
         fileMsg.innerHTML = `<span style="color:var(--navy);font-weight:700;">File siap: ${e.target.files[0].name}</span>`;
       }
     });
 
+    // MEMUNCULKAN AREA PEMBAYARAN SAAT HARGA DIKETIK
     hargaInput.addEventListener('input', () => {
       const nominal = parseInt(hargaInput.value) || 0;
       if (nominal > 0) {
         paymentArea.style.display = 'block';
-        buktiBayarInput.required = true;
       } else {
         paymentArea.style.display = 'none';
-        buktiBayarInput.required = false;
       }
     });
 
+    // PROSES PENGIRIMAN DATA
     document.getElementById('orderForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       
@@ -329,7 +360,6 @@
         alert("Ukuran bukti bayar maksimal 3 MB, Bro!"); return;
       }
 
-      const btnSubmit = document.getElementById('btnSubmit');
       const statusMsg = document.getElementById('statusMsg');
       
       btnSubmit.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> Memproses...`; 
@@ -367,15 +397,16 @@
             document.getElementById('orderForm').reset();
             fileMsg.innerText = 'Ketuk untuk unggah bukti transfer (Maks 3MB)';
             paymentArea.style.display = 'none';
+            snkCheckbox.checked = false; // Reset checkbox
+            btnSubmit.disabled = true;   // Matikan tombol kembali
           } else throw new Error(result.message);
         } catch (error) {
           statusMsg.style.display = 'block';
           statusMsg.style.backgroundColor = '#fee2e2';
           statusMsg.style.color = '#dc2626';
           statusMsg.innerText = 'Gagal terhubung ke server. Silakan coba lagi.';
-        } finally {
           btnSubmit.innerHTML = 'Konfirmasi & Proses Pesanan'; 
-          btnSubmit.disabled = false;
+          btnSubmit.disabled = false; // Nyalakan lagi jika gagal (asumsi masih tercentang)
         }
       };
     });
