@@ -21,38 +21,26 @@
       padding: 0;
       width: 100%;
       height: 100%;
-      background-color: #e2e8f0; /* Latar luar layar HP */
+      background-color: #e2e8f0; 
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden; /* Mengunci body agar tidak scroll ganda */
+      overflow: hidden; 
     }
 
     * { box-sizing: border-box; }
 
     /* =========================================
-       KANVAS APLIKASI (BENTUK HP PERMANEN)
+       KANVAS APLIKASI (MOBILE-FIRST)
        ========================================= */
     .mobile-app {
       background-color: var(--bg-app);
       width: 100%;
       height: 100%;
-      max-width: 420px; /* Lebar maksimal ukuran HP standar */
       display: flex;
       flex-direction: column;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    }
-
-    /* Efek Simulator HP saat dibuka di Laptop/Tablet */
-    @media (min-width: 480px) {
-      .mobile-app {
-        height: 90vh;
-        max-height: 850px;
-        border-radius: 40px;
-        border: 8px solid #cbd5e1;
-      }
     }
 
     /* AREA KONTEN (YANG BISA DI-SCROLL) */
@@ -60,12 +48,12 @@
       flex: 1;
       overflow-y: auto;
       overflow-x: hidden;
-      padding: 25px 20px 100px 20px; /* Padding bawah ekstra besar agar tidak tertutup Bottom Nav */
+      padding: 25px 20px 100px 20px; 
       scroll-behavior: smooth;
     }
 
     /* SISTEM PERGANTIAN LAYAR */
-    .app-screen { display: none; animation: fadeIn 0.3s ease; }
+    .app-screen { display: none; animation: fadeIn 0.3s ease; max-width: 800px; margin: 0 auto; }
     .app-screen.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -142,16 +130,12 @@
       background: white;
       display: flex;
       justify-content: space-around;
-      padding: 12px 10px calc(12px + env(safe-area-inset-bottom)); /* Support Notch iPhone */
+      padding: 12px 10px calc(12px + env(safe-area-inset-bottom));
       box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
       border-radius: 24px 24px 0 0;
       z-index: 999;
     }
     
-    @media (min-width: 480px) {
-      .app-nav { border-radius: 24px 24px 32px 32px; }
-    }
-
     .nav-item {
       display: flex;
       flex-direction: column;
@@ -159,22 +143,15 @@
       gap: 4px;
       color: #94a3b8;
       cursor: pointer;
-      width: 33%; /* Membagi rata 3 tombol */
+      width: 33%;
     }
     .nav-item svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; fill: none; transition: all 0.2s; }
-    
-    /* Teks Menu Tampil Permanen */
-    .nav-text {
-      font-size: 11px;
-      font-weight: 700;
-      transition: color 0.2s;
-    }
-
+    .nav-text { font-size: 11px; font-weight: 700; transition: color 0.2s; }
     .nav-item.active { color: var(--navy); }
     .nav-item.active svg { fill: var(--yellow); stroke: var(--navy); transform: translateY(-2px); }
 
     /* LAYAR LAINNYA */
-    .success-box { display: none; animation: fadeIn 0.5s ease; }
+    .success-box { display: none; animation: fadeIn 0.5s ease; max-width: 600px; margin: 0 auto; }
     .success-header { background: var(--yellow); padding: 25px 15px; border-radius: 20px 20px 0 0; text-align: center; border: 2px solid var(--navy); border-bottom: none; }
     .success-header h2 { color: var(--navy); margin: 0 0 4px 0; font-size: 20px; font-weight: 800; }
     .success-body { background: white; padding: 20px; border: 2px solid var(--navy); border-top: none; border-radius: 0 0 20px 20px; }
@@ -189,6 +166,25 @@
     .result-radar-box { display: none; background: white; border-radius: 16px; padding: 20px; border: 2px solid var(--yellow); animation: fadeIn 0.4s ease; margin-top: 15px; }
     .status-badge-radar { block-size: auto; text-align: center; background: var(--navy); color: white; padding: 10px; border-radius: 10px; font-weight: 800; margin-top: 15px; font-size: 13px; }
     .error-radar-msg { display: none; color: #dc2626; background: #fee2e2; padding: 12px; border-radius: 12px; font-size: 13px; text-align: center; font-weight: 600; margin-top: 15px; }
+
+    /* =========================================
+       RESPONSIVE DESKTOP & TABLET (PELEBARAN KANVAS)
+       ========================================= */
+    @media (min-width: 768px) {
+      .mobile-app {
+        width: 90%;
+        max-width: 850px; /* Melebar ke samping, tidak terkurung form HP */
+        height: 90vh;
+        border-radius: 32px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
+      .app-content {
+        padding: 40px 60px 100px 60px; /* Padding lebih lega di kiri-kanan */
+      }
+      .app-nav {
+        border-radius: 24px 24px 32px 32px; /* Menyesuaikan sudut bingkai desktop */
+      }
+    }
 
     /* PRINT MASKING */
     @media print {
@@ -285,7 +281,7 @@
                 <label>Bukti Pembayaran (Wajib, Maks 3MB)</label>
                 <div class="file-drop-area" style="margin-bottom: 20px;">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                  <div class="file-msg" id="fileMsg">Ketuk untuk pilih berkas gambar/PDF</div>
+                  <div class="file-msg" id="fileMsg">Ketuk untuk pilih berkas screenshot / nota</div>
                   <input type="file" id="buktiBayar" accept="image/*,application/pdf">
                 </div>
 
