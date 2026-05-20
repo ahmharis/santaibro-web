@@ -88,42 +88,28 @@
     }
     input:focus, select:focus, textarea:focus { border-color: var(--navy); box-shadow: 0 0 0 4px var(--focus-ring); }
 
-    /* KOTAK SYARAT & KETENTUAN DINAMIS */
-    .snk-box {
-      background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px;
-      padding: 20px; margin-bottom: 20px; font-size: 13px; color: #475569;
+    /* KOTAK S&K LAYANAN (BERBEDA TIAP LAYANAN) */
+    .service-snk-box {
+      display: none; /* Muncul hanya saat layanan dipilih */
+      background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px;
+      padding: 16px; margin-bottom: 16px; font-size: 13px; color: #166534;
+      animation: fadeIn 0.3s ease forwards;
     }
-    .snk-box h4 { margin: 0 0 10px 0; color: var(--navy); font-size: 13.5px; display: flex; align-items: center; gap: 6px; }
-    .snk-box ul { margin: 0 0 15px 0; padding-left: 20px; transition: all 0.3s; }
-    .snk-box li { margin-bottom: 6px; line-height: 1.5; }
+    .service-snk-box h5 { margin: 0 0 6px 0; font-size: 13px; font-weight: 700; color: #14532d; }
+    .service-snk-box ul { margin: 0; padding-left: 18px; }
+    .service-snk-box li { margin-bottom: 4px; line-height: 1.4; }
 
     .price-badge {
-      display: inline-block;
-      background: var(--yellow);
-      color: var(--navy);
-      font-weight: 800;
-      padding: 8px 14px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      font-size: 13px;
-      box-shadow: 0 2px 8px rgba(251, 225, 34, 0.4);
+      display: inline-block; background: var(--navy); color: white;
+      font-weight: 700; padding: 4px 10px; border-radius: 6px; margin-bottom: 10px; font-size: 12px;
     }
 
-    .policy-divider { border: 0; border-top: 1px dashed #bfdbfe; margin: 15px 0; }
-
-    .checkbox-wrapper {
-      display: flex; align-items: flex-start; gap: 12px; cursor: pointer;
-      background: #ffffff; padding: 12px; border-radius: 8px; border: 1px solid #bfdbfe; margin-top: 15px;
-      transition: all 0.2s ease;
-    }
-    .checkbox-wrapper:hover { border-color: var(--navy); }
-    .checkbox-wrapper input[type="checkbox"] { width: 20px; height: 20px; margin-top: 2px; cursor: pointer; accent-color: var(--navy); }
-    .checkbox-wrapper span { font-weight: 700; color: var(--navy); line-height: 1.4; font-size: 13px; }
-
+    /* AREA PEMBAYARAN KRONOLOGIS */
     .payment-area { display: none; animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    .qris-card { background: var(--yellow); border-radius: 16px; padding: 30px 20px; text-align: center; margin-bottom: 20px; }
+    .qris-card { background: var(--yellow); border-radius: 16px; padding: 30px 20px; text-align: center; margin-bottom: 24px; }
     .qris-card h3 { color: var(--navy); margin: 0 0 8px 0; font-size: 18px; }
     .qris-card p { color: var(--navy); font-size: 13px; margin: 0 0 20px 0; opacity: 0.9; }
     .qris-card img { width: 200px; height: 200px; background: white; padding: 12px; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); margin-bottom: 20px; }
@@ -137,24 +123,28 @@
     .file-drop-area input[type="file"] { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; }
     .file-msg { font-size: 13px; color: var(--text-muted); font-weight: 500; margin-top: 8px; }
 
+    /* KOTAK KEBIJAKAN REFUND & CHECKBOX */
+    .policy-box { background: #fff5f5; border: 1px solid #fed7d7; border-radius: 16px; padding: 20px; margin-bottom: 24px; }
+    .policy-box h4 { margin: 0 0 8px 0; color: #c53030; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+    .policy-box p { margin: 0 0 15px 0; font-size: 13px; color: #9b2c2c; line-height: 1.5; text-align: justify; }
+
+    .checkbox-wrapper {
+      display: flex; align-items: flex-start; gap: 12px; cursor: pointer;
+      background: #ffffff; padding: 14px; border-radius: 10px; border: 1px solid #f5c6cb;
+    }
+    .checkbox-wrapper input[type="checkbox"] { width: 20px; height: 20px; margin-top: 1px; cursor: pointer; accent-color: var(--navy); }
+    .checkbox-wrapper span { font-weight: 700; color: var(--navy); line-height: 1.4; font-size: 13px; }
+
     .btn-submit { 
       width: 100%; background-color: var(--navy); color: white; padding: 16px; border: none; 
-      border-radius: 99px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px; 
+      border-radius: 99px; font-size: 16px; font-weight: 700; cursor: pointer;
       display: flex; justify-content: center; align-items: center; gap: 10px; transition: all 0.3s; 
     }
     .btn-submit:hover:not(:disabled) { background-color: #121a36; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(30, 43, 88, 0.2); }
+    .btn-submit:disabled { background-color: #cbd5e1; color: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none; }
     
-    /* STYLE UNTUK TOMBOL SAAT MATI (DISABLED) KARENA BELUM CEKLIS */
-    .btn-submit:disabled { 
-      background-color: #cbd5e1; 
-      color: #94a3b8;
-      cursor: not-allowed; 
-      transform: none; 
-      box-shadow: none; 
-    }
-    
-    .footer-nav { text-align: center; margin-top: 30px; }
-    .footer-nav a { color: var(--navy); text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; border-radius: 99px; transition: background 0.2s; }
+    .footer-nav { text-align: center; margin-top: 35px; border-top: 1px solid var(--border); padding-top: 20px; }
+    .footer-nav a { color: var(--navy); text-decoration: none; font-size: 14px; font-weight: 700; margin: 0 15px; padding: 8px 16px; border-radius: 99px; transition: background 0.2s; }
     .footer-nav a:hover { background: #e2e8f0; }
     .status-msg { text-align: center; margin-top: 20px; font-weight: 600; font-size: 14px; display: none; padding: 16px; border-radius: 12px; }
   </style>
@@ -184,7 +174,7 @@
         <div class="form-group">
           <label>Kategori Layanan</label>
           <select id="kategori" required>
-            <option value="" disabled selected>Pilih sesuai kesepakatan...</option>
+            <option value="" disabled selected>Pilih jenis layanan...</option>
             <option value="Akademik: Artikel / Resume">Akademik: Artikel / Resume</option>
             <option value="Akademik: Makalah">Akademik: Makalah</option>
             <option value="Desain Grafis">Desain Grafis</option>
@@ -194,12 +184,18 @@
           </select>
         </div>
         
+        <div id="serviceSnkBox" class="service-snk-box">
+          <h5>Syarat & Ketentuan Khusus Jasa:</h5>
+          <div id="snkContent"></div>
+        </div>
+        
         <div class="form-group"><label>Detail Permintaan Tugas</label><textarea id="detailText" rows="3" placeholder="Ceritakan spesifikasi tugas, format yang diinginkan, dll..." required></textarea></div>
         <div class="form-group"><label>Perkiraan Tanggal Deadline</label><input type="date" id="deadline" required></div>
-        <div class="form-group" style="margin-bottom: 0;"><label>Harga Kesepakatan (Rp)</label><input type="number" id="hargaSepakat" placeholder="Ketik angka tanpa titik (Cth: 150000)" required></div>
+        <div class="form-group" style="margin-bottom: 0;"><label>Harga Kesepakatan (Rp)</label><input type="number" id="hargaSepakat" placeholder="Ketik nominal hasil nego WA (Cth: 150000)" required></div>
       </div>
 
       <div id="paymentArea" class="payment-area">
+        
         <div class="qris-card">
           <h3>Selesaikan Pembayaran</h3>
           <p>Scan kode di bawah ini menggunakan E-Wallet/M-Banking</p>
@@ -208,161 +204,150 @@
         </div>
 
         <div class="card-section">
-          <div class="section-title"><span>3</span> Validasi & S&K</div>
-          
-          <div class="snk-box">
+          <div class="section-title"><span>3</span> Unggah Bukti Transfer</div>
+          <label>Unggah Bukti Pembayaran (Wajib, Maks 3MB)</label>
+          <div class="file-drop-area" style="margin-bottom: 25px;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            <div class="file-msg" id="fileMsg">Ketuk untuk unggah bukti transfer / screenshot</div>
+            <input type="file" id="buktiBayar" accept="image/*,application/pdf">
+          </div>
+
+          <div class="section-title"><span>4</span> Kebijakan & Persetujuan Akhir</div>
+          <div class="policy-box">
             <h4>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-              Syarat & Ketentuan Layanan
-            </h4>
-            
-            <div id="snkContainer">
-              <ul style="color: #64748b; font-style: italic;">
-                <li>Silakan pilih Kategori Layanan di atas terlebih dahulu untuk memunculkan patokan harga dan Syarat Ketentuan pengerjaan khusus untuk Anda.</li>
-              </ul>
-            </div>
-
-            <hr class="policy-divider">
-
-            <h4 style="color: #dc2626;">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-              Kebijakan Pembatalan & Refund
+              Kebijakan Pembatalan & Kebijakan Refund
             </h4>
-            <ul>
-              <li>Uang Muka (DP) dapat dikembalikan secara penuh apabila pembatalan dilakukan <strong>maksimal 3 jam</strong> setelah pesanan diterima oleh sistem.</li>
-              <li>Apabila pembatalan diajukan <strong>lebih dari 3 jam</strong> setelah pesanan diterima, maka DP dianggap hangus.</li>
-            </ul>
+            <p>Uang Muka (DP) dapat dikembalikan secara penuh apabila pembatalan dilakukan <strong>maksimal dalam kurun waktu 3 jam</strong> setelah pesanan diterima oleh sistem. Apabila pembatalan diajukan <strong>lebih dari 3 jam</strong>, maka DP dianggap hangus apabila dilakukan pembatalan secara sepihak.</p>
 
             <label class="checkbox-wrapper">
               <input type="checkbox" id="snkCheckbox">
-              <span>Saya telah membaca dan menyetujui seluruh Syarat & Ketentuan Layanan, Patokan Tarif Dasar, serta Kebijakan Pembatalan di atas.</span>
+              <span>Saya telah membaca, memahami, dan menyetujui seluruh Syarat & Ketentuan Layanan, Tarif Dasar, serta Kebijakan Pembatalan di atas.</span>
             </label>
           </div>
 
-          <label>Unggah Bukti Transfer (Wajib)</label>
-          <div class="file-drop-area">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-            <div class="file-msg" id="fileMsg">Ketuk untuk unggah bukti transfer (Maks 3MB)</div>
-            <input type="file" id="buktiBayar" accept="image/*,application/pdf" required>
-          </div>
+          <button type="submit" id="btnSubmit" class="btn-submit" disabled>
+            Konfirmasi & Proses Pesanan
+          </button>
+          <div id="statusMsg" class="status-msg"></div>
         </div>
-
-        <button type="submit" id="btnSubmit" class="btn-submit" disabled>
-          Konfirmasi & Proses Pesanan
-        </button>
-        <div id="statusMsg" class="status-msg"></div>
       </div>
     </form>
 
-    <div class="footer-nav"><a href="/lacak">Cek Status Pesanan →</a></div>
+    <div class="footer-nav">
+      <a href="/lacak">🔍 Cek Status Pesanan</a>
+      <a href="https://wa.me/6281234567890" target="_blank">💬 Hubungi Admin</a>
+    </div>
   </div>
 
   <script>
-    // ⚠️ GANTI SCRIPT_URL
+    // ⚠️ GANTI SCRIPT_URL DENGAN LINK WEB APP APPS SCRIPT DIRIMU
     const SCRIPT_URL = 'https://script.google.com/macros/s/GANTI_DENGAN_URL_WEB_APP_KAMU/exec';
 
     const hargaInput = document.getElementById('hargaSepakat');
     const kategoriSelect = document.getElementById('kategori');
+    const serviceSnkBox = document.getElementById('serviceSnkBox');
+    const snkContent = document.getElementById('snkContent');
     const paymentArea = document.getElementById('paymentArea');
     const buktiBayarInput = document.getElementById('buktiBayar');
     const fileMsg = document.getElementById('fileMsg');
-    const snkContainer = document.getElementById('snkContainer');
     const snkCheckbox = document.getElementById('snkCheckbox');
     const btnSubmit = document.getElementById('btnSubmit');
 
-    // 💡 DATABASE S&K DINAMIS
-    const dataSNK = {
+    // 💡 KUMPULAN DATA S&K DAN PATOKAN HARGA TULISAN TANGAN BUKU
+    const databaseSNK = {
       "Akademik: Artikel / Resume": `
-        <div class="price-badge">Tarif Dasar: Rp 35.000 / 500 kata</div>
+        <div class="price-badge">Patokan: Rp 35.000 / 500 kata</div>
         <ul>
-          <li>Batas maksimal pengerjaan adalah <strong>500 kata</strong> per tugas. Kelebihan kuantitas kata akan dikenakan penyesuaian tarif.</li>
-          <li>Estimasi pengerjaan normal adalah <strong>2 hingga 3 hari kerja</strong>. Permintaan layanan kilat di bawah estimasi waktu akan dikenakan biaya tambahan.</li>
-          <li>Pengerjaan dengan format khusus (contoh: tabel rumit atau persamaan matematika) akan disesuaikan tarifnya.</li>
+          <li>Batas maksimal pengerjaan adalah 500 kata per tugas. Kelebihan kata akan dikenakan biaya tambahan.</li>
+          <li>Estimasi pengerjaan normal 2-3 hari kerja. Pengerjaan di bawah estimasi waktu dikenakan biaya tambahan layanan kilat.</li>
+          <li>Format penulisan khusus (tabel kompleks/persamaan matematika) akan disesuaikan harganya berdasarkan kesepakatan.</li>
         </ul>
       `,
       "Akademik: Makalah": `
-        <div class="price-badge">Tarif Dasar: Rp 50.000 / Tugas (Maks 8 Lembar)</div>
+        <div class="price-badge">Patokan: Rp 50.000 / Tugas (Maks 8 Lembar)</div>
         <ul>
-          <li>Batas maksimal pengerjaan adalah <strong>8 halaman</strong> (termasuk kover). Kelebihan halaman akan dikenakan penyesuaian tarif.</li>
-          <li>Estimasi pengerjaan normal adalah <strong>2 hingga 3 hari kerja</strong>. Permintaan layanan kilat di bawah estimasi waktu akan dikenakan biaya tambahan.</li>
-          <li>Pengerjaan dengan format khusus (contoh: persamaan matematika atau sitasi tingkat lanjut) akan disesuaikan tarifnya.</li>
+          <li>Batas maksimal adalah 8 halaman termasuk kover. Kelebihan lembar pengerjaan dikenakan penyesuaian tarif.</li>
+          <li>Estimasi pengerjaan normal 2-3 hari kerja. Pengerjaan darurat/kilat dikenakan biaya tambahan kesepakatan.</li>
+          <li>Format penulisan rumit (persamaan rumus/struktur khusus) akan disesuaikan harganya.</li>
         </ul>
       `,
       "Desain Grafis": `
-        <div class="price-badge">Tarif Dasar: Mulai dari Rp 20.000</div>
+        <div class="price-badge">Patokan: Mulai dari Rp 20.000</div>
         <ul>
-          <li>Tarif dasar <i>(start from)</i> menyesuaikan dengan tingkat kesulitan visual dan jumlah elemen desain yang dibutuhkan.</li>
-          <li>Revisi mayor yang mengharuskan perombakan konsep awal secara total akan dikenakan biaya tambahan.</li>
+          <li>Tarif dasar awal menyesuaikan kerumitan visual serta total elemen desain yang dirimu minta.</li>
+          <li>Revisi total yang mengubah konsep utama kesepakatan awal akan dikenakan biaya tambahan.</li>
         </ul>
       `,
       "Data Entry UMKM": `
-        <div class="price-badge">Tarif Dasar: Rp 30.000 / 100 Data</div>
+        <div class="price-badge">Patokan: Rp 30.000 / 100 Data</div>
         <ul>
-          <li>Tarif berlaku untuk pengolahan data dasar maksimal <strong>4 hingga 5 kolom</strong> tanpa penyertaan fitur tambahan (seperti formula kompleks atau makro).</li>
-          <li>Apabila terdapat penambahan fitur atau tingkat kesulitan olah data yang tinggi, tarif akan disesuaikan berdasarkan kesepakatan awal.</li>
+          <li>Tarif berlaku untuk rekap data dasar dengan ketentuan maksimal 4-5 kolom tanpa formula kompleks.</li>
+          <li>Penambahan fitur spreadsheet rumit atau tingkat kesulitan olah data yang tinggi akan disesuaikan tarifnya.</li>
         </ul>
       `,
       "Data Entry Umum": `
-        <div class="price-badge">Tarif Dasar: Rp 1.000 / Data</div>
+        <div class="price-badge">Patokan: Rp 1.000 / Data</div>
         <ul>
-          <li>Penambahan kuantitas data dengan tingkat kesulitan yang lebih tinggi akan dikenakan biaya tambahan.</li>
-          <li>Masa pengerjaan yang lebih singkat dari standar normal operasional kami akan dikenakan biaya layanan kilat.</li>
+          <li>Kelebihan kuantitas data dengan tingkat kesulitan entri yang tinggi akan dikenakan biaya tambahan.</li>
+          <li>Waktu pengerjaan yang lebih singkat dari standar normal operasional akan dikenakan biaya tambahan.</li>
         </ul>
       `,
       "Lainnya (Kustom)": `
-        <div class="price-badge">Tarif Dasar: Menyesuaikan Kesepakatan</div>
+        <div class="price-badge">Patokan: Menyesuaikan Kesepakatan</div>
         <ul>
-          <li>Syarat, ketentuan pengerjaan, batas revisi, dan estimasi waktu penyelesaian sepenuhnya mengacu pada kesepakatan akhir yang telah disetujui bersama Admin melalui WhatsApp.</li>
+          <li>Seluruh ketentuan pengerjaan, batas revisi, dan estimasi waktu penyelesaian murni mengikuti keputusan akhir bersama Admin via WhatsApp.</li>
         </ul>
       `
     };
 
-    // MERUBAH TEKS S&K SECARA OTOMATIS SAAT KATEGORI DIPILIH
+    // LANGKAH 2: SEKETIKA MUNCULKAN S&K LAYANAN SAAT DROPDOWN DIPILIH
     kategoriSelect.addEventListener('change', (e) => {
       const pilihan = e.target.value;
-      if (dataSNK[pilihan]) {
-        snkContainer.innerHTML = dataSNK[pilihan];
-      }
-    });
-
-    // LOGIKA PENGUNCI TOMBOL SUBMIT BERDASARKAN CHECKBOX S&K
-    snkCheckbox.addEventListener('change', function() {
-      if(this.checked) {
-        btnSubmit.disabled = false; // Tombol menyala
+      if (databaseSNK[pilihan]) {
+        snkContent.innerHTML = databaseSNK[pilihan];
+        serviceSnkBox.style.display = 'block';
       } else {
-        btnSubmit.disabled = true;  // Tombol mati
+        serviceSnkBox.style.display = 'none';
       }
     });
 
-    // MENGGANTI TEKS SAAT FILE DIUNGGAH
-    buktiBayarInput.addEventListener('change', function(e) {
-      if(e.target.files.length > 0) {
-        fileMsg.innerHTML = `<span style="color:var(--navy);font-weight:700;">File siap: ${e.target.files[0].name}</span>`;
-      }
-    });
-
-    // MEMUNCULKAN AREA PEMBAYARAN SAAT HARGA DIKETIK
+    // LANGKAH 3: MEMUNCULKAN KOTAK QRIS HANYA JIKA HARGA SEPAKAT SUDAH DIKETIK
     hargaInput.addEventListener('input', () => {
       const nominal = parseInt(hargaInput.value) || 0;
       if (nominal > 0) {
         paymentArea.style.display = 'block';
+        buktiBayarInput.required = true;
       } else {
         paymentArea.style.display = 'none';
+        buktiBayarInput.required = false;
       }
     });
 
-    // PROSES PENGIRIMAN DATA
+    // LANGKAH 4: MENGUBAH TEKS INFORMASI FILE SAAT UPLOAD
+    buktiBayarInput.addEventListener('change', function(e) {
+      if(e.target.files.length > 0) {
+        fileMsg.innerHTML = `<span style="color:var(--navy);font-weight:700;">Berkas Siap: ${e.target.files[0].name}</span>`;
+      }
+    });
+
+    // LANGKAH 5: INTERLOCK SYSTEM (MENGAKTIFKAN TOMBOL SUBMIT HANYA JIKA CEKLIS DISETUJUI)
+    snkCheckbox.addEventListener('change', function() {
+      btnSubmit.disabled = !this.checked;
+    });
+
+    // KIRIM DATA KE BACKEND APPS SCRIPT
     document.getElementById('orderForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       
       const file = buktiBayarInput.files[0];
       if (file && file.size > 3 * 1024 * 1024) {
-        alert("Ukuran bukti bayar maksimal 3 MB, Bro!"); return;
+        alert("Ukuran berkas melebihi batas aman 3 MB, Bro!"); return;
       }
 
       const statusMsg = document.getElementById('statusMsg');
       
-      btnSubmit.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> Memproses...`; 
+      btnSubmit.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> Menyimpan Data...`; 
       btnSubmit.disabled = true; 
       statusMsg.style.display = 'none';
 
@@ -370,7 +355,6 @@
       reader.readAsDataURL(file);
       reader.onload = async () => {
         const base64Data = reader.result.split(',')[1];
-        
         const detailDigabung = document.getElementById('detailText').value.trim() + " | Deadline: " + document.getElementById('deadline').value;
         
         const payload = {
@@ -378,7 +362,7 @@
           nama: document.getElementById('nama').value.trim(),
           whatsapp: document.getElementById('whatsapp').value.trim(),
           email: document.getElementById('email').value.trim(),
-          kategori: document.getElementById('kategori').value,
+          kategori: kategoriSelect.value,
           detail: detailDigabung, 
           hargaSepakat: "Rp " + parseInt(hargaInput.value).toLocaleString('id-ID'),
           fileName: file.name,
@@ -393,20 +377,21 @@
             statusMsg.style.display = 'block';
             statusMsg.style.backgroundColor = '#fbe122';
             statusMsg.style.color = '#1e2b58';
-            statusMsg.innerHTML = `<strong>Transaksi Sukses!</strong><br>Simpan ID Tracking ini:<br><span style="font-size:20px; letter-spacing:1px; margin-top:8px; display:inline-block;">${result.orderId}</span>`;
+            statusMsg.innerHTML = `<strong>Pesanan Berhasil Diproses!</strong><br>Simpan ID Tracking ini untuk pelacakan:<br><span style="font-size:20px; font-weight:800; letter-spacing:1px; margin-top:8px; display:inline-block;">${result.orderId}</span>`;
             document.getElementById('orderForm').reset();
             fileMsg.innerText = 'Ketuk untuk unggah bukti transfer (Maks 3MB)';
             paymentArea.style.display = 'none';
-            snkCheckbox.checked = false; // Reset checkbox
-            btnSubmit.disabled = true;   // Matikan tombol kembali
+            serviceSnkBox.style.display = 'none';
+            snkCheckbox.checked = false;
+            btnSubmit.disabled = true;
           } else throw new Error(result.message);
         } catch (error) {
           statusMsg.style.display = 'block';
           statusMsg.style.backgroundColor = '#fee2e2';
           statusMsg.style.color = '#dc2626';
-          statusMsg.innerText = 'Gagal terhubung ke server. Silakan coba lagi.';
-          btnSubmit.innerHTML = 'Konfirmasi & Proses Pesanan'; 
-          btnSubmit.disabled = false; // Nyalakan lagi jika gagal (asumsi masih tercentang)
+          statusMsg.innerText = 'Koneksi cloud terputus. Silakan coba submit ulang.';
+          btnSubmit.disabled = false;
+          btnSubmit.innerHTML = 'Konfirmasi & Proses Pesanan';
         }
       };
     });
