@@ -3,82 +3,187 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lacak Pesanan | SantaiBro</title>
+  <title>Lacak Pesanan | Santai, Bro</title>
   <style>
-    :root { --navy-dark: #050a30; --blue-vivid: #0f2fd8; --bg-color: #f0f4fc; }
-    body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
-    .track-card { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(5, 10, 48, 0.08); width: 100%; max-width: 420px; border-top: 6px solid var(--blue-vivid); }
-    h2 { text-align: center; color: var(--navy-dark); margin-top: 0; }
-    p.subtitle { text-align: center; color: #666; font-size: 14px; margin-bottom: 25px; }
-    .form-group { margin-bottom: 15px; }
-    label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--navy-dark); font-size: 14px; }
-    input { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
-    button { width: 100%; padding: 14px; background-color: var(--navy-dark); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 10px; }
-    button:hover { background-color: var(--blue-vivid); }
-    .result-box { display: none; margin-top: 25px; padding: 20px; border-radius: 12px; background-color: #eef2ff; border: 1px solid #c7d2fe; font-size: 14px; line-height: 1.6; }
-    .badge { display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: bold; background: var(--blue-vivid); color: white; margin-top: 10px; }
-    .nav-link { display: block; text-align: center; margin-top: 20px; font-size: 14px; color: var(--blue-vivid); text-decoration: none; font-weight: 600; }
+    :root {
+      --navy: #1e2b58; 
+      --yellow: #fbe122;
+      --bg-body: #f1f5f9;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text-main: #334155;
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      margin: 0;
+      padding: 40px 15px;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      align-items: flex-start;
+    }
+
+    * { box-sizing: border-box; }
+
+    .app-container {
+      background: var(--surface);
+      width: 100%;
+      max-width: 480px;
+      border-radius: 24px;
+      padding: 40px 30px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+      margin-top: 4vh;
+    }
+
+    .header { text-align: center; margin-bottom: 30px; }
+    .header h2 { color: var(--navy); font-size: 24px; font-weight: 800; margin: 0 0 5px 0; }
+    .header p { color: #64748b; font-size: 14px; margin: 0; }
+
+    .form-group { margin-bottom: 20px; }
+    label { display: block; font-size: 13px; font-weight: 600; color: var(--text-main); margin-bottom: 8px; }
+    
+    input {
+      width: 100%; padding: 14px 16px; border: 1.5px solid var(--border); border-radius: 12px;
+      font-size: 14px; color: var(--navy); background-color: var(--surface); outline: none; transition: all 0.2s;
+    }
+    input:focus { border-color: var(--navy); box-shadow: 0 0 0 4px rgba(30, 43, 88, 0.1); }
+
+    .btn-submit {
+      width: 100%; background-color: var(--navy); color: white; padding: 16px; border: none;
+      border-radius: 99px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.3s;
+      display: flex; justify-content: center; align-items: center; gap: 8px;
+    }
+    .btn-submit:hover { background-color: #121a36; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(30, 43, 88, 0.2); }
+    .btn-submit:disabled { background-color: #cbd5e1; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* HASIL TRACKING */
+    .result-card {
+      display: none;
+      margin-top: 30px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+    .result-item { margin-bottom: 12px; font-size: 14px; display: flex; justify-content: space-between; align-items: center;}
+    .result-item span.label { color: #64748b; }
+    .result-item span.value { font-weight: 600; color: var(--navy); text-align: right;}
+    
+    .status-badge {
+      display: inline-block; background: var(--yellow); color: var(--navy);
+      padding: 6px 14px; border-radius: 99px; font-size: 12px; font-weight: 700; margin-top: 10px;
+    }
+
+    .btn-whatsapp {
+      display: flex; justify-content: center; align-items: center; gap: 8px;
+      background: #25D366; color: white; padding: 14px; border-radius: 12px;
+      text-decoration: none; font-weight: 700; font-size: 14px; margin-top: 20px; transition: transform 0.2s;
+    }
+    .btn-whatsapp:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); }
+
+    .error-box { display: none; background: #fee2e2; color: #dc2626; padding: 16px; border-radius: 12px; text-align: center; font-weight: 600; font-size: 14px; margin-top: 24px; }
+
+    .footer-nav { text-align: center; margin-top: 30px; }
+    .footer-nav a { color: var(--navy); text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 16px; border-radius: 99px; transition: background 0.2s; }
+    .footer-nav a:hover { background: #e2e8f0; }
   </style>
 </head>
 <body>
 
-  <div class="track-card">
-    <h2>Lacak Tugasmu</h2>
-    <p class="subtitle">Pantau progres pesananmu secara real-time.</p>
+  <div class="app-container">
+    <div class="header">
+      <h2>Radar Pesanan</h2>
+      <p>Lacak status pengerjaan tugas secara real-time</p>
+    </div>
 
     <form id="trackForm">
-      <div class="form-group"><label>Order ID (Resi)</label><input type="text" id="orderId" required></div>
-      <div class="form-group"><label>Nomor WhatsApp</label><input type="tel" id="whatsapp" required></div>
-      <button type="submit" id="btnTrack">Cek Status Sekarang</button>
+      <div class="form-group">
+        <label>ID Resi Pesanan</label>
+        <input type="text" id="orderId" placeholder="Cth: SB-2026..." required>
+      </div>
+      <div class="form-group">
+        <label>Nomor WhatsApp Klien</label>
+        <input type="tel" id="whatsapp" placeholder="Nomor saat pendaftaran" required>
+      </div>
+
+      <button type="submit" id="btnTrack" class="btn-submit">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        Pindai Database
+      </button>
     </form>
 
-    <div id="resultBox" class="result-box"></div>
-    <a href="/" class="nav-link">← Kembali ke Halaman Order</a>
+    <div id="errorBox" class="error-box"></div>
+
+    <div id="resultBox" class="result-card">
+      <div class="result-item"><span class="label">Klien</span><span class="value" id="resNama"></span></div>
+      <div class="result-item"><span class="label">Layanan</span><span class="value" id="resLayanan"></span></div>
+      <div class="result-item"><span class="label">Eksekutor</span><span class="value" id="resPic"></span></div>
+      <div class="result-item"><span class="label">Waktu Orde</span><span class="value" id="resWaktu" style="font-size: 12px;"></span></div>
+      
+      <div style="text-align: center; margin-top: 15px; border-top: 1px dashed var(--border); padding-top: 15px;">
+        <span class="label" style="font-size: 12px; display: block;">Status Pengerjaan:</span>
+        <div class="status-badge" id="resProgres"></div>
+      </div>
+
+      <a href="#" id="waLink" target="_blank" class="btn-whatsapp">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+        Chat Admin Info Tugas
+      </a>
+    </div>
+
+    <div class="footer-nav">
+      <a href="/">← Kembali ke Halaman Utama</a>
+    </div>
   </div>
 
   <script>
-    // ⚠️ MASUKKAN URL WEB APP GOOGLE DI SINI
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwiGjQz0q5gPIZdyxhNLs9P7OAy-MnpFLtUNqk7Hk1eMH0PY4Z6vySsPk31MdnEbBf3/exec';
-    const NOMOR_WA_ADMIN = "6281352585475"; 
+    // ⚠️ GANTI SCRIPT_URL
+    const SCRIPT_URL = 'https://script.google.com/macros/s/GANTI_DENGAN_URL_WEB_APP_KAMU/exec';
+    const NOMOR_WA_ADMIN = "6281234567890"; 
 
     document.getElementById('trackForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const btn = document.getElementById('btnTrack'); const resultBox = document.getElementById('resultBox');
-      btn.textContent = 'Melacak...'; btn.disabled = true; resultBox.style.display = 'none';
+      const btn = document.getElementById('btnTrack');
+      const resultBox = document.getElementById('resultBox');
+      const errorBox = document.getElementById('errorBox');
+      const orderIdVal = document.getElementById('orderId').value.trim();
+      
+      btn.innerHTML = 'Memindai...'; 
+      btn.disabled = true; 
+      resultBox.style.display = 'none';
+      errorBox.style.display = 'none';
 
-      const payload = {
-        action: "track",
-        orderId: document.getElementById('orderId').value.trim(),
-        whatsapp: document.getElementById('whatsapp').value.trim()
-      };
+      const payload = { action: "track", orderId: orderIdVal, whatsapp: document.getElementById('whatsapp').value.trim() };
 
       try {
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          body: JSON.stringify(payload),
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-        });
-
+        const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
         const result = await response.json();
-        if(result.status === 'found') {
-          const linkWA = `https://wa.me/${NOMOR_WA_ADMIN}?text=Halo%20Admin!%20Tanya%20soal%20Order%20ID:%20${payload.orderId}`;
-          resultBox.innerHTML = `
-            <div style="font-size:16px; margin-bottom:10px;"><strong>Halo, ${result.data.nama}!</strong></div>
-            <div><strong>Layanan:</strong> ${result.data.layanan}</div>
-            <div><strong>PIC:</strong> ${result.data.pic}</div>
-            <div><span class="badge">Status: ${result.data.progres}</span></div>
-            <hr style="border:0; border-top:1px dashed #c7d2fe; margin:15px 0;">
-            <a href="${linkWA}" target="_blank" style="display:block; text-align:center; background-color:#25D366; color:white; padding:12px; border-radius:8px; text-decoration:none; font-weight:bold;">💬 Chat Admin</a>
-          `;
-          resultBox.style.display = 'block'; resultBox.style.borderColor = '#c7d2fe'; resultBox.style.backgroundColor = '#eef2ff';
+        
+        if (result.status === 'found') {
+          document.getElementById('resNama').innerText = result.data.nama;
+          document.getElementById('resLayanan').innerText = result.data.layanan;
+          document.getElementById('resPic').innerText = result.data.pic;
+          document.getElementById('resWaktu').innerText = result.data.waktu;
+          document.getElementById('resProgres').innerText = result.data.progres;
+          
+          document.getElementById('waLink').href = `https://wa.me/${NOMOR_WA_ADMIN}?text=Halo%20Admin!%20Tanya%20info%20pesanan%20ID:%20${orderIdVal}`;
+          resultBox.style.display = 'block';
         } else {
-          resultBox.innerHTML = `<div style="color:red; text-align:center; font-weight:bold;">${result.message}</div>`;
-          resultBox.style.display = 'block'; resultBox.style.borderColor = '#fecaca'; resultBox.style.backgroundColor = '#fef2f2';
+          errorBox.innerText = result.message;
+          errorBox.style.display = 'block';
         }
       } catch (error) {
-        alert("Koneksi gagal.");
+        errorBox.innerText = 'Koneksi gagal. Periksa jaringan internetmu.';
+        errorBox.style.display = 'block';
       } finally {
-        btn.textContent = 'Cek Status Sekarang'; btn.disabled = false;
+        btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg> Pindai Database`;
+        btn.disabled = false;
       }
     });
   </script>
