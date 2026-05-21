@@ -1,526 +1,304 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Santai, Bro | Portal App</title>
-  <style>
-    :root {
-      --navy: #002166;       
-      --yellow: #FFD622;     
-      --bg-app: #FAFAFA;     
-      --surface: #ffffff;
-      --border: #e2e8f0;
-      --text-main: #334155;
-      --text-muted: #64748b;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Checkout - Santai, Bro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
 
-    html, body {
-      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-      margin: 0; padding: 0; width: 100%; height: 100%;
-      background-color: var(--bg-app); 
-      display: flex; justify-content: center; align-items: center;
-      overflow: hidden; 
-    }
+        .main-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    * { box-sizing: border-box; }
+        .logo-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-    /* =========================================
-       KANVAS APLIKASI (MOBILE-FIRST)
-       ========================================= */
-    .mobile-app {
-      background-color: var(--bg-app); width: 100%; height: 100%;
-      display: flex; flex-direction: column; position: relative; overflow: hidden;
-    }
+        .logo-cs-image {
+            width: 100px;
+            height: auto;
+            border-radius: 50%;
+        }
 
-    .app-content {
-      flex: 1; overflow-y: auto; overflow-x: hidden;
-      padding: 25px 20px 100px 20px; scroll-behavior: smooth;
-    }
+        /* --- KODE UNTUK LOGO CS ANIMASI --- */
+        @keyframes sway {
+            0% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+            100% { transform: rotate(-5deg); }
+        }
 
-    .app-screen { display: none; animation: fadeIn 0.3s ease; max-width: 800px; margin: 0 auto; }
-    .app-screen.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .animated-logo {
+            animation: sway 5s ease-in-out infinite;
+            transform-origin: top center;
+        }
+        /* ---------------------------------- */
 
-    /* HEADER & HERO UMUM */
-    .brand-header { text-align: center; margin-bottom: 25px; }
-    .brand-header img { width: 130px; height: auto; margin-bottom: 5px; }
-    .brand-header h1 { color: var(--navy); font-size: 22px; font-weight: 800; margin: 0 0 4px 0; letter-spacing: -0.5px; }
-    .brand-header p { color: var(--text-muted); font-size: 13px; margin: 0; }
+        .logo-text {
+            color: #0d2a63;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 5px;
+        }
 
-    .hero-circle { display: flex; justify-content: center; margin-bottom: 25px; }
-    .hero-circle img { width: 180px; height: 180px; border-radius: 50%; object-fit: contain; box-shadow: 0 10px 25px rgba(0, 33, 102, 0.12); background-color: white; border: 3px solid var(--navy); }
+        .logo-subtext {
+            color: #555;
+            font-size: 0.9rem;
+        }
 
-    /* COMPACT MODE KHUSUS RADAR */
-    .compact-header { margin-bottom: 15px; }
-    .compact-header p { display: none; } 
-    .compact-hero { margin-bottom: 15px; }
-    .compact-hero img { width: 110px; height: 110px; border-width: 2px; }
+        .checkout-title {
+            color: #0d2a63;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+        }
 
-    /* CARD SECTION & FORM */
-    .card-section { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02); }
-    .card-section.yellow-variant { background-color: var(--yellow); box-shadow: 0 8px 20px rgba(255, 214, 34, 0.25); border: none; margin-bottom: 10px; }
-    .card-section.yellow-variant h3 { color: var(--navy); margin: 0 0 15px 0; font-size: 17px; font-weight: 800; }
+        .checkout-subtitle {
+            color: #555;
+            font-size: 1rem;
+            margin-top: 5px;
+            text-align: center;
+        }
 
-    .section-title { font-size: 13px; font-weight: 800; color: var(--navy); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 15px; display: flex; align-items: center; gap: 6px; }
-    .section-title span { background: var(--navy); color: var(--yellow); width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 11px; }
+        .form-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
 
-    .form-group { margin-bottom: 14px; }
-    .form-row { display: flex; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
-    .form-row .form-group { flex: 1; min-width: 140px; margin-bottom: 0; }
-    label { display: block; font-size: 12px; font-weight: 600; color: var(--text-main); margin-bottom: 6px; }
-    
-    input[type="text"], input[type="tel"], input[type="email"], input[type="number"], input[type="date"], select, textarea {
-      width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 13px; color: var(--navy); background-color: var(--bg-app); outline: none; transition: all 0.2s;
-    }
-    input:focus, select:focus, textarea:focus { border-color: var(--navy); background-color: var(--surface); box-shadow: 0 0 0 3px rgba(0, 33, 102, 0.08); }
-    .input-radar { border: none; background-color: var(--surface); font-weight: 600; box-shadow: 0 2px 6px rgba(0,0,0,0.03); margin-bottom: 12px; padding: 14px 20px; border-radius: 99px; }
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
 
-    /* S&K & PAYMENT */
-    .service-snk-box { display: none; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 14px; margin-bottom: 14px; font-size: 12px; color: #166534; }
-    .service-snk-box h5 { margin: 0 0 6px 0; font-size: 12px; font-weight: 700; }
-    .service-snk-box ul { margin: 0; padding-left: 16px; }
-    .price-badge { display: inline-block; background: var(--navy); color: var(--yellow); font-weight: 700; padding: 4px 8px; border-radius: 6px; margin-bottom: 8px; font-size: 11px; }
+        .section-number {
+            background-color: #0d2a63;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
 
-    .payment-area { display: none; animation: fadeIn 0.4s ease forwards; }
-    .qris-card { background-color: var(--yellow); border-radius: 20px; padding: 20px 15px; text-align: center; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(255, 214, 34, 0.2); }
-    .qris-card h3 { color: var(--navy); margin: 0 0 4px 0; font-size: 16px; font-weight: 800; }
-    .qris-card p { color: var(--navy); font-size: 12px; margin: 0 0 15px 0; opacity: 0.9; }
-    .qris-card .qris-img { width: 160px; height: 160px; background: white; padding: 10px; border-radius: 14px; margin-bottom: 15px; }
-    .deco-image-wrapper { display: flex; justify-content: center; margin-bottom: 12px; }
-    .deco-image-wrapper img { width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--navy); background: white; }
-    .btn-contact { display: inline-flex; align-items: center; gap: 6px; background: var(--surface); color: var(--navy); padding: 8px 18px; border-radius: 99px; font-size: 12px; font-weight: 700; text-decoration: none; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+        .section-title {
+            color: #0d2a63;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
 
-    /* UPLOAD & POLICY */
-    .file-drop-area { position: relative; display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 20px; border: 2px dashed var(--border); border-radius: 12px; background: var(--bg-app); cursor: pointer; }
-    .file-drop-area input[type="file"] { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; }
-    .file-msg { font-size: 12px; color: var(--text-muted); font-weight: 500; text-align: center; margin-top: 6px; }
-    .policy-box { background: #fff5f5; border: 1px solid #fed7d7; border-radius: 14px; padding: 16px; margin-bottom: 20px; }
-    .policy-box h4 { margin: 0 0 6px 0; color: #c53030; font-size: 13px; }
-    .policy-box p { margin: 0 0 12px 0; font-size: 12px; color: #9b2c2c; line-height: 1.4; }
-    .checkbox-wrapper { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; background: var(--surface); padding: 12px; border-radius: 10px; border: 1px solid #f5c6cb; }
-    .checkbox-wrapper input[type="checkbox"] { width: 18px; height: 18px; margin-top: 1px; accent-color: var(--navy); }
-    .checkbox-wrapper span { font-weight: 700; color: var(--navy); line-height: 1.4; font-size: 11.5px; }
+        .input-group {
+            margin-bottom: 15px;
+            width: 100%;
+        }
 
-    /* BUTTONS */
-    .btn-submit { width: 100%; background-color: var(--navy); color: var(--yellow); padding: 15px; border: none; border-radius: 99px; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: transform 0.2s; }
-    .btn-submit:active { transform: scale(0.98); }
-    .btn-submit:disabled { background-color: #cbd5e1; color: #94a3b8; cursor: not-allowed; transform: none; }
-    .btn-secondary { background-color: #e2e8f0; color: var(--navy); border: 2px solid var(--navy); margin-top: 10px; }
+        .input-label {
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
 
-    /* =========================================
-       ANIMASI CS & LAYAR SUPPORT/RADAR
-       ========================================= */
-    .support-card { background: white; border-radius: 20px; padding: 25px 20px; text-align: center; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.02); margin-top: 10px; }
-    .support-info h3 { color: var(--navy); margin: 0 0 8px 0; font-size: 18px; font-weight: 800; }
-    .support-info p { color: var(--text-muted); margin: 0 0 20px 0; font-size: 13px; line-height: 1.5; }
-    
-    .cs-anim-container { display: flex; justify-content: center; align-items: center; margin-bottom: 20px; position: relative; }
-    .cs-avatar { width: 120px; height: 120px; animation: float 3s ease-in-out infinite; }
-    @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
-    .status-dot { position: absolute; bottom: 10px; right: 35%; width: 14px; height: 14px; background-color: #22c55e; border-radius: 50%; border: 3px solid white; animation: pulse 1.5s infinite; }
-    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); } 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); } }
+        .input-field {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
 
-    .result-radar-box { display: none; background: white; border-radius: 16px; padding: 20px; border: 2px solid var(--yellow); animation: fadeIn 0.4s ease; margin-top: 15px; }
-    .status-badge-radar { block-size: auto; text-align: center; background: var(--navy); color: white; padding: 10px; border-radius: 10px; font-weight: 800; margin-top: 15px; font-size: 13px; }
-    .error-radar-msg { display: none; color: #dc2626; background: #fee2e2; padding: 12px; border-radius: 12px; font-size: 13px; text-align: center; font-weight: 600; margin-top: 15px; }
+        .select-field {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            color: #555;
+        }
 
-    /* SUCCESS BOX */
-    .success-box { display: none; animation: fadeIn 0.5s ease; max-width: 600px; margin: 0 auto; }
-    .success-header { background: var(--yellow); padding: 25px 15px; border-radius: 20px 20px 0 0; text-align: center; border: 2px solid var(--navy); border-bottom: none; }
-    .success-header h2 { color: var(--navy); margin: 0 0 4px 0; font-size: 20px; font-weight: 800; }
-    .success-body { background: white; padding: 20px; border: 2px solid var(--navy); border-top: none; border-radius: 0 0 20px 20px; }
-    .summary-item { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
-    .summary-label { color: var(--text-muted); font-weight: 700; font-size: 11px; text-transform: uppercase; }
-    .summary-value { color: var(--navy); font-weight: 700; text-align: right; }
-    .order-id-highlight { background: #eff6ff; color: var(--navy); padding: 10px; text-align: center; font-size: 20px; font-weight: 900; border-radius: 10px; margin-top: 8px; border: 1px dashed var(--navy); }
+        .bottom-nav {
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-top: 1px solid #ddd;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
 
-    /* BOTTOM NAV (MOBILE) */
-    .app-nav {
-      position: absolute; bottom: 0; left: 0; width: 100%; background: white;
-      display: flex; justify-content: space-around; padding: 12px 10px calc(12px + env(safe-area-inset-bottom));
-      box-shadow: 0 -5px 20px rgba(0,0,0,0.05); border-radius: 24px 24px 0 0; z-index: 999;
-    }
-    .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #94a3b8; cursor: pointer; width: 33%; }
-    .nav-item svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; fill: none; transition: all 0.2s; }
-    .nav-text { font-size: 11px; font-weight: 700; transition: color 0.2s; }
-    .nav-item.active { color: var(--navy); }
-    .nav-item.active svg { fill: var(--yellow); stroke: var(--navy); transform: translateY(-2px); }
+        .nav-item {
+            text-align: center;
+            color: #888;
+            text-decoration: none;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    /* =========================================
-       RESPONSIVE DESKTOP & TABLET (CENTERED COLUMN)
-       ========================================= */
-    @media (min-width: 768px) {
-      body {
-        background-color: #e2e8f0; /* Backdrop abu-abu di luar aplikasi */
-      }
-      .mobile-app {
-        width: 100%;
-        max-width: 760px; /* Lebar kolom tengah yang ideal untuk baca */
-        height: 100%; /* Penuh dari atas ke bawah layar */
-        border-radius: 0; /* Hapus sudut membulat */
-        box-shadow: 0 0 50px rgba(0, 0, 0, 0.08); /* Bayangan lembut memanjang */
-      }
-      .app-content {
-        padding: 50px 60px 100px 60px; /* Ruang lebih lega di layar besar */
-      }
-      .app-nav {
-        border-radius: 0; /* Menu bawah rata sempurna */
-        border-top: 1px solid var(--border);
-        box-shadow: none;
-        padding-bottom: 20px; /* Menyesuaikan agar proporsional tanpa safe-area */
-      }
-      .nav-item {
-        flex-direction: row; /* Teks dan Ikon sejajar menyamping (lebih premium) */
-        justify-content: center;
-        gap: 10px;
-      }
-      .nav-text {
-        font-size: 14px; /* Ukuran teks menu dibesarkan */
-      }
-      .nav-item.active svg {
-        transform: translateY(0); /* Matikan efek lompat ikon di desktop */
-      }
-    }
+        .nav-item.active {
+            color: #0d2a63;
+        }
 
-    /* PRINT MASKING */
-    @media print {
-      body { background-color: white; padding: 0; margin: 0; overflow: visible; }
-      .mobile-app { box-shadow: none; border: none; padding: 0; max-width: 100%; height: auto; overflow: visible; }
-      .app-content { overflow: visible; padding: 0; }
-      #mainFormWrapper, #lacakScreen, #supportScreen, .app-nav, .print-hide { display: none !important; }
-      .success-box { display: block !important; border: none; margin: 0; }
-      .success-header { border: 1px solid #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .success-body { border: 1px solid #000; }
-    }
-  </style>
+        .nav-icon {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .nav-label {
+            font-size: 0.9rem;
+        }
+
+        /* --- KODE UNTUK OPTIMASI DESKTOP --- */
+        @media (min-width: 768px) {
+            .main-container {
+                flex-direction: row;
+                align-items: flex-start;
+                padding: 40px;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            .logo-section {
+                flex: 1;
+                margin-right: 40px;
+                text-align: left;
+                margin-bottom: 0;
+            }
+
+            .checkout-title {
+                text-align: left;
+                margin-top: 0;
+            }
+
+            .checkout-subtitle {
+                text-align: left;
+            }
+
+            .form-wrapper {
+                flex: 2;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                margin-top: 0;
+            }
+
+            .form-section {
+                width: 100%;
+                margin-top: 0;
+                margin-bottom: 20px;
+            }
+
+            .bottom-nav {
+                position: static;
+                margin-top: 20px;
+                border-top: none;
+                width: 100%;
+                justify-content: flex-start;
+                padding: 20px 0 0 0;
+                box-shadow: none;
+            }
+
+            .nav-item {
+                flex: 0 0 auto;
+                margin-right: 30px;
+                align-items: flex-start;
+            }
+        }
+        /* ---------------------------------- */
+
+    </style>
 </head>
 <body>
 
-  <div class="mobile-app">
-    
-    <main class="app-content">
-
-      <div id="successBox" class="success-box">
-        <div class="success-header">
-          <h2>Antrean Dicatat!</h2>
-          <p style="margin:0; font-size:12px; color:var(--navy); font-weight: 700;">STATUS: MENUNGGU KONFIRMASI</p>
+    <div class="main-container">
+        <div class="logo-section">
+            <img src="path_ke_logo_cs_tongkat_gaya_lain.png" alt="Logo Santai, Bro (Gaya Lain)" class="logo-cs-image animated-logo">
+            <div class="logo-text">Santai, Bro</div>
+            <div class="logo-subtext">Sini, biar kami saja</div>
         </div>
-        <div class="success-body">
-          <div class="summary-item"><span class="summary-label">Nama</span><span class="summary-value" id="sumNama"></span></div>
-          <div class="summary-item"><span class="summary-label">Layanan</span><span class="summary-value" id="sumLayanan"></span></div>
-          <div class="summary-item"><span class="summary-label">Harga Deal</span><span class="summary-value" id="sumHarga"></span></div>
-          <div style="margin-top: 15px;">
-            <div class="summary-label" style="text-align: center;">ID Pelacakan Radar</div>
-            <div class="order-id-highlight" id="sumOrderId"></div>
-          </div>
-          <div class="print-hide">
-            <p style="text-align: center; font-size: 12px; color: #64748b; margin-top: 20px; line-height: 1.4;">Simpan nota antrean digital ini. Admin akan memverifikasi mutasi bank dirimu.</p>
-            <button onclick="window.print()" class="btn-submit">📥 Unduh Bukti (PDF)</button>
-            <button onclick="window.location.reload()" class="btn-submit btn-secondary">Buat Pesanan Baru</button>
-          </div>
-        </div>
-      </div>
 
-      <div id="mainFormWrapper">
-        
-        <div id="pemesananScreen" class="app-screen active">
-          <div class="brand-header">
-            <img src="Santai, Bo.png" alt="Logo Santai Bro"> 
-            <h1>Portal Checkout</h1>
-            <p>Sistem administrasi satset, bebas ribet.</p>
-          </div>
+        <div class="form-wrapper">
+            <div class="checkout-title">Portal Checkout</div>
+            <div class="checkout-subtitle">Sistem administrasi satset, bebas ribet.</div>
 
-          <form id="orderForm">
-            <div class="card-section">
-              <div class="section-title"><span>1</span> Identitas Klien</div>
-              <div class="form-group"><label>Nama Lengkap / Panggilan</label><input type="text" id="nama" placeholder="Ketik nama panggilan Anda" required></div>
-              <div class="form-row">
-                <div class="form-group"><label>WhatsApp</label><input type="tel" id="whatsapp" placeholder="08..." required></div>
-                <div class="form-group"><label>Email Aktif</label><input type="email" id="email" placeholder="bro@email.com" required></div>
-              </div>
-            </div>
-
-            <div class="card-section">
-              <div class="section-title"><span>2</span> Detail Proyek</div>
-              <div class="form-group">
-                <label>Kategori Layanan</label>
-                <select id="kategori" required>
-                  <option value="" disabled selected>Pilih jenis layanan...</option>
-                  <option value="Akademik: Artikel / Resume">Akademik: Artikel / Resume</option>
-                  <option value="Akademik: Makalah">Akademik: Makalah</option>
-                  <option value="Desain Grafis">Desain Grafis</option>
-                  <option value="Data Entry UMKM">Data Entry UMKM</option>
-                  <option value="Data Entry Umum">Data Entry Umum</option>
-                  <option value="Lainnya (Kustom)">Lainnya (Kustom)</option>
-                </select>
-              </div>
-              <div id="serviceSnkBox" class="service-snk-box">
-                <h5>Syarat & Ketentuan Jasa:</h5>
-                <div id="snkContent"></div>
-              </div>
-              <div class="form-group"><label>Detail Permintaan Tugas</label><textarea id="detailText" rows="3" placeholder="Format penulisan, instruksi khusus, dll..." required></textarea></div>
-              <div class="form-group"><label>Perkiraan Tanggal Deadline</label><input type="date" id="deadline" required></div>
-              <div class="form-group" style="margin-bottom: 0;"><label>Harga Kesepakatan (Rp)</label><input type="number" id="hargaSepakat" placeholder="Nominal hasil deal di WA" required></div>
-            </div>
-
-            <div id="paymentArea" class="payment-area">
-              <div class="qris-card">
-                <div class="deco-image-wrapper"><img src="WhatsApp Image 2026-05-20 at 15.00.00.jpeg" alt="Aksen Santai"></div>
-                <h3>Selesaikan Pembayaran</h3>
-                <p>Scan kode di bawah menggunakan E-Wallet/M-Banking</p>
-                <img src="https://via.placeholder.com/200?text=QRIS+ASLI" class="qris-img" alt="QRIS">
-              </div>
-
-              <div class="card-section">
-                <div class="section-title"><span>3</span> Unggah Bukti Transfer</div>
-                <label>Bukti Pembayaran (Wajib, Maks 3MB)</label>
-                <div class="file-drop-area" style="margin-bottom: 20px;">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                  <div class="file-msg" id="fileMsg">Ketuk untuk pilih berkas screenshot / nota</div>
-                  <input type="file" id="buktiBayar" accept="image/*,application/pdf">
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-number">1</div>
+                    <div class="section-title">IDENTITAS KLIEN</div>
                 </div>
-
-                <div class="section-title"><span>4</span> Kebijakan & Persetujuan</div>
-                <div class="policy-box">
-                  <h4>⚠️ Kebijakan Pembatalan</h4>
-                  <p>DP dapat dikembalikan penuh bila pembatalan dilakukan <strong>maksimal 3 jam</strong> setelah sistem menerima pesanan. Lebih dari 3 jam, DP hangus.</p>
-                  <label class="checkbox-wrapper">
-                    <input type="checkbox" id="snkCheckbox">
-                    <span>Saya menyetujui Syarat, Ketentuan, Tarif, serta Kebijakan di atas.</span>
-                  </label>
+                <div class="input-group">
+                    <label class="input-label">Nama Lengkap / Panggilan</label>
+                    <input type="text" placeholder="Ketik nama panggilan Anda" class="input-field">
                 </div>
-
-                <button type="submit" id="btnSubmit" class="btn-submit" disabled>Konfirmasi & Proses</button>
-                <div id="statusMsg" style="text-align:center; margin-top:15px; font-weight:600; font-size:13px; display:none; padding:12px; border-radius:10px;"></div>
-              </div>
+                <div class="input-group">
+                    <label class="input-label">WhatsApp</label>
+                    <input type="text" placeholder="08..." class="input-field">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Email Aktif</label>
+                    <input type="text" placeholder="bro@email.com" class="input-field">
+                </div>
             </div>
-          </form>
-        </div>
 
-        <div id="lacakScreen" class="app-screen">
-          <div class="brand-header compact-header">
-            <img src="Santai, Bo.png" alt="Logo Santai Bro">
-            <h1>Radar Pesanan</h1>
-          </div>
-          
-          <div class="hero-circle compact-hero"><img src="WhatsApp Image 2026-05-20 at 15.00.00.jpeg" alt="Ilustrasi Radar"></div>
-
-          <form id="trackForm" class="card-section yellow-variant">
-            <h3>Lacak Status Cepat</h3>
-            <input type="text" id="orderIdRadar" class="input-field input-radar" placeholder="ID Order (Cth: SB-...)" required>
-            <input type="tel" id="whatsappRadar" class="input-field input-radar" placeholder="Nomor WA Terdaftar" required>
-            <button type="submit" id="btnTrackRadar" class="btn-submit" style="background-color: var(--navy); color: white;">Pindai Database</button>
-          </form>
-
-          <div id="errorRadarMsg" class="error-radar-msg"></div>
-
-          <div id="resultRadarBox" class="result-radar-box">
-            <div class="summary-item"><span class="summary-label">Klien</span><span class="summary-value" id="resNama"></span></div>
-            <div class="summary-item"><span class="summary-label">Layanan</span><span class="summary-value" id="resLayanan"></span></div>
-            <div class="status-badge-radar" id="resProgres"></div>
-          </div>
-        </div>
-
-        <div id="supportScreen" class="app-screen">
-          <div class="brand-header compact-header">
-            <img src="Santai, Bo.png" alt="Logo Santai Bro">
-            <h1>Customer Support</h1>
-          </div>
-
-          <div class="support-card">
+            <div class="form-section">
+                <div class="section-header">
+                    <div class="section-number">2</div>
+                    <div class="section-title">DETAIL PROYEK</div>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Kategori Layanan</label>
+                    <select class="select-field">
+                        <option>Pilih jenis layanan...</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Detail Permintaan Tugas</label>
+                    <input type="text" placeholder="..." class="input-field">
+                </div>
+            </div>
             
-            <div class="cs-anim-container">
-              <svg class="cs-avatar" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="50" cy="50" r="48" fill="var(--yellow)" />
-                <path d="M20 90 Q 50 60 80 90" fill="var(--navy)" />
-                <circle cx="50" cy="45" r="18" fill="var(--navy)" />
-                <path d="M30 45 A 22 22 0 0 1 70 45" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" />
-                <rect x="26" y="40" width="6" height="14" rx="3" fill="#ffffff" />
-                <rect x="68" y="40" width="6" height="14" rx="3" fill="#ffffff" />
-                <path d="M29 50 Q 35 60 45 55" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" />
-                <path d="M42 48 Q 50 55 58 48" fill="none" stroke="var(--yellow)" stroke-width="2" stroke-linecap="round" />
-              </svg>
-              <div class="status-dot"></div>
-            </div>
-
-            <div class="support-info">
-              <h3>CS Satset Online 24/7</h3>
-              <p>Kendala pesanan? Ingin negosiasi ulang atau revisi darurat? Tim kami siap melayani dirimu sekarang juga.</p>
-              <a href="https://wa.me/6281234567890" target="_blank" class="btn-submit" style="text-decoration: none;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                Mulai Chat WhatsApp
-              </a>
-            </div>
-          </div>
+            <nav class="bottom-nav">
+                <a href="#" class="nav-item active">
+                    <span class="nav-icon">&#127962;</span>
+                    <span class="nav-label">Pesan</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">&#128172;</span>
+                    <span class="nav-label">Support</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">&#128230;</span>
+                    <span class="nav-label">Radar</span>
+                </a>
+            </nav>
         </div>
+    </div>
 
-      </div>
-    </main>
-
-    <nav class="app-nav">
-      <div class="nav-item active" onclick="switchTab('pemesananScreen', this)">
-        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-        <span class="nav-text">Pesan</span>
-      </div>
-      <div class="nav-item" onclick="switchTab('supportScreen', this)">
-        <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-        <span class="nav-text">Support</span>
-      </div>
-      <div class="nav-item" onclick="switchTab('lacakScreen', this)">
-        <svg viewBox="0 0 24 24"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg>
-        <span class="nav-text">Radar</span>
-      </div>
-    </nav>
-
-  </div>
-
-  <script>
-    // ⚠️ PASTIKAN PROXY VERCEL AKTIF
-    const SCRIPT_URL = '/api/proxy';
-
-    function switchTab(screenId, element) {
-      document.querySelectorAll('.app-screen').forEach(screen => screen.classList.remove('active'));
-      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-      document.getElementById(screenId).classList.add('active');
-      element.classList.add('active');
-      document.querySelector('.app-content').scrollTop = 0;
-    }
-
-    const hargaInput = document.getElementById('hargaSepakat');
-    const kategoriSelect = document.getElementById('kategori');
-    const serviceSnkBox = document.getElementById('serviceSnkBox');
-    const snkContent = document.getElementById('snkContent');
-    const paymentArea = document.getElementById('paymentArea');
-    const buktiBayarInput = document.getElementById('buktiBayar');
-    const fileMsg = document.getElementById('fileMsg');
-    const snkCheckbox = document.getElementById('snkCheckbox');
-    const btnSubmit = document.getElementById('btnSubmit');
-
-    const databaseSNK = {
-      "Akademik: Artikel / Resume": `<div class="price-badge">Patokan: Rp 35.000 / 500 kata</div><ul><li>Maksimal 500 kata per tugas. Kelebihan kata dikenakan tarif tambahan.</li><li>Estimasi normal 2-3 hari kerja. Layanan kilat di bawah estimasi ada biaya tambahan.</li></ul>`,
-      "Akademik: Makalah": `<div class="price-badge">Patokan: Rp 50.000 / Tugas (Maks 8 Lembar)</div><ul><li>Maksimal 8 halaman termasuk kover. Kelebihan halaman ada biaya tambahan.</li><li>Estimasi normal 2-3 hari kerja. Tugas darurat/kilat menyesuaikan tarif tambahan.</li></ul>`,
-      "Desain Grafis": `<div class="price-badge">Patokan: Mulai dari Rp 20.000</div><ul><li>Tarif dasar awal menyesuaikan tingkat kesulitan visual elemen desain yang dirimu minta.</li><li>Revisi konsep utama secara total setelah deal awal dikenakan biaya tambahan.</li></ul>`,
-      "Data Entry UMKM": `<div class="price-badge">Patokan: Rp 30.000 / 100 Data</div><ul><li>Berlaku untuk olah data dasar maksimal 4-5 kolom tanpa formula kompleks/makro.</li></ul>`,
-      "Data Entry Umum": `<div class="price-badge">Patokan: Rp 1.000 / Data</div><ul><li>Kuantitas data dengan kerumitan tinggi atau deadline ekstra cepat akan disesuaikan tarifnya.</li></ul>`,
-      "Lainnya (Kustom)": `<div class="price-badge">Patokan: Menyesuaikan Kesepakatan</div><ul><li>Seluruh kriteria pengerjaan dan harga mengikuti keputusan akhir via WhatsApp admin.</li></ul>`
-    };
-
-    kategoriSelect.addEventListener('change', (e) => {
-      const pilihan = e.target.value;
-      if (databaseSNK[pilihan]) {
-        snkContent.innerHTML = databaseSNK[pilihan];
-        serviceSnkBox.style.display = 'block';
-      } else {
-        serviceSnkBox.style.display = 'none';
-      }
-    });
-
-    hargaInput.addEventListener('input', () => {
-      if ((parseInt(hargaInput.value) || 0) > 0) {
-        paymentArea.style.display = 'block';
-      } else {
-        paymentArea.style.display = 'none';
-      }
-    });
-
-    buktiBayarInput.addEventListener('change', function(e) {
-      if(e.target.files.length > 0) {
-        fileMsg.innerHTML = `<span style="color:var(--navy);font-weight:700;">Berkas Siap: ${e.target.files[0].name}</span>`;
-      }
-    });
-
-    snkCheckbox.addEventListener('change', function() {
-      btnSubmit.disabled = !this.checked;
-    });
-
-    async function prosesKirimData(base64Data, fileName, fileType) {
-      const statusMsg = document.getElementById('statusMsg');
-      const nama = document.getElementById('nama').value.trim();
-      const layanan = kategoriSelect.value;
-      const harga = "Rp " + parseInt(hargaInput.value).toLocaleString('id-ID');
-      
-      const payload = {
-        action: "order", nama: nama, whatsapp: document.getElementById('whatsapp').value.trim(),
-        email: document.getElementById('email').value.trim(), kategori: layanan,
-        detail: document.getElementById('detailText').value.trim() + " | Deadline: " + document.getElementById('deadline').value,
-        hargaSepakat: harga, fileName: fileName, fileMimeType: fileType, fileData: base64Data
-      };
-
-      try {
-        const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
-        const result = JSON.parse(await response.text());
-        if (result.status === 'success') {
-          document.getElementById('mainFormWrapper').style.display = 'none';
-          document.getElementById('sumNama').innerText = nama;
-          document.getElementById('sumLayanan').innerText = layanan;
-          document.getElementById('sumHarga').innerText = harga;
-          document.getElementById('sumOrderId').innerText = result.orderId;
-          document.getElementById('successBox').style.display = 'block';
-          document.querySelector('.app-content').scrollTop = 0;
-        } else { throw new Error(result.message); }
-      } catch (error) {
-        statusMsg.style.display = 'block'; statusMsg.style.backgroundColor = '#fee2e2'; statusMsg.style.color = '#dc2626';
-        statusMsg.innerText = 'Koneksi cloud terputus: ' + error.message;
-        btnSubmit.disabled = false; btnSubmit.innerHTML = 'Konfirmasi & Proses';
-      }
-    }
-
-    document.getElementById('orderForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const file = buktiBayarInput.files[0];
-      if (!file) { alert("Harap unggah bukti pembayaran terlebih dahulu!"); return; }
-      btnSubmit.innerHTML = `Memproses Transaksi...`; btnSubmit.disabled = true; 
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64Data = reader.result.split(',')[1];
-        prosesKirimData(base64Data, file.name, file.type);
-      };
-      reader.readAsDataURL(file);
-    });
-
-    document.getElementById('trackForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const btn = document.getElementById('btnTrackRadar');
-      const resultBox = document.getElementById('resultRadarBox');
-      const errorMsg = document.getElementById('errorRadarMsg');
-      const orderIdVal = document.getElementById('orderIdRadar').value.trim();
-      
-      btn.innerHTML = 'Memindai...'; btn.disabled = true;
-      resultBox.style.display = 'none'; errorMsg.style.display = 'none';
-
-      const payload = { action: "track", orderId: orderIdVal, whatsapp: document.getElementById('whatsappRadar').value.trim() };
-
-      try {
-        const response = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
-        const result = JSON.parse(await response.text());
-        
-        if (result.status === 'found') {
-          document.getElementById('resNama').innerText = result.data.nama;
-          document.getElementById('resLayanan').innerText = result.data.layanan;
-          
-          const statusBadge = document.getElementById('resProgres');
-          statusBadge.innerText = result.data.progres;
-          
-          if (result.data.progres === "BUKTI TIDAK VALID") {
-            statusBadge.style.background = "#fee2e2"; statusBadge.style.color = "#dc2626";
-            errorMsg.innerText = "Sistem menolak bukti transfer dirimu. Harap hubungi WhatsApp Admin, Bro!";
-            errorMsg.style.display = 'block';
-          } else if (result.data.progres === "SEDANG DIPROSES") {
-            statusBadge.style.background = "#dcfce7"; statusBadge.style.color = "#166534";
-          } else {
-            statusBadge.style.background = "var(--navy)"; statusBadge.style.color = "var(--yellow)";
-          }
-          resultBox.style.display = 'block';
-        } else {
-          errorMsg.innerText = result.message; errorMsg.style.display = 'block';
-        }
-      } catch (error) {
-        errorMsg.innerText = 'Radar gagal memindai database cloud.'; errorMsg.style.display = 'block';
-      } finally {
-        btn.innerHTML = 'Pindai Database'; btn.disabled = false;
-      }
-    });
-  </script>
 </body>
 </html>
