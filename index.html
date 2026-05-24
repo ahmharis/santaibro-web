@@ -6,87 +6,53 @@
   <title>Santai, Bro | Portal App</title>
   <style>
     :root {
-      --navy: #002166;       
-      --yellow: #FFD622;     
-      --bg-app: #FAFAFA;     
-      --surface: #ffffff;
-      --border: #e2e8f0;
-      --text-main: #334155;
-      --text-muted: #64748b;
+      --navy: #002166; --yellow: #FFD622; --bg-app: #FAFAFA; --surface: #ffffff;
+      --border: #e2e8f0; --text-main: #334155; --text-muted: #64748b;
     }
-
     html, body {
       font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
       margin: 0; padding: 0; width: 100%; height: 100%;
-      background-color: #e2e8f0; 
-      display: flex; justify-content: center; align-items: center;
-      overflow: hidden; 
+      background-color: var(--bg-app); display: flex; justify-content: center; align-items: center; overflow: hidden; 
     }
-
     * { box-sizing: border-box; }
-
-    .mobile-app {
-      background-color: var(--bg-app); width: 100%; height: 100%;
-      display: flex; flex-direction: column; position: relative; overflow: hidden;
-    }
-
-    .app-content {
-      flex: 1; overflow-y: auto; overflow-x: hidden;
-      padding: 25px 20px 100px 20px; scroll-behavior: smooth;
-    }
-
+    .mobile-app { background-color: var(--bg-app); width: 100%; height: 100%; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+    .app-content { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 25px 20px 100px 20px; scroll-behavior: smooth; }
     .app-screen { display: none; animation: fadeIn 0.3s ease; width: 100%; }
     .app-screen.active { display: flex; flex-direction: column; max-width: 600px; margin: 0 auto; }
-    
     .screen-left, .screen-right { width: 100%; }
-
     @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
     .brand-header { text-align: center; margin-bottom: 25px; }
     .brand-header img { width: 130px; height: auto; margin-bottom: 5px; }
     .brand-header h1 { color: var(--navy); font-size: 22px; font-weight: 800; margin: 0 0 4px 0; letter-spacing: -0.5px; }
     .brand-header p { color: var(--text-muted); font-size: 13px; margin: 0; }
-
     .hero-circle { display: flex; justify-content: center; margin-bottom: 25px; }
     .hero-circle img { width: 180px; height: 180px; border-radius: 50%; object-fit: contain; box-shadow: 0 10px 25px rgba(0, 33, 102, 0.12); background-color: white; border: 3px solid var(--navy); }
-
     .compact-header { margin-bottom: 15px; }
     .compact-header p { display: none; } 
     .compact-hero { margin-bottom: 15px; }
     .compact-hero img { width: 110px; height: 110px; border-width: 2px; }
-
     .card-section { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02); }
     .card-section.yellow-variant { background-color: var(--yellow); box-shadow: 0 8px 20px rgba(255, 214, 34, 0.25); border: none; margin-bottom: 10px; }
     .card-section.yellow-variant h3 { color: var(--navy); margin: 0 0 15px 0; font-size: 17px; font-weight: 800; }
-
     .section-title { font-size: 13px; font-weight: 800; color: var(--navy); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 15px; display: flex; align-items: center; gap: 6px; }
     .section-title span { background: var(--navy); color: var(--yellow); width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 11px; }
-
     .form-group { margin-bottom: 14px; }
     .form-row { display: flex; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
     .form-row .form-group { flex: 1; min-width: 140px; margin-bottom: 0; }
     label { display: block; font-size: 12px; font-weight: 600; color: var(--text-main); margin-bottom: 6px; }
-    
-    input[type="text"], input[type="tel"], input[type="email"], input[type="number"], input[type="date"], select, textarea {
-      width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 13px; color: var(--navy); background-color: var(--bg-app); outline: none; transition: all 0.2s;
-    }
+    input[type="text"], input[type="tel"], input[type="email"], input[type="number"], input[type="date"], select, textarea { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 13px; color: var(--navy); background-color: var(--bg-app); outline: none; transition: all 0.2s; }
     input:focus, select:focus, textarea:focus { border-color: var(--navy); background-color: var(--surface); box-shadow: 0 0 0 3px rgba(0, 33, 102, 0.08); }
     .input-radar { border: none; background-color: var(--surface); font-weight: 600; box-shadow: 0 2px 6px rgba(0,0,0,0.03); margin-bottom: 12px; padding: 14px 20px; border-radius: 99px; }
-
     .service-snk-box { display: none; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 14px; margin-bottom: 14px; font-size: 12px; color: #166534; }
     .service-snk-box h5 { margin: 0 0 6px 0; font-size: 12px; font-weight: 700; }
     .service-snk-box ul { margin: 0; padding-left: 16px; }
     .price-badge { display: inline-block; background: var(--navy); color: var(--yellow); font-weight: 700; padding: 4px 8px; border-radius: 6px; margin-bottom: 8px; font-size: 11px; }
-
     .payment-area { display: block; animation: fadeIn 0.4s ease forwards; }
     .qris-card { background-color: var(--yellow); border-radius: 20px; padding: 20px 15px; text-align: center; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(255, 214, 34, 0.2); }
     .qris-card h3 { color: var(--navy); margin: 0 0 4px 0; font-size: 16px; font-weight: 800; }
     .qris-card p { color: var(--navy); font-size: 12px; margin: 0 0 15px 0; opacity: 0.9; }
     .qris-card .qris-img { width: 160px; height: 160px; background: white; padding: 10px; border-radius: 14px; margin-bottom: 15px; }
-    .deco-image-wrapper { display: flex; justify-content: center; margin-bottom: 12px; }
-    .deco-image-wrapper img { width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--navy); background: white; }
     .btn-contact { display: inline-flex; align-items: center; gap: 6px; background: var(--surface); color: var(--navy); padding: 8px 18px; border-radius: 99px; font-size: 12px; font-weight: 700; text-decoration: none; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-
     .file-drop-area { position: relative; display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 20px; border: 2px dashed var(--border); border-radius: 12px; background: var(--bg-app); cursor: pointer; }
     .file-drop-area input[type="file"] { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; }
     .file-msg { font-size: 12px; color: var(--text-muted); font-weight: 500; text-align: center; margin-top: 6px; }
@@ -96,66 +62,37 @@
     .checkbox-wrapper { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; background: var(--surface); padding: 12px; border-radius: 10px; border: 1px solid #f5c6cb; }
     .checkbox-wrapper input[type="checkbox"] { width: 18px; height: 18px; margin-top: 1px; accent-color: var(--navy); }
     .checkbox-wrapper span { font-weight: 700; color: var(--navy); line-height: 1.4; font-size: 11.5px; }
-
     .btn-submit { width: 100%; background-color: var(--navy); color: var(--yellow); padding: 15px; border: none; border-radius: 99px; font-size: 15px; font-weight: 800; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: transform 0.2s; }
     .btn-submit:active { transform: scale(0.98); }
-    .btn-submit:disabled { background-color: #cbd5e1; color: #94a3b8; cursor: not-allowed; transform: none; }
-    .btn-secondary { background-color: #e2e8f0; color: var(--navy); border: 2px solid var(--navy); margin-top: 10px; }
-
+    .btn-submit:disabled { background-color: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
     .support-card { background: white; border-radius: 20px; padding: 30px 20px; text-align: center; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.02); margin-top: 10px; }
     .support-info h3 { color: var(--navy); margin: 0 0 8px 0; font-size: 18px; font-weight: 800; }
     .support-info p { color: var(--text-muted); margin: 0 0 20px 0; font-size: 13px; line-height: 1.5; }
-    
     .cs-profile-wrapper { position: relative; width: 110px; height: 110px; margin: 0 auto 25px auto; }
-    .cs-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid var(--navy); position: relative; z-index: 2; background: white; }
+    .cs-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid var(--navy); z-index: 2; background: white; }
     .cs-ripple { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; background: var(--yellow); animation: ripple 2s infinite ease-out; z-index: 1; }
     @keyframes ripple { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(1.4); opacity: 0; } }
-    
-    .status-dot-cs { position: absolute; bottom: 5px; right: 8px; width: 18px; height: 18px; background-color: #22c55e; border-radius: 50%; border: 3px solid white; z-index: 3; box-shadow: 0 0 10px rgba(34, 197, 94, 0.4); }
-
+    .status-dot-cs { position: absolute; bottom: 5px; right: 8px; width: 18px; height: 18px; background-color: #22c55e; border-radius: 50%; border: 3px solid white; z-index: 3; }
     .result-radar-box { display: none; background: white; border-radius: 16px; padding: 20px; border: 2px solid var(--yellow); animation: fadeIn 0.4s ease; margin-top: 15px; }
     .status-badge-radar { block-size: auto; text-align: center; background: var(--navy); color: white; padding: 10px; border-radius: 10px; font-weight: 800; margin-top: 15px; font-size: 13px; }
     .error-radar-msg { display: none; color: #dc2626; background: #fee2e2; padding: 12px; border-radius: 12px; font-size: 13px; text-align: center; font-weight: 600; margin-top: 15px; }
-
     .success-box { display: none; animation: fadeIn 0.5s ease; max-width: 600px; margin: 0 auto; width: 100%; }
     .success-header { background: var(--yellow); padding: 25px 15px; border-radius: 20px 20px 0 0; text-align: center; border: 2px solid var(--navy); border-bottom: none; }
-    .success-header h2 { color: var(--navy); margin: 0 0 4px 0; font-size: 20px; font-weight: 800; }
     .success-body { background: white; padding: 20px; border: 2px solid var(--navy); border-top: none; border-radius: 0 0 20px 20px; }
     .summary-item { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
     .summary-label { color: var(--text-muted); font-weight: 700; font-size: 11px; text-transform: uppercase; }
     .summary-value { color: var(--navy); font-weight: 700; text-align: right; }
     .order-id-highlight { background: #eff6ff; color: var(--navy); padding: 10px; text-align: center; font-size: 20px; font-weight: 900; border-radius: 10px; margin-top: 8px; border: 1px dashed var(--navy); }
-
-    .app-nav {
-      position: absolute; bottom: 0; left: 0; width: 100%; background: white;
-      display: flex; justify-content: space-around; padding: 12px 10px calc(12px + env(safe-area-inset-bottom));
-      box-shadow: 0 -5px 20px rgba(0,0,0,0.05); border-radius: 24px 24px 0 0; z-index: 999;
-    }
+    .app-nav { position: absolute; bottom: 0; left: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 10px calc(12px + env(safe-area-inset-bottom)); box-shadow: 0 -5px 20px rgba(0,0,0,0.05); border-radius: 24px 24px 0 0; z-index: 999; }
     .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #94a3b8; cursor: pointer; width: 33%; }
-    .nav-item svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; fill: none; transition: all 0.2s; }
-    .nav-text { font-size: 11px; font-weight: 700; transition: color 0.2s; }
     .nav-item.active { color: var(--navy); }
-    .nav-item.active svg { fill: var(--yellow); stroke: var(--navy); transform: translateY(-2px); }
-
     @media (min-width: 768px) {
-      .mobile-app { max-width: 100%; } 
-      .app-content { padding: 40px 5% 40px 5%; }
-      .app-screen.active { flex-direction: row; gap: 60px; align-items: flex-start; max-width: 1100px; }
+      .app-screen.active { flex-direction: row; gap: 60px; max-width: 1100px; }
       .screen-left { flex: 0 0 40%; position: sticky; top: 40px; display: flex; flex-direction: column; align-items: center; text-align: center; }
       .screen-right { flex: 1; padding-bottom: 60px; }
-      .success-box { max-width: 500px; margin: 0 auto; }
       body > .mobile-app > .app-nav { position: absolute; width: auto; left: calc(25% + 15px); bottom: 50px; transform: translateX(-50%); padding: 10px 25px; border-radius: 99px; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0, 33, 102, 0.08); gap: 25px; }
       .nav-item { width: auto; }
       .nav-item svg { width: 22px; height: 22px; }
-    }
-    @media print {
-      body { background-color: white; padding: 0; margin: 0; overflow: visible; }
-      .mobile-app { box-shadow: none; border: none; padding: 0; max-width: 100%; height: auto; overflow: visible; }
-      .app-content { overflow: visible; padding: 0; }
-      #mainFormWrapper, #lacakScreen, #supportScreen, .app-nav, .print-hide { display: none !important; }
-      .success-box { display: block !important; border: none; margin: 0; }
-      .success-header { border: 1px solid #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .success-body { border: 1px solid #000; }
     }
   </style>
 </head>
@@ -179,7 +116,7 @@
               <h1>Portal Checkout</h1>
               <p>Sistem administrasi satset, bebas ribet.</p>
             </div>
-            <div class="hero-circle print-hide"><img src="WhatsApp Image 2026-05-20 at 15.00.00.jpeg" alt="Ilustrasi Checkout"></div>
+            <div class="hero-circle"><img src="WhatsApp Image 2026-05-20 at 15.00.00.jpeg" alt="Ilustrasi"></div>
           </div>
           <div class="screen-right">
             <form id="orderForm">
@@ -232,9 +169,8 @@
             <div class="brand-header compact-header">
               <img src="Santai, Bo.png" alt="Logo Santai Bro">
               <h1>Radar Pesanan</h1>
-              <p style="display: block;">Pindai status tugasmu secara real-time.</p>
             </div>
-            <div class="hero-circle compact-hero print-hide"><img src="WhatsApp Image 2026-05-20 at 15.00.00.jpeg" alt="Ilustrasi Radar"></div>
+            <div class="hero-circle"><img src="WhatsApp Image 2026-05-20 at 15.00.00.jpeg" alt="Ilustrasi"></div>
           </div>
           <div class="screen-right">
             <form id="trackForm" class="card-section yellow-variant">
@@ -253,19 +189,17 @@
         </div>
         <div id="supportScreen" class="app-screen">
           <div class="screen-left">
-            <div class="brand-header compact-header">
-              <img src="Santai, Bo.png" alt="Logo Santai Bro">
-              <h1>Customer Support</h1>
-              <p style="display: block;">Kendala pesanan? Kami siap melayani dirimu 24/7.</p>
-            </div>
+             <div class="brand-header compact-header">
+               <img src="Santai, Bo.png" alt="Logo Santai Bro">
+               <h1>Customer Support</h1>
+             </div>
           </div>
           <div class="screen-right">
             <div class="support-card">
               <div class="cs-profile-wrapper"><div class="cs-ripple"></div><img src="WhatsApp Image 2026-05-20 at 15.00.00.jpeg" class="cs-img"><div class="status-dot-cs"></div></div>
               <div class="support-info">
                 <h3>CS Satset Online</h3>
-                <p>Ingin negosiasi ulang, ubah brief, atau revisi darurat? Langsung sampaikan ke tim kami di WhatsApp.</p>
-                <a href="https://wa.me/6281234567890" target="_blank" class="btn-submit" style="text-decoration: none;">Mulai Chat WhatsApp</a>
+                <a href="https://wa.me/6281234567890" class="btn-submit">Mulai Chat WhatsApp</a>
               </div>
             </div>
           </div>
@@ -273,9 +207,9 @@
       </div>
     </main>
     <nav class="app-nav">
-      <div class="nav-item active" onclick="switchTab('pemesananScreen', this)"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><span class="nav-text">Pesan</span></div>
-      <div class="nav-item" onclick="switchTab('supportScreen', this)"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg><span class="nav-text">Support</span></div>
-      <div class="nav-item" onclick="switchTab('lacakScreen', this)"><svg viewBox="0 0 24 24"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg><span class="nav-text">Radar</span></div>
+      <div class="nav-item active" onclick="switchTab('pemesananScreen', this)"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><span>Pesan</span></div>
+      <div class="nav-item" onclick="switchTab('supportScreen', this)"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg><span>Support</span></div>
+      <div class="nav-item" onclick="switchTab('lacakScreen', this)"><svg viewBox="0 0 24 24"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg><span>Radar</span></div>
     </nav>
   </div>
   <script>
@@ -288,7 +222,7 @@
       document.querySelector('.app-content').scrollTop = 0;
     }
     const kategoriSelect = document.getElementById('kategori'), serviceSnkBox = document.getElementById('serviceSnkBox'), snkContent = document.getElementById('snkContent'), buktiBayarInput = document.getElementById('buktiBayar'), fileMsg = document.getElementById('fileMsg'), snkCheckbox = document.getElementById('snkCheckbox'), btnSubmit = document.getElementById('btnSubmit');
-    const databaseSNK = { "Akademik: Artikel / Resume": `<ul><li>Maks 500 kata.</li></ul>`, "Akademik: Makalah": `<ul><li>Maks 8 halaman.</li></ul>`, "Desain Grafis": `<ul><li>Tarif menyesuaikan kerumitan.</li></ul>`, "Data Entry UMKM": `<ul><li>Maks 5 kolom.</li></ul>`, "Data Entry Umum": `<ul><li>Tarif per data.</li></ul>`, "Lainnya (Kustom)": `<ul><li>Menyesuaikan kesepakatan.</li></ul>` };
+    const databaseSNK = { "Akademik: Artikel / Resume": `<ul><li>Maksimal 500 kata per tugas.</li></ul>`, "Akademik: Makalah": `<ul><li>Maksimal 8 halaman termasuk kover.</li></ul>`, "Desain Grafis": `<ul><li>Tarif dasar menyesuaikan kesulitan.</li></ul>`, "Data Entry UMKM": `<ul><li>Maksimal 5 kolom.</li></ul>`, "Data Entry Umum": `<ul><li>Tarif per data.</li></ul>`, "Lainnya (Kustom)": `<ul><li>Menyesuaikan kesepakatan akhir.</li></ul>` };
     kategoriSelect.addEventListener('change', (e) => { const p = e.target.value; if(databaseSNK[p]) { snkContent.innerHTML = databaseSNK[p]; serviceSnkBox.style.display = 'block'; } else { serviceSnkBox.style.display = 'none'; } });
     buktiBayarInput.addEventListener('change', e => { if(e.target.files.length > 0) fileMsg.innerHTML = `Berkas Siap: ${e.target.files[0].name}`; });
     snkCheckbox.addEventListener('change', () => btnSubmit.disabled = !snkCheckbox.checked);
