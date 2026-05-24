@@ -1,25 +1,33 @@
-// File: api/proxy.js
 export default async function handler(req, res) {
-  // Hanya menerima metode POST dari frontend
+  // Hanya izinkan metode POST
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(405).json({ error: 'Metode dilarang. Gunakan POST.' });
   }
 
-  // Mengambil URL Rahasia dari sistem keamanan Vercel
   const URL_RAHASIA_GAS = process.env.SECRET_GAS_URL;
 
+  // DIAGNOSTIK 1: Cek apakah Vercel berhasil membaca ENV
+  if (!URL_RAHASIA_GAS) {
+    return res.status(500).json({ 
+      status: 'error', 
+      message: 'Sistem Vercel belum membaca SECRET_GAS_URL. Lakukan proses Redeploy di Vercel.' 
+    });
+  }
+
   try {
-    // Meneruskan (Proxying) data dari HTML ke Google Apps Script secara diam-diam
     const response = await fetch(URL_RAHASIA_GAS, {
       method: 'POST',
       body: JSON.stringify(req.body)
     });
 
     const data = await response.json();
-    
-    // Mengembalikan jawaban dari Google ke HTML
     res.status(200).json(data);
+    
   } catch (error) {
-    res.status(500).json({ status: 'error', message: 'Koneksi ke server pusat terputus.' });
+    // DIAGNOSTIK 2: Cek apakah Google Apps Script yang menolak
+    res.status(500).json({ 
+      status: 'error', 
+      message: 'Jalur Vercel aman, tetapi Google Apps Script menolak koneksi. Error: ' + error.message 
+    });
   }
 }
