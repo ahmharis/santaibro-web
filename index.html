@@ -341,12 +341,42 @@
     const btnSubmit = document.getElementById('btnSubmit');
 
     const databaseSNK = {
-      "Akademik: Artikel / Resume": `<div class="price-badge">Patokan: Rp 35.000 / 500 kata</div><ul><li>Maksimal 500 kata per tugas. Kelebihan kata dikenakan tarif tambahan.</li><li>Estimasi normal 2-3 hari kerja. Layanan kilat di bawah estimasi ada biaya tambahan.</li></ul>`,
-      "Akademik: Makalah": `<div class="price-badge">Patokan: Rp 50.000 / Tugas (Maks 8 Lembar)</div><ul><li>Maksimal 8 halaman termasuk kover. Kelebihan halaman ada biaya tambahan.</li><li>Estimasi normal 2-3 hari kerja. Tugas darurat/kilat menyesuaikan tarif tambahan.</li></ul>`,
-      "Desain Grafis": `<div class="price-badge">Patokan: Mulai dari Rp 20.000</div><ul><li>Tarif dasar awal menyesuaikan tingkat kesulitan visual elemen desain yang dirimu minta.</li><li>Revisi konsep utama secara total setelah deal awal dikenakan biaya tambahan.</li></ul>`,
-      "Data Entry UMKM": `<div class="price-badge">Patokan: Rp 30.000 / 100 Data</div><ul><li>Berlaku untuk olah data dasar maksimal 4-5 kolom tanpa formula kompleks/makro.</li></ul>`,
-      "Data Entry Umum": `<div class="price-badge">Patokan: Rp 1.000 / Data</div><ul><li>Kuantitas data dengan kerumitan tinggi atau deadline ekstra cepat akan disesuaikan tarifnya.</li></ul>`,
-      "Lainnya (Kustom)": `<div class="price-badge">Patokan: Menyesuaikan Kesepakatan</div><ul><li>Seluruh kriteria pengerjaan dan harga mengikuti keputusan akhir via WhatsApp admin.</li></ul>`
+      "Akademik: Artikel / Resume": `<div class="price-badge">Patokan: Rp 35.000 / 500 kata</div>
+        <ul>
+          <li>Batas maks. 500 kata. Apabila pesanan melebihi ketentuan akan ada penambahan biaya berdasarkan banyaknya kata.</li>
+          <li>Estimasi pengerjaan 2-3 hari. Apabila pengerjaan kurang dari estimasi (kilat), maka akan ada penambahan biaya berdasarkan kesepakatan.</li>
+          <li>Apabila tugas memiliki penulisan khusus (contoh: persamaan matematis/rumus) akan ada penambahan biaya.</li>
+        </ul>`,
+
+      "Akademik: Makalah": `<div class="price-badge">Patokan: Rp 50.000 / Tugas</div>
+        <ul>
+          <li>Batas maks. 8 lembar (termasuk cover). Apabila pesanan melebihi ketentuan maka akan ada penambahan biaya.</li>
+          <li>Estimasi pengerjaan 2-3 hari. Apabila pengerjaan kurang dari estimasi (kilat), maka akan ada penambahan biaya berdasarkan kesepakatan.</li>
+          <li>Apabila tugas memiliki penulisan khusus (contoh: persamaan matematis/rumus) akan ada penambahan biaya.</li>
+        </ul>`,
+
+      "Desain Grafis": `<div class="price-badge">Patokan: Mulai dari Rp 20.000</div>
+        <ul>
+          <li>Tarif dasar awal menyesuaikan tingkat kesulitan visual elemen desain yang dirimu minta.</li>
+          <li>Revisi konsep utama secara total setelah deal awal dikenakan biaya tambahan.</li>
+        </ul>`,
+
+      "Data Entry UMKM": `<div class="price-badge">Patokan: Rp 30.000 / 100 data</div>
+        <ul>
+          <li>Berlaku untuk data dasar maks. 4-5 kolom (tanpa & ada fitur tambahan).</li>
+          <li>Apabila terdapat penambahan fitur & tingkat kesulitan data, maka harga akan disesuaikan berdasarkan kesepakatan.</li>
+        </ul>`,
+
+      "Data Entry Umum": `<div class="price-badge">Patokan: Rp 1.000 / data</div>
+        <ul>
+          <li>Estimasi pengerjaan: 3 – 4 hari.</li>
+          <li>Jika ada penambahan data dengan tingkat kesulitan lebih & masa pengerjaan yang singkat, maka akan ada biaya tambahan.</li>
+        </ul>`,
+
+      "Lainnya (Kustom)": `<div class="price-badge">Patokan: Menyesuaikan Kesepakatan</div>
+        <ul>
+          <li>Seluruh kriteria pengerjaan dan harga mengikuti keputusan akhir via WhatsApp admin.</li>
+        </ul>`
     };
 
     // LOGIKA BARU: Tampilkan Area Pembayaran saat Kategori Dipilih
